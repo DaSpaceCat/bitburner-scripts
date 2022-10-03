@@ -16,8 +16,7 @@ export async function WaitPids(ns, pids, hooks, vars) {
 		await ns.sleep(5);
 		hud(ns, hooks[0], hooks[1]);
 		console(ns, vars[0], vars[1], vars[2], vars[3], vars[4], vars[5], vars[6]);
-		scriptTime += 5;
-		cycleTime += 5;
+		cycleTime += 1;
 	}
 	//console(ns, hs, coH, coG, coW);
 }
@@ -57,15 +56,15 @@ export async function main(ns) {
 	coG = Math.floor(((ram-(coW*1.75))/2)/1.75);
 	coH = Math.floor(((ram-(coW*1.75))/2)/1.7);
 
-	let ht = ns.getHackTime(hs);
-	let gt = ns.getGrowTime(hs);
-	let wt = ns.getWeakenTime(hs);
+	let ht = Math.ceil(ns.getHackTime(hs)/1000);
+	let gt = Math.ceil(ns.getGrowTime(hs)/1000);
+	let wt = Math.ceil(ns.getWeakenTime(hs)/1000);
 
 	cycleTime = 0;
 	if (ns.getServerMinSecurityLevel(hs) < ns.getServerSecurityLevel(hs) || ns.getServerMaxMoney(hs) > ns.getServerMoneyAvailable(hs)) {
 		while (ns.getServerMinSecurityLevel(hs) < ns.getServerSecurityLevel(hs) || ns.getServerMaxMoney(hs) > ns.getServerMoneyAvailable(hs)) {
 			let prep = [ns.run('src/weak.js', coW, hs), ns.run('src/grow.js', coG * 2, hs)]
-			await WaitPids(ns, prep, [hook0, hook1], [hs, coH, coG, coW, ht, gt, wt]);
+			await WaitPids(ns, prep, [hook0, hook1], [hs, coH, coG, coW, gt, ht, wt]);
 		}
 	}
 
@@ -78,16 +77,16 @@ export async function main(ns) {
 	}
 	coG = Math.floor(((ram-((coW*1.75)+(coH*1.7))))/1.75);
 
-	ht = ns.getHackTime(hs);
-	gt = ns.getGrowTime(hs);
-	wt = ns.getWeakenTime(hs);
+	ht = Math.ceil(ns.getHackTime(hs)/1000);
+	gt = Math.ceil(ns.getGrowTime(hs)/1000);
+	wt = Math.ceil(ns.getWeakenTime(hs)/1000);
 
 	cycleTime = 0;
 	eval("ns.bypass(document);")
 	// eslint-disable-next-line no-constant-condition
 	while (true) {
 		let batch = [ns.run('src/weak.js', coW, hs), ns.run('src/grow.js', coG, hs), ns.run ('src/heck.js', coH, hs)]
-		await WaitPids(ns, batch, [hook0, hook1], [hs, coH, coG, coW, ht, gt, wt]);
+		await WaitPids(ns, batch, [hook0, hook1], [hs, coH, coG, coW, gt, ht, wt]);
 		cycles++
 		//rerun hack calc so that leveling up dosen't cause us to hack for more than we need
 		ha = ns.hackAnalyze(hs) * coH;
@@ -162,9 +161,9 @@ function console(ns, sv, coH, coG, coW, sgt, sht, swt) {
 	ns.clearLog();
 	ns.print("╭┐Hack Brain┌──────────────────────────────────╮\n");
 	ns.print(`│╰──────────╯      Hack/Grow/Weak | ${isHacking(ns)}${col.d}/${isGrowing(ns)}${col.d}/${isWeakening(ns)}${col.d}      │\n`);
-	ns.print(`${col.d}│ ${col.g}Hack Time : ${Math.floor(ht/60)}m ${ht % 60}s | At time of exec : ${Math.floor(sht/60)}m ${sht % 60}s\n`);
-	ns.print(`${col.d}│ ${col.y}Grow Time : ${Math.floor(gt/60)}m ${gt % 60}s | At time of exec : ${Math.floor(sgt/60)}m ${sgt % 60}s\n`);
-	ns.print(`${col.d}│ ${col.g}Weaken Time : ${Math.floor(wt/60)}m ${wt % 60}s | At time of exec : ${Math.floor(swt/60)}m ${swt % 60}s\n`);
+	ns.print(`${col.d}│ ${col.g}Hack Time : ${Math.floor(ht/60)}m ${ht % 60}s | At run : ${Math.floor(sht/60)}m ${sht % 60}s\n`);
+	ns.print(`${col.d}│ ${col.y}Grow Time : ${Math.floor(gt/60)}m ${gt % 60}s | At run : ${Math.floor(sgt/60)}m ${sgt % 60}s\n`);
+	ns.print(`${col.d}│ ${col.g}Weaken Time : ${Math.floor(wt/60)}m ${wt % 60}s | At run : ${Math.floor(swt/60)}m ${swt % 60}s\n`);
 	ns.print(`${col.d}│ ${col.c}Security Level : ${sl}\n`);
 	ns.print(`${col.d}│ ${col.c}Min Security Level : ${sml}\n`);
 	ns.print(`${col.d}│ ${col.y}Max Money : ${mm}\n`);
@@ -173,8 +172,7 @@ function console(ns, sv, coH, coG, coW, sgt, sht, swt) {
 	ns.print(`${col.d}│ ${col.g}Weaken Amount : ${wa}\n`);
 	ns.print(`${col.d}│ ${col.y}Grow Amount : ${gaa}\n`);
 	ns.print(`${col.d}│ ${col.b}Cycles : ${cycles}\n`);
-	ns.print(`${col.d}│ ${col.b}Cycle Time : ${Math.floor(Math.floor(cycleTime/1000)/60)}m ${Math.floor(cycleTime/1000) % 60}s\n`);
-	ns.print(`${col.d}│ ${col.b}Live Time : ${Math.floor(Math.floor(scriptTime/1000)/60)}m ${Math.floor(scriptTime/1000) % 60}s\n`);
+	ns.print(`${col.d}│ ${col.b}Live Time : ${Math.floor(ns.getRunningScript().onlineRunningTime/60)}m ${Math.round(ns.getRunningScript().onlineRunningTime % 60)}s\n`);
 	ns.print(`${col.d}╰──────────────────────────────────────────────╯`);
 }
 
