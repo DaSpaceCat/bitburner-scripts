@@ -9,6 +9,10 @@ most of this is outdated im too lazy to update this doc here
 */
 let scriptTime = 0;
 let cycleTime = 0;
+let instance;
+
+//uwu
+
 /** @param {import(".").NS} ns */
 export async function WaitPids(ns, pids, hooks, vars) {
 	if (!Array.isArray(pids)) pids = [pids];
@@ -37,6 +41,7 @@ let doc = eval("document");
 let cycles = 0;
 /** @param {import(".").NS} ns */
 export async function main(ns) {
+	instance = ns.args[2];
   const hook0 = doc.getElementById('overview-extra-hook-0');
   const hook1 = doc.getElementById('overview-extra-hook-1');
 	let hs = ns.args[0];
@@ -113,8 +118,13 @@ function hud(ns, hook0, hook1) {
 		if (ns.isRunning("/src/weak.js", "home", ns.args[0])) {val += `\n`} else {val += `\n`}
 		ns.print(val);
 		// Now drop it into the placeholder elements
-		hook0.innerText = header
-		hook1.innerText = val
+		if (instance > 0) {
+			//hook0.innerText += "----\nInstance\n" + header;
+			//hook1.innerText += "----\n" + instance + "\n" + val;
+		} else {
+			hook0.innerText = "Instance\n" + header
+			hook1.innerText = "0\n" + val
+		}
 		let wam = ns.getServerMaxRam("home")
 		let wamU = ns.getServerUsedRam("home")
 
@@ -161,6 +171,8 @@ function console(ns, sv, coH, coG, coW, sgt, sht, swt) {
 	ns.clearLog();
 	ns.print("╭┐Hack Brain┌──────────────────────────────────╮\n");
 	ns.print(`│╰──────────╯      Hack/Grow/Weak | ${isHacking(ns)}${col.d}/${isGrowing(ns)}${col.d}/${isWeakening(ns)}${col.d}      │\n`);
+	ns.print(`│ ${col.g}Target: ${sv}\n`);
+	ns.print(`│ ${col.g}Instance: ${instance}\n`);
 	ns.print(`${col.d}│ ${col.g}Hack Time : ${Math.floor(ht/60)}m ${ht % 60}s | At run : ${Math.floor(sht/60)}m ${sht % 60}s\n`);
 	ns.print(`${col.d}│ ${col.y}Grow Time : ${Math.floor(gt/60)}m ${gt % 60}s | At run : ${Math.floor(sgt/60)}m ${sgt % 60}s\n`);
 	ns.print(`${col.d}│ ${col.g}Weaken Time : ${Math.floor(wt/60)}m ${wt % 60}s | At run : ${Math.floor(swt/60)}m ${swt % 60}s\n`);
