@@ -89,6 +89,15 @@ export async function main(ns) {
 		let batch = [ns.run('src/weak.js', coW, hs), ns.run('src/grow.js', coG, hs), ns.run ('src/heck.js', coH, hs)]
 		await WaitPids(ns, batch, [hook0, hook1], [hs, coH, coG, coW, ht, gt, wt]);
 		cycles++
+		//rerun hack calc so that leveling up dosen't cause us to hack for more than we need
+		ha = ns.hackAnalyze(hs) * coH;
+		if (ha > 1.05) {
+			while (ha > 1.05) {
+				coH -= 1;
+				ha = ns.hackAnalyze(hs) * coH;
+			}
+		}
+		coG = Math.floor(((ram-((coW*1.75)+(coH*1.7))))/1.75);
 	}
 }
 
@@ -103,15 +112,10 @@ function hud(ns, hook0, hook1) {
 		if (ns.isRunning("/src/heck.js", "home", ns.args[0])) {val = `/`} else {val = `/`}
 		if (ns.isRunning("/src/grow.js", "home", ns.args[0])) {val += `/`} else {val += `/`}
 		if (ns.isRunning("/src/weak.js", "home", ns.args[0])) {val += `\n`} else {val += `\n`}
-		/*if (eval('ns.isRunning("/src/heck.js", "home", ns.args[0])')) {val = "✓/"} else {val = "✗/"}
-		if (eval('ns.isRunning("/src/grow.js", "home", ns.args[0])')) {val += "✓/"} else {val += "✗/"}
-		if (eval('ns.isRunning("/src/weak.js", "home", ns.args[0])')) {val += "✓\n"} else {val += "✗\n"}*/
 		ns.print(val);
 		// Now drop it into the placeholder elements
 		hook0.innerText = header
 		hook1.innerText = val
-		//let wam = eval('ns.getServerMaxRam("home")')
-		//let wamU = eval('ns.getServerUsedRam("home")')
 		let wam = ns.getServerMaxRam("home")
 		let wamU = ns.getServerUsedRam("home")
 
@@ -174,6 +178,7 @@ function console(ns, sv, coH, coG, coW, sgt, sht, swt) {
 	ns.print(`${col.d}╰──────────────────────────────────────────────╯`);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function calcWhitespace(sl, bl) {
 	let ws = "";
 	for (let i = 0; i < sl - bl; i++) {
