@@ -148,8 +148,10 @@ function hud(ns, hook0, hook1) {
 		values.push(Math.round((wam - wamU) * 100) / 100);
 
 		// Now drop those into the placeholder elements
-		hook0.innerText += headers.join("\n");
-		hook1.innerText += values.join("\n");	
+		if (instance == 0) {
+			hook0.innerText += headers.join("\n");
+			hook1.innerText += values.join("\n");
+		}
 	} catch (err) { // This might come in handy later
 		ns.print("ERROR: Update Skipped: " + String(err));
 	}
