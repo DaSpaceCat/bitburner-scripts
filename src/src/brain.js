@@ -7,22 +7,15 @@ you should also probably have enough cores & ram on HOME to run this with enough
 
 most of this is outdated im too lazy to update this doc here
 */
-let scriptTime = 0;
-let cycleTime = 0;
-let instance;
-
-//uwu
 
 /** @param {import(".").NS} ns */
-export async function WaitPids(ns, pids, hooks, vars) {
+export async function WaitPids(ns, pids, hooks, vars, instance, cycles) {
 	if (!Array.isArray(pids)) pids = [pids];
 	while (pids.some(p => ns.getRunningScript(p) != undefined)) {
 		await ns.sleep(5);
-		hud(ns, hooks[0], hooks[1]);
-		console(ns, vars[0], vars[1], vars[2], vars[3], vars[4], vars[5], vars[6]);
-		cycleTime += 1;
+		hud(ns, hooks[0], hooks[1], instance, cycles);
+		console(ns, vars[0], vars[1], vars[2], vars[3], vars[4], vars[5], vars[6], instance, cycles);
 	}
-	//console(ns, hs, coH, coG, coW);
 }
 
 const col = {
@@ -34,14 +27,14 @@ const col = {
   "y": "\x1b[33m",
   "bk": "\x1b[30m",
   "w": "\x1b[37m",
-  "d": "\x1b[0m" //default color
+  "d": "\x1b[0m"
 }
 
 let doc = eval("document");
-let cycles = 0;
 /** @param {import(".").NS} ns */
 export async function main(ns) {
-	instance = ns.args[2];
+	let instance = ns.args[2];
+	let cycles = 0;
   const hook0 = doc.getElementById('overview-extra-hook-0');
   const hook1 = doc.getElementById('overview-extra-hook-1');
 	let hs = ns.args[0];
@@ -65,11 +58,10 @@ export async function main(ns) {
 	let gt = Math.ceil(ns.getGrowTime(hs)/1000);
 	let wt = Math.ceil(ns.getWeakenTime(hs)/1000);
 
-	cycleTime = 0;
 	if (ns.getServerMinSecurityLevel(hs) < ns.getServerSecurityLevel(hs) || ns.getServerMaxMoney(hs) > ns.getServerMoneyAvailable(hs)) {
 		while (ns.getServerMinSecurityLevel(hs) < ns.getServerSecurityLevel(hs) || ns.getServerMaxMoney(hs) > ns.getServerMoneyAvailable(hs)) {
 			let prep = [ns.run('src/weak.js', coW, hs), ns.run('src/grow.js', coG * 2, hs)]
-			await WaitPids(ns, prep, [hook0, hook1], [hs, coH, coG, coW, gt, ht, wt]);
+			await WaitPids(ns, prep, [hook0, hook1], [hs, coH, coG, coW, gt, ht, wt], instance, cycles);
 		}
 	}
 
@@ -86,12 +78,11 @@ export async function main(ns) {
 	gt = Math.ceil(ns.getGrowTime(hs)/1000);
 	wt = Math.ceil(ns.getWeakenTime(hs)/1000);
 
-	cycleTime = 0;
 	eval("ns.bypass(document);")
 	// eslint-disable-next-line no-constant-condition
 	while (true) {
 		let batch = [ns.run('src/weak.js', coW, hs), ns.run('src/grow.js', coG, hs), ns.run ('src/heck.js', coH, hs)]
-		await WaitPids(ns, batch, [hook0, hook1], [hs, coH, coG, coW, gt, ht, wt]);
+		await WaitPids(ns, batch, [hook0, hook1], [hs, coH, coG, coW, gt, ht, wt], instance, cycles);
 		cycles++
 		//rerun hack calc so that leveling up dosen't cause us to hack for more than we need
 		ha = ns.hackAnalyze(hs) * coH;
@@ -106,7 +97,7 @@ export async function main(ns) {
 }
 
 /** @param {import(".").NS} ns */
-function hud(ns, hook0, hook1) {
+function hud(ns, hook0, hook1, instance, cycles) {
 	try {
 		let header;
 		let val;
@@ -158,7 +149,7 @@ function hud(ns, hook0, hook1) {
 }
 
 /** @param {import(".").NS} ns */
-function console(ns, sv, coH, coG, coW, sgt, sht, swt) {
+function console(ns, sv, coH, coG, coW, sgt, sht, swt, instance, cycles) {
 	let gt = Math.ceil(ns.getGrowTime(sv)/1000);
 	let ht = Math.ceil(ns.getHackTime(sv)/1000);
 	let wt = Math.ceil(ns.getWeakenTime(sv)/1000);
