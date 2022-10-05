@@ -70,13 +70,15 @@ function ChildCount(serverName) {
 	return count;
 }
 
+/** @param {import(".").NS} ns */
 function PrintServerInfo(serverName, prefix) {
 	var hacked = (_ns.hasRootAccess(serverName)) ? "" : "";
   //swap these lines from being commented if you're not using a nerd font / don't want fancy marks on root
   //var hacked = (_ns.hasRootAccess(serverName)) ? "Y" : "N";
 	var serverHackingLevel = _ns.getServerRequiredHackingLevel(serverName);
+	var serverRam = _ns.getServerMaxRam(serverName);
 	var canhack = false;
-	var dfstring = `│${prefix}R:${hacked} ${serverName} [${serverHackingLevel}]`
+	var dfstring = `│${prefix}R:${hacked} ${serverName} Ram: ${serverRam} [${serverHackingLevel}]`
 	let dfl = dfstring.length
 	let spa = 74 - dfl;
 	let sp = "";
@@ -86,15 +88,15 @@ function PrintServerInfo(serverName, prefix) {
 	if (_ns.getHackingLevel() >= serverHackingLevel) {canhack = true}
 	if (_ns.hasRootAccess(serverName)) {
 		if (canhack) {
-      _ns.print(`│${prefix}${col.g}R:${hacked} ${serverName}${col.d} [${serverHackingLevel}]${sp}│`)
+      _ns.print(`│${prefix}${col.g}R:${hacked} ${serverName}${col.d} Ram: ${serverRam} [${serverHackingLevel}]${sp}│`)
     } else {
-      _ns.print(`│${prefix}${col.g}R:${hacked}${col.y} ${serverName}${col.d} [${serverHackingLevel}]${sp}│`)
+      _ns.print(`│${prefix}${col.g}R:${hacked}${col.y} ${serverName}${col.d} Ram: ${serverRam} [${serverHackingLevel}]${sp}│`)
     }
 	} else {
 		if (canhack) {
-			_ns.print(`│${prefix}${col.r}R:${hacked}${col.y} ${serverName}${col.d} [${serverHackingLevel}]${sp}│`)
+			_ns.print(`│${prefix}${col.r}R:${hacked}${col.y} ${serverName}${col.d} Ram: ${serverRam} [${serverHackingLevel}]${sp}│`)
 		} else {
-			_ns.print(`│${prefix}${col.r}R:${hacked} ${serverName}${col.d} [${serverHackingLevel}]${sp}│`)
+			_ns.print(`│${prefix}${col.r}R:${hacked} ${serverName}${col.d} Ram: ${serverRam} [${serverHackingLevel}]${sp}│`)
 		}
 	}
 }

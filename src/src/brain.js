@@ -1,11 +1,6 @@
 /** @param {NS} ns */
 /*
-this script is called with [server name] and [ram usable (in gigabytes)]
-ram MUST be at least 5.2g, excluding the ram required to run the script
-for best results, fully grow (this step may be negated) & weaken whatever server you're hacking BEFORE running this program.
-you should also probably have enough cores & ram on HOME to run this with enough ram to fully grow, weaken, and hack the target server every cycle
-
-most of this is outdated im too lazy to update this doc here
+this script is called with [server name], [ram usable (in gigabytes)], and [instance] (starts at 0)
 */
 
 /** @param {import(".").NS} ns */
@@ -159,8 +154,8 @@ function console(ns, sv, coH, coG, coW, sgt, sht, swt, instance, cycles) {
 	let ma = ns.getServerMoneyAvailable(sv);
 	let hm = ns.hackAnalyze(sv) * coH;
 	let wa = ns.weakenAnalyze(coW, ns.getServer().cpuCores);
-	let ga = ns.growthAnalyze(sv, 100, ns.getServer().cpuCores);
-	let gaa = (100/ga)*coG;
+	let ga = ns.growthAnalyze(sv, 2, ns.getServer().cpuCores);
+	let gaa = coG/ga;
 	ns.clearLog();
 	ns.print("╭┐Hack Brain┌──────────────────────────────────╮\n");
 	ns.print(`│╰──────────╯      Hack/Grow/Weak | ${isHacking(ns)}${col.d}/${isGrowing(ns)}${col.d}/${isWeakening(ns)}${col.d}      │\n`);
