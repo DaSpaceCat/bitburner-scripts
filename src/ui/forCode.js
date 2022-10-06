@@ -1,4 +1,4 @@
-let rhiUIint = `const rhiUI = {
+const rhiUI = {
   createElement: function (type) {
     return document.createElement(type);
   },
@@ -29,7 +29,7 @@ let rhiUIint = `const rhiUI = {
     header.style.padding = padding + "px";
     header.style.borderRadius = bRadius + "px " + bRadius + "px 0px 0px";
     header.style.borderBottom = bWeight + "px solid rgb(68, 68, 68)";
-    //create minimize button\n
+    //create minimize button
     let min = document.createElement("a");
     min.id = id + "min";
     min.innerHTML = "🗕";
@@ -37,13 +37,12 @@ let rhiUIint = `const rhiUI = {
     min.style.textDecoration = "none";
     min.style.float = "right";
     min.style.display = "inline-block";
-    rhiUI.createGlobalScript("rhiUIelements", "var " + id + "min = true; const " + id + "Height = " + height + ";");
-    min.onclick = eval('rhiUI.minimize("' + id + '")')
+    min.onclick = eval('function() {rhiUI.minimize(' + id +');}')
     div.appendChild(header);
     iDiv.innerHTML = content;
     div.appendChild(iDiv);
     document.body.appendChild(div);
-    //we have to do this after we add the element to the doc, otherwise we get issues\n
+    //we have to do this after we add the element to the doc, otherwise we get issues
     let heado = document.getElementById(id + "head");
     heado.appendChild(min);
     this.dragElement(div);
@@ -56,8 +55,8 @@ let rhiUIint = `const rhiUI = {
       s.innerHTML = script;
       document.head.appendChild(s);
     } else {
-      console.log("rhiUI: WARN: Script with that ID already exists! Appending input to existing script.");
-      document.getElementById(id).innerHTML += script;
+      console.log("rhiUI: WARN: Script with that ID already exists!\nAppending input to existing script.");
+      document.getElementById(id).innerHTML += "\n" + script;
     }
   },
   dragElement: function(elmnt) {
@@ -90,30 +89,16 @@ let rhiUIint = `const rhiUI = {
       document.onmousemove = null;
     }
   },
+  unMinimize: function(id) {
+    document.getElementById(id + "in").style.display = "block";
+    document.getElementById(id).style.height = "auto";
+    document.getElementById(id + "min").innerHTML = "🗕";
+    document.getElementById(id + "min").onclick = eval('function() {rhiUI.minimize(' + id + ')}')
+  },
   minimize: function(id) {
-    if (eval(id + "min") == false) {
-      document.getElementById(id + "in").style.display = "none";
-      document.getElementById(id).style.height = "auto";
-      document.getElementById(id + "min").innerHTML = "🗖";
-      eval(id + "min = true;");
-    } else {
-      document.getElementById(id + "in").style.display = "block";
-      document.getElementById(id).style.height = eval(id + "Height") + "px";
-      document.getElementById(id + "min").innerHTML = "🗕";
-      eval(id + "min = false;");
-    }
-  }
-}`
-
-export function initRhiUI() {
-  let doc = eval("document");
-  if (doc.getElementById("rhiUI") == null) {
-    let scr = doc.createElement("script");
-    scr.innerHTML = rhiUIint;
-    scr.id = "rhiUI";
-    doc.head.appendChild(scr);
-  } else {
-    console.log("rhiUI already initialized, reloading..");
-    doc.getElementById("rhiUI").innerHTML = rhiUIint;
+    document.getElementById(id + "in").style.display = "none";
+    document.getElementById(id).style.height = "auto";
+    document.getElementById(id + "min").innerHTML = "🗖";
+    document.getElementById(id + "min").onclick = eval('function() {rhiUI.unMinimize(' + id + ')}');
   }
 }
