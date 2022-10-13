@@ -1,9 +1,10 @@
 /*
-  This script will print a map of the entire network, treed from the server it was run on.
+  This script will print a map of the entire network, treed from Home.
   if you have root access to a server, it will be marked in green, otherwise red.
   normally, both the name and checkmark will be green, but if you have root but cannot hack (if your level is too low) the name will be yellow.
   if you do not have root access, but can hack, the name will be yellow.
   otherwise, both the name and checkmark will be red.
+  the required hacking level is shown in brackets, with the diffrence to your hacking level shown next to that.
 */
 
 var _ns;
@@ -73,12 +74,17 @@ function ChildCount(serverName) {
 /** @param {import(".").NS} ns */
 function PrintServerInfo(serverName, prefix) {
 	var hacked = (_ns.hasRootAccess(serverName)) ? "" : "";
-  //swap these lines from being commented if you're not using a nerd font / don't want fancy marks on root
-  //var hacked = (_ns.hasRootAccess(serverName)) ? "Y" : "N";
+  	//swap these lines from being commented if you're not using a nerd font / don't want fancy marks on the root indicator
+  	//var hacked = (_ns.hasRootAccess(serverName)) ? "Y" : "N";
 	var serverHackingLevel = _ns.getServerRequiredHackingLevel(serverName);
 	var serverRam = _ns.getServerMaxRam(serverName);
+	var hackSkill = _ns.getPlayer()['skills']['hacking'];
+	var hackDiff;
+	if (serverHackingLevel > hackSkill) hackDiff = `-${serverHackingLevel - hackSkill}`;
+	if (serverHackingLevel == hackSkill) hackDiff = 0;
+	if (serverHackingLevel < hackSkill) hackDiff = `+${hackSkill - serverHackingLevel}`;
 	var canhack = false;
-	var dfstring = `│${prefix}R:${hacked} ${serverName} Ram: ${serverRam} [${serverHackingLevel}]`
+	var dfstring = `│${prefix}R:${hacked} ${serverName} ${serverRam}GB [${serverHackingLevel}] ${hackDiff}`
 	let dfl = dfstring.length
 	let spa = 74 - dfl;
 	let sp = "";
@@ -88,15 +94,15 @@ function PrintServerInfo(serverName, prefix) {
 	if (_ns.getHackingLevel() >= serverHackingLevel) {canhack = true}
 	if (_ns.hasRootAccess(serverName)) {
 		if (canhack) {
-      _ns.print(`│${prefix}${col.g}R:${hacked} ${serverName}${col.d} Ram: ${serverRam} [${serverHackingLevel}]${sp}│`)
+      _ns.print(`│${prefix}${col.g}R:${hacked} ${serverName}${col.d} ${serverRam}GB [${serverHackingLevel}] ${hackDiff}${sp}│`)
     } else {
-      _ns.print(`│${prefix}${col.g}R:${hacked}${col.y} ${serverName}${col.d} Ram: ${serverRam} [${serverHackingLevel}]${sp}│`)
+      _ns.print(`│${prefix}${col.g}R:${hacked}${col.y} ${serverName}${col.d} ${serverRam}GB [${serverHackingLevel}] ${hackDiff}${sp}│`)
     }
 	} else {
 		if (canhack) {
-			_ns.print(`│${prefix}${col.r}R:${hacked}${col.y} ${serverName}${col.d} Ram: ${serverRam} [${serverHackingLevel}]${sp}│`)
+			_ns.print(`│${prefix}${col.r}R:${hacked}${col.y} ${serverName}${col.d} ${serverRam}GB [${serverHackingLevel}] ${hackDiff}${sp}│`)
 		} else {
-			_ns.print(`│${prefix}${col.r}R:${hacked} ${serverName}${col.d} Ram: ${serverRam} [${serverHackingLevel}]${sp}│`)
+			_ns.print(`│${prefix}${col.r}R:${hacked} ${serverName}${col.d} ${serverRam}GB [${serverHackingLevel}] ${hackDiff}${sp}│`)
 		}
 	}
 }
