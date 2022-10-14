@@ -50,7 +50,7 @@
 	"entropy":0
 }*/
 /* eslint-disable no-constant-condition */
-/** @param {NS} ns **/
+/** @param {NS} ns */
 /** @param {import(".").NS} ns */
 export async function main(ns) {
 	const doc = eval('document');
