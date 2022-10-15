@@ -29,7 +29,6 @@ const rhiUI = {
     header.style.padding = padding + "px";
     header.style.borderRadius = bRadius + "px " + bRadius + "px 0px 0px";
     header.style.borderBottom = bWeight + "px solid rgb(68, 68, 68)";
-    //create minimize button\n
     let min = document.createElement("a");
     min.id = id + "min";
     min.innerHTML = "🗕";
@@ -43,7 +42,6 @@ const rhiUI = {
     iDiv.innerHTML = content;
     div.appendChild(iDiv);
     document.body.appendChild(div);
-    //we have to do this after we add the element to the doc, otherwise we get issues\n
     let heado = document.getElementById(id + "head");
     heado.appendChild(min);
     this.dragElement(div);
@@ -60,6 +58,7 @@ const rhiUI = {
       document.getElementById(id).innerHTML += script;
     }
   },
+  createGlobNS: function(ns) { ns.run("/ui/nsRef.js"); },
   dragElement: function(elmnt) {
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
     if (document.getElementById(elmnt.id + "header")) {
@@ -104,5 +103,3 @@ const rhiUI = {
     }
   }
 }
-
-//UwU :3

@@ -60,14 +60,14 @@ export async function main(ns) {
 		try {
 			const headers = [];
 			const values = [];
-			headers.push('---------------');
-			values.push('-----------------CRIMES-----------------'); // ------------MONEY and PROFIT------------
+			headers.push('───────────────');
+			values.push('──────────────── CRIMES ────────────────'); // ────────────MONEY and PROFIT────────────
 			headers.push("Total Karma: ");
 			values.push('   ' + ns.nFormat(ns.heart.break(), '0,0'));
 			headers.push("People Killed: ");
 			values.push('   ' + ns.nFormat(ns.getPlayer()['numPeopleKilled'], '0,0'));
-			headers.push('---------------');
-			values.push('------------MONEY and PROFIT------------'); // ------------MONEY and PROFIT------------
+			headers.push('───────────────');
+			values.push('─────────── MONEY and PROFIT ───────────'); // ────────────MONEY and PROFIT────────────
 			headers.push("Money: ");
 			values.push('   ' + ns.nFormat(ns.getPlayer()['money'], '$0,0'));
 			if (ns.gang.inGang()) {
@@ -82,45 +82,43 @@ export async function main(ns) {
 				headers.push('Hashes: ');
 				values.push(' ' + ns.hacknet.numHashes().toPrecision(3) + ' / ' + ns.hacknet.hashCapacity().toPrecision(3));
 			}
-			headers.push('---------------');
-			values.push('------------SKILL EXPERIENCE------------'); // ------------SKILL EXPERIENCE------------
-			headers.push("Hacking EXP: ");
+			headers.push('───────────────');
+			values.push('─────────── SKILL EXPERIENCE ───────────'); // ────────────SKILL EXPERIENCE────────────
+			headers.push("Hacking: ");
 			values.push('   ' + ns.nFormat(ns.getPlayer()['exp']['hacking'], '0,0'));
-			headers.push("Strength EXP: ");
-			values.push('   ' + ns.nFormat(ns.getPlayer()['exp']['strength'], '0,0'));
-			headers.push("Defense EXP: ");
-			values.push('   ' + ns.nFormat(ns.getPlayer()['exp']['defense'], '0,0'));
-			headers.push("Dexterity EXP: ");
-			values.push('   ' + ns.nFormat(ns.getPlayer()['exp']['dexterity'], '0,0'));
-			headers.push("Agility EXP: ");
-			values.push('   ' + ns.nFormat(ns.getPlayer()['exp']['agility'], '0,0'));
-			headers.push("Charisma EXP: ");
+			headers.push("Str | Def: ");
+			values.push('   ' + ns.nFormat(ns.getPlayer()['exp']['strength'], '0,0') + ' | ' + ns.nFormat(ns.getPlayer()['exp']['defense'], '0,0'));
+			headers.push("Dex | Agi: ");
+			values.push('   ' + ns.nFormat(ns.getPlayer()['exp']['dexterity'], '0,0') + ' | ' + ns.nFormat(ns.getPlayer()['exp']['agility'], '0,0'));
+			headers.push("Charisma: ");
 			values.push('   ' + ns.nFormat(ns.getPlayer()['exp']['charisma'], '0,0'));
 			headers.push('Intelligence: ')
 			values.push('   ' + ns.nFormat(ns.getPlayer()['exp']['intelligence'], '0,0'));
 			if (ns.gang.inGang()) {
-				headers.push('---------------');
-				values.push('------------------GANG------------------');
+				headers.push('───────────────');
+				values.push('───────────────── GANG ─────────────────');
 				headers.push("Faction: ");
 				values.push('   ' + ns.gang.getGangInformation()['faction']);
 				let gangType = (ns.gang.getGangInformation()['isHacking']) ? "Hacking" : "Combat";
 				headers.push("Type: ");
 				values.push('   ' + gangType);
-				headers.push("Power: ");
-				values.push('   ' + ns.nFormat(ns.gang.getGangInformation()['power'], '0,0'));
 				headers.push("Respect: ");
 				values.push('   ' + ns.nFormat(ns.gang.getGangInformation()['respect'], '0,0'));
+				headers.push("Power: ");
+				values.push('   ' + ns.nFormat(ns.gang.getGangInformation()['power'], '0,0.0'));
+				headers.push("Territory: ");
+				values.push('   ' + ns.nFormat(ns.gang.getGangInformation()['territory'], '0.0%'));
 				headers.push("Wanted Level: ");
 				values.push('   ' + ns.nFormat(ns.gang.getGangInformation()['wantedLevel'], '0,0'));
-				if (ns.gang.getGangInformation()['territoryWarfareEngaged']) {
+				if (ns.gang.getGangInformation()['territoryClashChance'] > 0) {
 					headers.push("Clash Chance: ");
-					values.push('   ' + ns.nFormat(ns.gang.getGangInformation()['territoryClashChance'], '0.0%'));
+					values.push('   ' + ns.nFormat(ns.gang.getGangInformation()['territoryClashChance'], '0.0%') + ' / ' + ((ns.gang.getGangInformation()['territoryWarfareEngaged']) ? "" : ""));
 				}
 			}
 			if (ns.getPlayer()['hasCorporation']) {
 				let corp = eval("ns.corporation.getCorporation()");
-				headers.push('---------------');
-				values.push('------------------CORP------------------');
+				headers.push('───────────────');
+				values.push('───────────────── CORP ─────────────────');
 				headers.push("Name: ");
 				values.push('   ' + corp['name']);
 				headers.push("Funds: ");
@@ -134,11 +132,11 @@ export async function main(ns) {
 				headers.push("Shares: ");
 				values.push('   ' + ns.nFormat(corp['numShares'], '0,0') + ' / ' + ns.nFormat(corp['totalShares'], '0,0'));
 			}
-			headers.push('---------------');
-			values.push('---------------STATISTICS---------------'); // ---------------STATISTICS---------------
+			headers.push('───────────────');
+			values.push('────────────── STATISTICS ──────────────'); // ───────────────STATISTICS───────────────
 			headers.push('Home Ram Use: ');
 			values.push(ns.nFormat(ns.getServerUsedRam('home'), '0,0') + ' / ' + ns.nFormat(ns.getServerMaxRam('home'), '0,0'));
-			headers.push('Bit Node: ');
+			headers.push('BitNode: ');
 			values.push(ns.getPlayer()['bitNodeN']);
 			headers.push('Time in Node: ');
 			values.push(ns.tFormat(ns.getPlayer()['playtimeSinceLastBitnode']));

@@ -60,6 +60,7 @@ let rhiUIint = `const rhiUI = {
       document.getElementById(id).innerHTML += script;
     }
   },
+  createGlobNS: function(ns) { eval("ns.run('/ui/nsRef.js')"); },
   dragElement: function(elmnt) {
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
     if (document.getElementById(elmnt.id + "header")) {

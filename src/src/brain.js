@@ -30,8 +30,8 @@ let doc = eval("document");
 export async function main(ns) {
 	let instance = ns.args[2];
 	let cycles = 0;
-  const hook0 = doc.getElementById('overview-extra-hook-0');
-  const hook1 = doc.getElementById('overview-extra-hook-1');
+	const hook0 = doc.getElementById('overview-extra-hook-0');
+	const hook1 = doc.getElementById('overview-extra-hook-1');
 	let hs = ns.args[0];
 	let ram = ns.args[1];
 	//let coH = Math.floor((ram/3)/1.6);
@@ -73,7 +73,7 @@ export async function main(ns) {
 	gt = Math.ceil(ns.getGrowTime(hs)/1000);
 	wt = Math.ceil(ns.getWeakenTime(hs)/1000);
 
-	eval("ns.bypass(document);")
+	//eval("ns.bypass(document);")
 	// eslint-disable-next-line no-constant-condition
 	while (true) {
 		let batch = [ns.run('src/weak.js', coW, hs), ns.run('src/grow.js', coG, hs), ns.run ('src/heck.js', coH, hs)]
@@ -88,6 +88,13 @@ export async function main(ns) {
 			}
 		}
 		coG = Math.floor(((ram-((coW*1.75)+(coH*1.7))))/1.75);
+		//prep the server if we've hacked it out / Security is over minimum
+		if (ns.getServerMinSecurityLevel(hs) < ns.getServerSecurityLevel(hs) || ns.getServerMaxMoney(hs) > ns.getServerMoneyAvailable(hs)) {
+			while (ns.getServerMinSecurityLevel(hs) < ns.getServerSecurityLevel(hs) || ns.getServerMaxMoney(hs) > ns.getServerMoneyAvailable(hs)) {
+				let prep = [ns.run('src/weak.js', coW, hs), ns.run('src/grow.js', coG * 2, hs)]
+				await WaitPids(ns, prep, [hook0, hook1], [hs, coH, coG, coW, gt, ht, wt], instance, cycles);
+			}
+		}
 	}
 }
 
@@ -170,9 +177,9 @@ function console(ns, sv, coH, coG, coW, sgt, sht, swt, instance, cycles) {
 	ns.print(`${col.d}│ ${col.y}Money Available : ${ma}\n`);
 	ns.print(`${col.d}│ ${col.y}Hack Money : ${hm}\n`);
 	ns.print(`${col.d}│ ${col.g}Weaken Amount : ${wa}\n`);
-	ns.print(`${col.d}│ ${col.y}Grow Amount : ${gaa}\n`);
-	ns.print(`${col.d}│ ${col.b}Cycles : ${cycles}\n`);
-	ns.print(`${col.d}│ ${col.b}Live Time : ${Math.floor(ns.getRunningScript().onlineRunningTime/60)}m ${Math.round(ns.getRunningScript().onlineRunningTime % 60)}s\n`);
+	ns.print(`${col.d}│ ${col.y}Grow ??? : ${gaa}\n`);
+	ns.print(`${col.d}│ ${col.g}Cycles : ${cycles}\n`);
+	ns.print(`${col.d}│ ${col.g}Live Time : ${Math.floor(ns.getRunningScript().onlineRunningTime/60)}m ${Math.round(ns.getRunningScript().onlineRunningTime % 60)}s\n`);
 	ns.print(`${col.d}╰──────────────────────────────────────────────╯`);
 }
 
