@@ -57,13 +57,18 @@ export async function main(ns) {
 	const hook0 = doc.getElementById('overview-extra-hook-0');
 	const hook1 = doc.getElementById('overview-extra-hook-1');
 	const ovv = doc.getElementsByClassName('MuiPaper-root')[0];
+	let srvs = ns.args;
 	while (true) {
 		ovv.style.borderRadius = "10px";
 		ovv.style.backgroundColor = "rgba(33,37,43,0.8)";
 		ovv.style.backdropFilter = "blur(2px)";
+		ovv.style.border = "none";
+		ovv.style.boxShadow = "5px 5px 10px rgba(0,0,0,0.5)"
 		try {
 			const headers = [];
 			const values = [];
+			headers.push("In: " + ns.getPlayer()['city']);
+			values.push("At: " + ns.getPlayer()['location']);
 			headers.push('───────────────');
 			values.push('──────────────── CRIMES ────────────────');
 			headers.push("Total Karma: ");
@@ -112,12 +117,16 @@ export async function main(ns) {
 				values.push('   ' + gangType);
 				headers.push("Respect: ");
 				values.push('   ' + ns.nFormat(ns.gang.getGangInformation()['respect'], '0,0'));
-				headers.push("Power: ");
-				values.push('   ' + ns.nFormat(ns.gang.getGangInformation()['power'], '0,0.00'));
+				if (ns.gang.getGangInformation()['power'] > 1) {
+					headers.push("Power: ");
+					values.push('   ' + ns.nFormat(ns.gang.getGangInformation()['power'], '0,0.00'));
+				}
 				headers.push("Territory: ");
 				values.push('   ' + ns.nFormat(ns.gang.getGangInformation()['territory'], '0.000%'));
-				headers.push("Wanted Level: ");
-				values.push('   ' + ns.nFormat(ns.gang.getGangInformation()['wantedLevel'], '0,0'));
+				if (ns.gang.getGangInformation()['wantedLevel'] > 1) {
+					headers.push("Wanted Level: ");
+					values.push('   ' + ns.nFormat(ns.gang.getGangInformation()['wantedLevel'], '0,0'));
+				}
 				if (ns.gang.getGangInformation()['territoryClashChance'] > 0) {
 					headers.push("Clash Chance: ");
 					values.push('   ' + ns.nFormat(ns.gang.getGangInformation()['territoryClashChance'], '0.0%') + ' / ' + ((ns.gang.getGangInformation()['territoryWarfareEngaged']) ? "" : ""));
@@ -161,17 +170,19 @@ export async function main(ns) {
 				
 			}
 			headers.push('───────────────');
-			values.push('────────────── STATISTICS ──────────────');
-			headers.push('Home Ram Use: ');
-			values.push(ns.nFormat(ns.getServerUsedRam('home'), '0,0') + ' / ' + ns.nFormat(ns.getServerMaxRam('home'), '0,0'));
-			headers.push('BitNode: ');
-			values.push(ns.getPlayer()['bitNodeN']);
-			headers.push('Time in Node: ');
+			values.push('──────────────── SERVER ────────────────');
+			headers.push('Home: ');
+			values.push("   Cores: " + ns.getServer('home')['cpuCores'] + " | Ram: " + ns.nFormat(ns.getServerUsedRam('home'), '0,0') + ' / ' + ns.nFormat(ns.getServerMaxRam('home'), '0,0'));
+			for (let i = 0; i <= srvs.length - 1; i++) {
+				headers.push(srvs[i] + ": ")
+				values.push("   Cores: " + ns.getServer(srvs[i])['cpuCores'] + " | Ram: " + ns.nFormat(ns.getServerUsedRam(srvs[i]), '0,0') + ' / ' + ns.nFormat(ns.getServerMaxRam(srvs[i]), '0,0'));
+			}
+			headers.push('───────────────');
+			values.push('─────────────── PLAYTIME ───────────────');
+			headers.push(`BN${ns.getPlayer()['bitNodeN']}: `);
 			values.push(ns.tFormat(ns.getPlayer()['playtimeSinceLastBitnode']));
 			headers.push('Total Playtime: ');
 			values.push(ns.tFormat(ns.getPlayer()['totalPlaytime']));
-			headers.push(ns.getPlayer()['city']);
-			values.push(ns.getPlayer()['location']);
 			hook0.innerText = headers.join(" \n");
 			hook1.innerText = values.join("\n");
 		}
