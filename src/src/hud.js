@@ -56,7 +56,11 @@ export async function main(ns) {
 	const doc = eval('document');
 	const hook0 = doc.getElementById('overview-extra-hook-0');
 	const hook1 = doc.getElementById('overview-extra-hook-1');
+	const ovv = doc.getElementsByClassName('MuiPaper-root')[0];
 	while (true) {
+		ovv.style.borderRadius = "10px";
+		ovv.style.backgroundColor = "rgba(33,37,43,0.8)";
+		ovv.style.backdropFilter = "blur(2px)";
 		try {
 			const headers = [];
 			const values = [];
@@ -141,9 +145,9 @@ export async function main(ns) {
 				values.push('───────────── BLADEBURNERS ─────────────');
 				headers.push("Rank: ");
 				values.push('   ' + ns.nFormat(ns.bladeburner.getRank(), '0,0'));
-				headers.push("Stamina: ")
+				headers.push("Stamina: ");
 				let stm = ns.bladeburner.getStamina();
-				values.push(`   ${ns.nFormat(stm[0], '0,0.00')}/${ns.nFormat(stm[1], '0,0.00')} | ${ns.nFormat(stm[0] / stm[1], '0.000%')}`)
+				values.push(`   ${ns.nFormat(stm[0], '0,0.00')}/${ns.nFormat(stm[1], '0,0.00')} | ${ns.nFormat(stm[0] / stm[1], '0.000%')}`);
 				headers.push("Action: ");
 				if (ns.bladeburner.getCurrentAction()['type'] == "Idle") {
 					values.push('   ' + ns.bladeburner.getCurrentAction()['type']);
@@ -152,7 +156,7 @@ export async function main(ns) {
 				}
 				headers.push("City: ");
 				values.push('   ' + ns.bladeburner.getCity());
-				headers.push("Skill Points: ")
+				headers.push("Skill Points: ");
 				values.push('   ' + ns.nFormat(ns.bladeburner.getSkillPoints(), '0,0'));
 				
 			}
