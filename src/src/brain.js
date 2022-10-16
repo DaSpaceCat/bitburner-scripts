@@ -67,13 +67,13 @@ export async function main(ns) {
 			ha = ns.hackAnalyze(hs) * coH;
 		}
 	}
+	let pcoG = eval(coG * 2);
 	coG = Math.floor(((ram-((coW*1.75)+(coH*1.7))))/1.75);
 
 	ht = Math.ceil(ns.getHackTime(hs)/1000);
 	gt = Math.ceil(ns.getGrowTime(hs)/1000);
 	wt = Math.ceil(ns.getWeakenTime(hs)/1000);
 
-	//eval("ns.bypass(document);")
 	// eslint-disable-next-line no-constant-condition
 	while (true) {
 		let batch = [ns.run('src/weak.js', coW, hs), ns.run('src/grow.js', coG, hs), ns.run ('src/heck.js', coH, hs)]
@@ -91,7 +91,7 @@ export async function main(ns) {
 		//prep the server if we've hacked it out / Security is over minimum
 		if (ns.getServerMinSecurityLevel(hs) < ns.getServerSecurityLevel(hs) || ns.getServerMaxMoney(hs) > ns.getServerMoneyAvailable(hs)) {
 			while (ns.getServerMinSecurityLevel(hs) < ns.getServerSecurityLevel(hs) || ns.getServerMaxMoney(hs) > ns.getServerMoneyAvailable(hs)) {
-				let prep = [ns.run('src/weak.js', coW, hs), ns.run('src/grow.js', coG * 2, hs)]
+				let prep = [ns.run('src/weak.js', coW, hs), ns.run('src/grow.js', pcoG, hs)]
 				await WaitPids(ns, prep, [hook0, hook1], [hs, coH, coG, coW, gt, ht, wt], instance, cycles);
 			}
 		}

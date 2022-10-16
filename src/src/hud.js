@@ -61,13 +61,13 @@ export async function main(ns) {
 			const headers = [];
 			const values = [];
 			headers.push('───────────────');
-			values.push('──────────────── CRIMES ────────────────'); // ────────────MONEY and PROFIT────────────
+			values.push('──────────────── CRIMES ────────────────');
 			headers.push("Total Karma: ");
 			values.push('   ' + ns.nFormat(ns.heart.break(), '0,0'));
 			headers.push("People Killed: ");
 			values.push('   ' + ns.nFormat(ns.getPlayer()['numPeopleKilled'], '0,0'));
 			headers.push('───────────────');
-			values.push('─────────── MONEY and PROFIT ───────────'); // ────────────MONEY and PROFIT────────────
+			values.push('──────────── MONEY & PROFIT ────────────');
 			headers.push("Money: ");
 			values.push('   ' + ns.nFormat(ns.getPlayer()['money'], '$0,0'));
 			if (ns.gang.inGang()) {
@@ -83,7 +83,7 @@ export async function main(ns) {
 				values.push(' ' + ns.hacknet.numHashes().toPrecision(3) + ' / ' + ns.hacknet.hashCapacity().toPrecision(3));
 			}
 			headers.push('───────────────');
-			values.push('─────────── SKILL EXPERIENCE ───────────'); // ────────────SKILL EXPERIENCE────────────
+			values.push('─────────── SKILL EXPERIENCE ───────────');
 			headers.push("Hacking: ");
 			values.push('   ' + ns.nFormat(ns.getPlayer()['exp']['hacking'], '0,0'));
 			headers.push("Str | Def: ");
@@ -97,6 +97,10 @@ export async function main(ns) {
 			if (ns.gang.inGang()) {
 				headers.push('───────────────');
 				values.push('───────────────── GANG ─────────────────');
+				if (ns.gang.getBonusTime() > 3000) {
+					headers.push("Bonus Time: ")
+					values.push('   ' + ns.tFormat(ns.gang.getBonusTime()));
+				}
 				headers.push("Faction: ");
 				values.push('   ' + ns.gang.getGangInformation()['faction']);
 				let gangType = (ns.gang.getGangInformation()['isHacking']) ? "Hacking" : "Combat";
@@ -105,9 +109,9 @@ export async function main(ns) {
 				headers.push("Respect: ");
 				values.push('   ' + ns.nFormat(ns.gang.getGangInformation()['respect'], '0,0'));
 				headers.push("Power: ");
-				values.push('   ' + ns.nFormat(ns.gang.getGangInformation()['power'], '0,0.0'));
+				values.push('   ' + ns.nFormat(ns.gang.getGangInformation()['power'], '0,0.00'));
 				headers.push("Territory: ");
-				values.push('   ' + ns.nFormat(ns.gang.getGangInformation()['territory'], '0.0%'));
+				values.push('   ' + ns.nFormat(ns.gang.getGangInformation()['territory'], '0.000%'));
 				headers.push("Wanted Level: ");
 				values.push('   ' + ns.nFormat(ns.gang.getGangInformation()['wantedLevel'], '0,0'));
 				if (ns.gang.getGangInformation()['territoryClashChance'] > 0) {
@@ -132,8 +136,28 @@ export async function main(ns) {
 				headers.push("Shares: ");
 				values.push('   ' + ns.nFormat(corp['numShares'], '0,0') + ' / ' + ns.nFormat(corp['totalShares'], '0,0'));
 			}
+			if (ns.getPlayer()['inBladeburner']) {
+				headers.push('───────────────');
+				values.push('───────────── BLADEBURNERS ─────────────');
+				headers.push("Rank: ");
+				values.push('   ' + ns.nFormat(ns.bladeburner.getRank(), '0,0'));
+				headers.push("Stamina: ")
+				let stm = ns.bladeburner.getStamina();
+				values.push(`   ${ns.nFormat(stm[0], '0,0.00')}/${ns.nFormat(stm[1], '0,0.00')} | ${ns.nFormat(stm[0] / stm[1], '0.000%')}`)
+				headers.push("Action: ");
+				if (ns.bladeburner.getCurrentAction()['type'] == "Idle") {
+					values.push('   ' + ns.bladeburner.getCurrentAction()['type']);
+				} else {
+					values.push(`   ${ns.bladeburner.getCurrentAction()['type']}: ${ns.bladeburner.getCurrentAction()['name']}`);
+				}
+				headers.push("City: ");
+				values.push('   ' + ns.bladeburner.getCity());
+				headers.push("Skill Points: ")
+				values.push('   ' + ns.nFormat(ns.bladeburner.getSkillPoints(), '0,0'));
+				
+			}
 			headers.push('───────────────');
-			values.push('────────────── STATISTICS ──────────────'); // ───────────────STATISTICS───────────────
+			values.push('────────────── STATISTICS ──────────────');
 			headers.push('Home Ram Use: ');
 			values.push(ns.nFormat(ns.getServerUsedRam('home'), '0,0') + ' / ' + ns.nFormat(ns.getServerMaxRam('home'), '0,0'));
 			headers.push('BitNode: ');
