@@ -46,9 +46,9 @@ export async function main(ns) {
 	  startSec(headers, values, "money", monMin ? "none" : "inline");
 	  pushCont(headers, values, "Money: ", '   ' + ns.nFormat(ns.getPlayer()['money'], '$0,0'), col.money);
 	  if (ns.gang.inGang()) {
-		if (ns.gang.getGangInformation()['moneyGainRate'] > 0) {
-		  pushCont(headers, values, "Gang Income: ", '   ' + ns.nFormat((5 * ns.gang.getGangInformation()['moneyGainRate']), '$0,0') + ' /s', col.money);
-		}
+			if (ns.gang.getGangInformation()['moneyGainRate'] > 0) {
+		  	pushCont(headers, values, "Gang Income: ", '   ' + ns.nFormat((5 * ns.gang.getGangInformation()['moneyGainRate']), '$0,0') + ' /s', col.money);
+			}
 	  }
 	  pushCont(headers, values, 'Hack Income: ', '   ' + ns.nFormat(ns.getTotalScriptIncome()[0], '$0,0') + ' /s', col.money);
 	  /*if (ns.hacknet.numHashes() > 0) {
@@ -68,54 +68,54 @@ export async function main(ns) {
 	  endSec(headers, values);
 	  // --------------------------------
 	  if (ns.gang.inGang()) {
-		pushBreak(headers, values, 'GANG', '─────────────────', gngMin, "gngMin");
-		startSec(headers, values, "gang", gngMin ? "none" : "inline");
-		if (ns.gang.getBonusTime() > 3000) {
-		  pushCont(headers, values, "Bonus Time: ", '   ' + ns.tFormat(ns.gang.getBonusTime()), col.hak);
-		}
-		let gangType = (ns.gang.getGangInformation()['isHacking']) ? "Hacking" : "Combat";
-		pushCont(headers, values, "Faction: ", '   ' + ns.gang.getGangInformation()['faction'] + ', ' + gangType, col.def);	
-		pushCont(headers, values, "Respect: ", '   ' + ns.nFormat(ns.gang.getGangInformation()['respect'], '0,0'), col.sta);
-		if (ns.gang.getGangInformation()['power'] > 1) {
-		  pushCont(headers, values, "Power: ", '   ' + ns.nFormat(ns.gang.getGangInformation()['power'], '0,0.00'), col.sta);
-		}
-		pushCont(headers, values, "Territory: ", '   ' + ns.nFormat(ns.gang.getGangInformation()['territory'], '0.000%'), col.cha);
-		if (ns.gang.getGangInformation()['wantedLevel'] > 1) {
-		  pushCont(headers, values, "Wanted Level: ", '   ' + ns.nFormat(ns.gang.getGangInformation()['wantedLevel'], '0,0'), col.cha);
-		}
-		if (ns.gang.getGangInformation()['territoryClashChance'] > 0) {
-		  pushCont(headers, values, "Clash Chance: ", '   ' + ns.nFormat(ns.gang.getGangInformation()['territoryClashChance'], '0.0%') + ' / ' + ((ns.gang.getGangInformation()['territoryWarfareEngaged']) ? "" : ""), col.cha);
-		}
-		endSec(headers, values);
+			pushBreak(headers, values, 'GANG', '─────────────────', gngMin, "gngMin");
+			startSec(headers, values, "gang", gngMin ? "none" : "inline");
+			if (ns.gang.getBonusTime() > 3000) {
+				pushCont(headers, values, "Bonus Time: ", '   ' + ns.tFormat(ns.gang.getBonusTime()), col.hak);
+			}
+			let gangType = (ns.gang.getGangInformation()['isHacking']) ? "Hacking" : "Combat";
+			pushCont(headers, values, "Faction: ", '   ' + ns.gang.getGangInformation()['faction'] + ', ' + gangType, col.def);	
+			pushCont(headers, values, "Respect: ", '   ' + ns.nFormat(ns.gang.getGangInformation()['respect'], '0,0'), col.sta);
+			if (ns.gang.getGangInformation()['power'] > 1) {
+				pushCont(headers, values, "Power: ", '   ' + ns.nFormat(ns.gang.getGangInformation()['power'], '0,0.00'), col.sta);
+			}
+			pushCont(headers, values, "Territory: ", '   ' + ns.nFormat(ns.gang.getGangInformation()['territory'], '0.000%'), col.cha);
+			if (ns.gang.getGangInformation()['wantedLevel'] > 1) {
+				pushCont(headers, values, "Wanted Level: ", '   ' + ns.nFormat(ns.gang.getGangInformation()['wantedLevel'], '0,0'), col.cha);
+			}
+			if (ns.gang.getGangInformation()['territoryClashChance'] > 0) {
+				pushCont(headers, values, "Clash Chance: ", '   ' + ns.nFormat(ns.gang.getGangInformation()['territoryClashChance'], '0.0%') + ' / ' + ((ns.gang.getGangInformation()['territoryWarfareEngaged']) ? "" : ""), col.cha);
+			}
+			endSec(headers, values);
 	  }
 	  // --------------------------------
 	  if (ns.getPlayer()['hasCorporation']) {
-		let corp = eval("ns.corporation.getCorporation()");
-		pushBreak(headers, values, 'CORP', '─────────────────', crpMin, "crpMin");
-		startSec(headers, values, "corp", crpMin ? "none" : "inline");
-		pushCont(headers, values, "Name: ", '   ' + corp['name'], col.def);
-		pushCont(headers, values, "Funds: ", '   ' + ns.nFormat(corp['funds'], '$0,0'), col.money);
-		pushCont(headers, values, "Revenue: ", '   ' + ns.nFormat(corp['revenue'], '$0,0') + '/s', col.money);
-		pushCont(headers, values, "Expenses: ", '   ' + ns.nFormat(corp['expenses'], '$0,0') + '/s', col.money);
-		pushCont(headers, values, "Profit: ", '   ' + ns.nFormat(corp['revenue'] - corp['expenses'], '$0,0') + '/s', col.money);
-		pushCont(headers, values, "Shares: ", '   ' + ns.nFormat(corp['numShares'], '0,0') + ' / ' + ns.nFormat(corp['totalShares'], '0,0'), col.hak);
-		endSec(headers, values);
+			let corp = eval("ns.corporation.getCorporation()");
+			pushBreak(headers, values, 'CORP', '─────────────────', crpMin, "crpMin");
+			startSec(headers, values, "corp", crpMin ? "none" : "inline");
+			pushCont(headers, values, "Name: ", '   ' + corp['name'], col.def);
+			pushCont(headers, values, "Funds: ", '   ' + ns.nFormat(corp['funds'], '$0,0'), col.money);
+			pushCont(headers, values, "Revenue: ", '   ' + ns.nFormat(corp['revenue'], '$0,0') + '/s', col.money);
+			pushCont(headers, values, "Expenses: ", '   ' + ns.nFormat(corp['expenses'], '$0,0') + '/s', col.money);
+			pushCont(headers, values, "Profit: ", '   ' + ns.nFormat(corp['revenue'] - corp['expenses'], '$0,0') + '/s', col.money);
+			pushCont(headers, values, "Shares: ", '   ' + ns.nFormat(corp['numShares'], '0,0') + ' / ' + ns.nFormat(corp['totalShares'], '0,0'), col.hak);
+			endSec(headers, values);
 	  }
 	  // --------------------------------
 	  if (ns.getPlayer()['inBladeburner']) {
-		pushBreak(headers, values, 'BLADEBURNERS', '─────────────', bldMin, "bldMin");
-		startSec(headers, values, "blade", bldMin ? "none" : "inline");
-		pushCont(headers, values, "Rank: ", '   ' + ns.nFormat(ns.bladeburner.getRank(), '0,0'), col.cha);
-		let stm = ns.bladeburner.getStamina();
-		pushCont(headers, values, "Stamina: ", `   ${ns.nFormat(stm[0], '0,0.00')}/${ns.nFormat(stm[1], '0,0.00')} | ${ns.nFormat(stm[0] / stm[1], '0.000%')}`, col.sta);
-		if (ns.bladeburner.getCurrentAction()['type'] == "Idle") {
-		  pushCont(headers, values, "Action: ", '   ' + ns.bladeburner.getCurrentAction()['type'], col.sta);
-		} else {
-		  pushCont(headers, values, "Action: ", `   ${ns.bladeburner.getCurrentAction()['type']}: ${ns.bladeburner.getCurrentAction()['name']}`, col.hak);
-		}
-		pushCont(headers, values, "Skill Points: ", '   ' + ns.nFormat(ns.bladeburner.getSkillPoints(), '0,0'), col.hak);
-		pushCont(headers, values, "City: ", '   ' + ns.bladeburner.getCity(), col.def);
-		endSec(headers, values);
+			pushBreak(headers, values, 'BLADEBURNERS', '─────────────', bldMin, "bldMin");
+			startSec(headers, values, "blade", bldMin ? "none" : "inline");
+			pushCont(headers, values, "Rank: ", '   ' + ns.nFormat(ns.bladeburner.getRank(), '0,0'), col.cha);
+			let stm = ns.bladeburner.getStamina();
+			pushCont(headers, values, "Stamina: ", `   ${ns.nFormat(stm[0], '0,0.00')}/${ns.nFormat(stm[1], '0,0.00')} | ${ns.nFormat(stm[0] / stm[1], '0.000%')}`, col.sta);
+			if (ns.bladeburner.getCurrentAction()['type'] == "Idle") {
+				pushCont(headers, values, "Action: ", '   ' + ns.bladeburner.getCurrentAction()['type'], col.sta);
+			} else {
+				pushCont(headers, values, "Action: ", `   ${ns.bladeburner.getCurrentAction()['type']}: ${ns.bladeburner.getCurrentAction()['name']}`, col.hak);
+			}
+			pushCont(headers, values, "Skill Points: ", '   ' + ns.nFormat(ns.bladeburner.getSkillPoints(), '0,0'), col.hak);
+			pushCont(headers, values, "City: ", '   ' + ns.bladeburner.getCity(), col.def);
+			endSec(headers, values);
 	  }
 	  // --------------------------------
 	  pushBreak(headers, values, 'SERVER', '────────────────', srvMin, "srvMin");
@@ -123,7 +123,7 @@ export async function main(ns) {
 	  pushCont(headers, values, 'Home: ', "   Cores: " + ns.getServer('home')['cpuCores'] + " | Ram: " + ns.nFormat(ns.getServerUsedRam('home'), '0,0') + ' / ' + ns.nFormat(ns.getServerMaxRam('home'), '0,0'), col.hak);
 	  //addProgBar(headers, values, 'Ram: ', "rgb(17,17,17)", col.hak, ns.getServerUsedRam('home')/ns.getServerMaxRam('home'))
 	  for (let i = 0; i <= srvs.length - 1; i++) {
-		pushCont(headers, values, srvs[i] + ": ", "   Cores: " + ns.getServer(srvs[i])['cpuCores'] + " | Ram: " + ns.nFormat(ns.getServerUsedRam(srvs[i]), '0,0') + ' / ' + ns.nFormat(ns.getServerMaxRam(srvs[i]), '0,0'), col.hak);
+			pushCont(headers, values, srvs[i] + ": ", "   Cores: " + ns.getServer(srvs[i])['cpuCores'] + " | Ram: " + ns.nFormat(ns.getServerUsedRam(srvs[i]), '0,0') + ' / ' + ns.nFormat(ns.getServerMaxRam(srvs[i]), '0,0'), col.hak);
 	  }
 	  endSec(headers, values);
 	  // --------------------------------
@@ -175,22 +175,22 @@ function endSec(hed, val) {
 function createMin(dv, isMin, cVar) {
   dv.slice(0, -4);
   if (isMin) {
-	dv += ` <a style="cursor: pointer;" onclick="${cVar} = !${cVar}"></a> ─`;
+		dv += ` <a style="cursor: pointer;" onclick="${cVar} = !${cVar}"></a> ─`;
   } else {
-	dv += ` <a style="cursor: pointer;" onclick="${cVar} = !${cVar}"></a> ─`;
+		dv += ` <a style="cursor: pointer;" onclick="${cVar} = !${cVar}"></a> ─`;
   }
   return dv;
 }
 
 function createGlobalScript(id, script) {
   if (document.getElementById(id) == null) {
-	let s = document.createElement("script");
-	s.id = id;
-	s.innerHTML = script;
-	document.head.appendChild(s);
+		let s = document.createElement("script");
+		s.id = id;
+		s.innerHTML = script;
+		document.head.appendChild(s);
   } else {
-	console.log("WARN: Script with that ID already exists! overwriting current!");
-	document.getElementById(id).innerHTML = script;
+		console.log("WARN: Script with that ID already exists! overwriting current!");
+		document.getElementById(id).innerHTML = script;
   }
 }
 
