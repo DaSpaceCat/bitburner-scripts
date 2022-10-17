@@ -162,8 +162,9 @@ export async function main(ns) {
 		pushBreak(headers, values, 'SCRIPT RUNNERS', '────────────', runMin, "runMin", 'srcr');
 		let buttonCSS = `transition: all 0.2s; display: inline; width: 90%; background-color: rgba(0,0,0,0); color: ${col.hak}; cursor: pointer;`
 		startSec(headers, values, 'srcr', runMin ? "none" : "inline");
-		pushCont(headers, values, "Breach: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = '/xsink/breach.js'">Root every server you can.</button>`, col.hak)
-		pushCont(headers, values, "Matrix: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = '/ui/matrix.js'">Create a Matrix background.</button>`, col.hak)
+		pushCont(headers, values, "Breach: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/xsink/breach.js', false]">Root every server you can.</button>`, col.hak)
+		pushCont(headers, values, "Matrix: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/ui/matrix.js', false]">Create a Matrix background.</button>`, col.hak)
+		pushCont(headers, values, "Map: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/mapt.js', true]">Show a map of all servers.</button>`, col.hak)
 		endSec(headers, values);
 	  pushContE(headers ,values, "╰─ CUSTOM STATS ", "────────────────────────────────────────────╯", col.def)
 	  hook0.innerHTML = headers.join(" \n");
