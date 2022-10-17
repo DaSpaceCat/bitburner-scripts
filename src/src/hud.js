@@ -81,8 +81,7 @@ export async function main(ns) {
 	  pushCont(headers, values, "Str | Def: ", '   ' + ns.nFormat(ns.getPlayer()['exp']['strength'], '0,0') + ' | ' + ns.nFormat(ns.getPlayer()['exp']['defense'], '0,0'), col.sta);
 	  pushCont(headers, values, "Dex | Agi: ", '   ' + ns.nFormat(ns.getPlayer()['exp']['dexterity'], '0,0') + ' | ' + ns.nFormat(ns.getPlayer()['exp']['agility'], '0,0'), col.sta);
 	  pushCont(headers, values, "Charisma: ", '   ' + ns.nFormat(ns.getPlayer()['exp']['charisma'], '0,0'), col.cha);
-	  /*headers.push('Intelligence: ')
-	  values.push('   ' + ns.nFormat(ns.getPlayer()['exp']['intelligence'], '0,0'));*/
+	  //pushCont(headers, values, 'Intelligence: ', '   ' + ns.nFormat(ns.getPlayer()['exp']['intelligence'], '0,0'), col.def);
 	  endSec(headers, values);
 	  // --------------------------------
 	  if (ns.gang.inGang()) {
@@ -152,7 +151,7 @@ export async function main(ns) {
 	  }
 	  endSec(headers, values);
 	  // --------------------------------
-	  pushBreak(headers, values, 'PLAYTIME', '───────────────', pltMin, "pltMin", 'platt');
+	  pushBreak(headers, values, 'PLAYTIME', '───────────────', pltMin, "pltMin", 'playt');
 	  startSec(headers, values, "playt", pltMin ? "none" : "inline");
 	  pushCont(headers, values, `BN${ns.getPlayer()['bitNodeN']}: `, ns.tFormat(ns.getPlayer()['playtimeSinceLastBitnode']), col.def);
 	  pushCont(headers, values, 'Total: ', ns.tFormat(ns.getPlayer()['totalPlaytime']), col.def);
@@ -177,7 +176,7 @@ export async function main(ns) {
 }
 
 //min is the boolean passed, minVar is the boolean var name passed as a string
-function pushBreak(hed, val, sec, dv, min, minVar) {
+function pushBreak(hed, val, sec, dv, min, minVar, cls) {
   hed.push(`<span style="color: ${col.def}">├───────────────</span><br>`)
   val.push(`<span style="color: ${col.def}">${dv} <span style="color: ${col.hak}">${sec}</span> ${createMin(dv, min, minVar, cls)}┤</span><br>`)
 }
