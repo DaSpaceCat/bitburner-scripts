@@ -17,13 +17,15 @@ export async function main(ns) {
   let srvs = ns.args;
   let gVars = `const ovvMin = function(cls) {
 		let els = document.getElementsByClassName(cls);
-		for (let i=0; i < els.length-1; i++) {els[i].style.display = "hidden"}
+		for (let i=0; i < els.length; i++) {els[i].style.display = "hidden"}
 		document.getElementById(cls).innerHTML = "";
+		document.getElementByID(cls).onclick = ` + "`ovvMax(${cls})`" + `
 	}
 	const ovvMax = function(cls) {
 		let els = document.getElementsByClassName(cls);
-		for (let i=0; i < els.length-1; i++) {els[i].style.display = "inline"}
+		for (let i=0; i < els.length; i++) {els[i].style.display = "inline"}
 		document.getElementById(cls).innerHTML = "";
+		document.getElementById(cls).onclick = ` + "`ovvMin('${cls}')`" + `
 	}
 	let crmMin = false;
   let monMin = false;
@@ -207,9 +209,9 @@ function endSec(hed, val) {
 function createMin(dv, isMin, cVar, id) {
   dv.slice(0, -4);
   if (isMin) {
-		dv += ` <a id="${id}" style="cursor: pointer;" onclick="${cVar} = !${cVar}; ovvMax(${id})"></a> ─`;
+		dv += ` <a id="${id}" style="cursor: pointer;" onclick="${cVar} = !${cVar}; ovvMax('${id}')"></a> ─`;
   } else {
-		dv += ` <a id="${id}" style="cursor: pointer;" onclick="${cVar} = !${cVar}; ovvMin(${id})"></a> ─`;
+		dv += ` <a id="${id}" style="cursor: pointer;" onclick="${cVar} = !${cVar}; ovvMin('${id}')"></a> ─`;
   }
   return dv;
 }
