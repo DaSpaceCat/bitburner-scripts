@@ -21,9 +21,15 @@ export async function main(ns) {
   let crpMin = false;
   let bldMin = false;
   let srvMin = false;
-  let pltMin = false;`
+  let pltMin = false;
+	let runMin = false;
+	let nsgRun = null;
+	let toRun;`
+	let sty = `.scrRun:hover {background-color: ${col.hak}; color: ${col.def}}`
+	createGlobalStyle("hudSty", sty)
   createGlobalScript("hudMins", gVars);
-  while (true) {
+	ns.run("/src/nsg.js");
+	while (true) {
 	ovv.style.borderRadius = "10px";
 	ovv.style.backgroundColor = "rgba(33,37,43,0.8)";
 	ovv.style.backdropFilter = "blur(1px)";
@@ -132,9 +138,17 @@ export async function main(ns) {
 	  pushCont(headers, values, `BN${ns.getPlayer()['bitNodeN']}: `, ns.tFormat(ns.getPlayer()['playtimeSinceLastBitnode']), col.def);
 	  pushCont(headers, values, 'Total: ', ns.tFormat(ns.getPlayer()['totalPlaytime']), col.def);
 	  endSec(headers, values);
+		// --------------------------------
+		pushBreak(headers, values, 'SCRIPT RUNNERS', '────────────', runMin, "runMin");
+		let buttonCSS = `transition: all 0.2s; display: inline; width: 90%; background-color: rgba(0,0,0,0); color: ${col.hak}; cursor: pointer;`
+		startSec(headers, values, 'srcr', runMin ? "none" : "inline");
+		pushCont(headers, values, "Breach: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = '/xsink/breach.js'">Root every server you can.</button>`, col.hak)
+		pushCont(headers, values, "Matrix: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = '/ui/matrix.js'">Create a Matrix background.</button>`, col.hak)
+		endSec(headers, values);
 	  pushContE(headers ,values, "╰─ CUSTOM STATS ", "────────────────────────────────────────────╯", col.def)
 	  hook0.innerHTML = headers.join(" \n");
 	  hook1.innerHTML = values.join("\n");
+		ns.print(doc.getElementById('hudMins'));
 	}
 	catch (err) {
 	  ns.print("ERROR: Update Skipped: " + String(err));
@@ -162,8 +176,8 @@ function pushContE(hed, val, tp, cont, col) {
 
 //dsp should either be "none" or "inline"
 function startSec(hed, val, clas, dsp) {
-  hed.push(`<div class="${class}" style="display: ${dsp}">`)
-  val.push(`<div class="${class}" style="display: ${dsp}">`)
+  hed.push(`<div class="${clas}" style="display: ${dsp}">`)
+  val.push(`<div class="${clas}" style="display: ${dsp}">`)
 }
 
 function endSec(hed, val) {
@@ -183,15 +197,30 @@ function createMin(dv, isMin, cVar) {
 }
 
 function createGlobalScript(id, script) {
-  if (document.getElementById(id) == null) {
-		let s = document.createElement("script");
+	let doc = eval("document")
+  if (doc.getElementById(id) == null) {
+		let s = doc.createElement("script");
 		s.id = id;
 		s.innerHTML = script;
-		document.head.appendChild(s);
+		doc.head.appendChild(s);
   } else {
 		console.log("WARN: Script with that ID already exists! overwriting current!");
-		document.getElementById(id).innerHTML = script;
+		doc.getElementById(id).innerHTML = script;
   }
+}
+
+function createGlobalStyle(id, style) {
+	let doc = eval("document")
+  if (doc.getElementById(id) == null) {
+		let s = doc.createElement("style");
+		s.id = id;
+		s.innerHTML = style;
+		doc.head.appendChild(s);
+  } else {
+		console.log("WARN: Style with that ID already exists! overwriting current!");
+		doc.getElementById(id).innerHTML = style;
+  }
+
 }
 
 /*function addProgBar(hed, val, dv, bg, fg, pc) {
