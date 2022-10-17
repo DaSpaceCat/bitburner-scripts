@@ -4,7 +4,8 @@ const col = {
   def: "#FFFFFF",
   hak: "#98c379",
   sta: "#abb2bf",
-  cha: "#c678dd"
+  cha: "#c678dd",
+	hp: "#E06C75"
 }
 let gMinPID;
 /** @param {NS} ns */
@@ -19,7 +20,7 @@ export async function main(ns) {
 		let els = document.getElementsByClassName(cls);
 		for (let i=0; i < els.length; i++) {els[i].style.display = "hidden"}
 		document.getElementById(cls).innerHTML = "";
-		document.getElementByID(cls).onclick = ` + "`ovvMax(${cls})`" + `
+		document.getElementById(cls).onclick = ` + "`ovvMax(${cls})`" + `
 	}
 	const ovvMax = function(cls) {
 		let els = document.getElementsByClassName(cls);
@@ -59,7 +60,7 @@ export async function main(ns) {
 	  pushBreak(headers, values, 'CRIMES', '────────────────', crmMin, "crmMin", 'crime');
 	  startSec(headers, values, "crime", crmMin ? "none" : "inline");
 	  pushCont(headers, values, "Total Karma: ", '   ' + ns.nFormat(ns.heart.break(), '0,0'), col.cha);
-	  pushCont(headers, values, "People Killed: ", '   ' + ns.nFormat(ns.getPlayer()['numPeopleKilled'], '0,0'), col.cha);
+	  pushCont(headers, values, "People Killed: ", '   ' + ns.nFormat(ns.getPlayer()['numPeopleKilled'], '0,0'), col.hp);
 	  endSec(headers, values);
 	  // --------------------------------
 	  pushBreak(headers, values, 'MONEY & PROFIT', '────────────', monMin, "monMin", 'money');
@@ -94,16 +95,16 @@ export async function main(ns) {
 			}
 			let gangType = (ns.gang.getGangInformation()['isHacking']) ? "Hacking" : "Combat";
 			pushCont(headers, values, "Faction: ", '   ' + ns.gang.getGangInformation()['faction'] + ', ' + gangType, col.def);	
-			pushCont(headers, values, "Respect: ", '   ' + ns.nFormat(ns.gang.getGangInformation()['respect'], '0,0'), col.sta);
+			pushCont(headers, values, "Respect: ", '   ' + ns.nFormat(ns.gang.getGangInformation()['respect'], '0,0'), col.cha);
 			if (ns.gang.getGangInformation()['power'] > 1) {
-				pushCont(headers, values, "Power: ", '   ' + ns.nFormat(ns.gang.getGangInformation()['power'], '0,0.00'), col.sta);
+				pushCont(headers, values, "Power: ", '   ' + ns.nFormat(ns.gang.getGangInformation()['power'], '0,0.00'), col.hp);
 			}
-			pushCont(headers, values, "Territory: ", '   ' + ns.nFormat(ns.gang.getGangInformation()['territory'], '0.000%'), col.cha);
+			pushCont(headers, values, "Territory: ", '   ' + ns.nFormat(ns.gang.getGangInformation()['territory'], '0.000%'), col.hp);
 			if (ns.gang.getGangInformation()['wantedLevel'] > 1) {
 				pushCont(headers, values, "Wanted Level: ", '   ' + ns.nFormat(ns.gang.getGangInformation()['wantedLevel'], '0,0'), col.cha);
 			}
 			if (ns.gang.getGangInformation()['territoryClashChance'] > 0) {
-				pushCont(headers, values, "Clash Chance: ", '   ' + ns.nFormat(ns.gang.getGangInformation()['territoryClashChance'], '0.0%') + ' / ' + ((ns.gang.getGangInformation()['territoryWarfareEngaged']) ? "" : ""), col.cha);
+				pushCont(headers, values, "Clash Chance: ", '   ' + ns.nFormat(ns.gang.getGangInformation()['territoryClashChance'], '0.0%') + ' / ' + ((ns.gang.getGangInformation()['territoryWarfareEngaged']) ? "" : ""), col.hp);
 			}
 			endSec(headers, values);
 	  }
@@ -133,14 +134,14 @@ export async function main(ns) {
 			}
 			pushCont(headers, values, "Rank: ", '   ' + ns.nFormat(ns.bladeburner.getRank(), '0,0'), col.cha);
 			let stm = ns.bladeburner.getStamina();
-			pushCont(headers, values, "Stamina: ", `   ${ns.nFormat(stm[0], '0,0.00')}/${ns.nFormat(stm[1], '0,0.00')} | ${ns.nFormat(stm[0] / stm[1], '0.000%')}`, col.sta);
+			pushCont(headers, values, "Stamina: ", `   ${ns.nFormat(stm[0], '0,0.00')}/${ns.nFormat(stm[1], '0,0.00')} | ${ns.nFormat(stm[0] / stm[1], '0.000%')}`, col.hp);
 			if (ns.bladeburner.getCurrentAction()['type'] == "Idle") {
 				pushCont(headers, values, "Action: ", '   ' + ns.bladeburner.getCurrentAction()['type'], col.sta);
 			} else {
 				pushCont(headers, values, "Action: ", `   ${ns.bladeburner.getCurrentAction()['type']}: ${ns.bladeburner.getCurrentAction()['name']}`, col.hak);
 			}
 			pushCont(headers, values, "Skill Points: ", '   ' + ns.nFormat(ns.bladeburner.getSkillPoints(), '0,0'), col.hak);
-			pushCont(headers, values, "City: ", '   ' + ns.bladeburner.getCity(), col.def);
+			pushCont(headers, values, "City: ", '   ' + ns.bladeburner.getCity(), col.sta);
 			endSec(headers, values);
 	  }
 	  // --------------------------------

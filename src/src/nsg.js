@@ -1,9 +1,9 @@
 export async function main(ns) {
-  nsgRun = function (scr) {
+  /*nsgRun = function (scr) {
 	  toRun = scr;
-	}
+	}*/
 	async function run() {
-		if (toRun[0] != undefined) {
+		if (toRun != undefined) {
 			ns.run(toRun[0]);
 			if (toRun[1]) {
 				ns.tail(toRun[0]);
