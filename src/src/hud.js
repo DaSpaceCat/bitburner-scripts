@@ -6,6 +6,7 @@ const col = {
   sta: "#abb2bf",
   cha: "#c678dd"
 }
+let gMinPID;
 /** @param {NS} ns */
 /** @param {import(".").NS} ns */
 export async function main(ns) {
@@ -14,7 +15,17 @@ export async function main(ns) {
   const hook1 = doc.getElementById('overview-extra-hook-1');
   const ovv = doc.getElementsByClassName('MuiPaper-root')[0];
   let srvs = ns.args;
-  let gVars = `let crmMin = false;
+  let gVars = `const ovvMin = function(cls) {
+		let els = document.getElementsByClassName(cls);
+		for (let i=0; i < els.length-1; i++) {els[i].style.display = "hidden"}
+		document.getElementById(cls).innerHTML = "";
+	}
+	const ovvMax = function(cls) {
+		let els = document.getElementsByClassName(cls);
+		for (let i=0; i < els.length-1; i++) {els[i].style.display = "inline"}
+		document.getElementById(cls).innerHTML = "";
+	}
+	let crmMin = false;
   let monMin = false;
   let sklMin = false;
   let gngMin = false;
@@ -28,7 +39,7 @@ export async function main(ns) {
 	let sty = `.scrRun:hover {background-color: ${col.hak}; color: ${col.def}}`
 	createGlobalStyle("hudSty", sty)
   createGlobalScript("hudMins", gVars);
-	ns.run("/src/nsg.js");
+	gMinPID = ns.run("/src/nsg.js");
 	while (true) {
 	ovv.style.borderRadius = "10px";
 	ovv.style.backgroundColor = "rgba(33,37,43,0.8)";
@@ -36,19 +47,20 @@ export async function main(ns) {
 	ovv.style.border = "none";
 	ovv.style.boxShadow = "5px 5px 10px rgba(0,0,0,0.5)"
 	ovv.style.zIndex = "99999999";
+	//ns.atExit(function () {ns.kill(gMinPID);});
 	try {
 	  const headers = [];
 	  const values = [];
 	  pushContE(headers ,values, "╭─ CUSTOM STATS ", "────────────────────────────────────────────╮", col.def)
 	  pushCont(headers, values, "In: " + ns.getPlayer()['city'], "At: " + ns.getPlayer()['location'], col.def);
 	  // --------------------------------
-	  pushBreak(headers, values, 'CRIMES', '────────────────', crmMin, "crmMin");
+	  pushBreak(headers, values, 'CRIMES', '────────────────', crmMin, "crmMin", 'crime');
 	  startSec(headers, values, "crime", crmMin ? "none" : "inline");
 	  pushCont(headers, values, "Total Karma: ", '   ' + ns.nFormat(ns.heart.break(), '0,0'), col.cha);
 	  pushCont(headers, values, "People Killed: ", '   ' + ns.nFormat(ns.getPlayer()['numPeopleKilled'], '0,0'), col.cha);
 	  endSec(headers, values);
 	  // --------------------------------
-	  pushBreak(headers, values, 'MONEY & PROFIT', '────────────', monMin, "monMin");
+	  pushBreak(headers, values, 'MONEY & PROFIT', '────────────', monMin, "monMin", 'money');
 	  startSec(headers, values, "money", monMin ? "none" : "inline");
 	  pushCont(headers, values, "Money: ", '   ' + ns.nFormat(ns.getPlayer()['money'], '$0,0'), col.money);
 	  if (ns.gang.inGang()) {
@@ -63,7 +75,7 @@ export async function main(ns) {
 	  }*/
 	  endSec(headers, values);
 	  // --------------------------------
-	  pushBreak(headers, values, 'SKILL EXPERIENCE', '───────────', sklMin, "sklMin");
+	  pushBreak(headers, values, 'SKILL EXPERIENCE', '───────────', sklMin, "sklMin", 'skill');
 	  startSec(headers, values, "skill", sklMin ? "none" : "inline");
 	  pushCont(headers, values, "Hacking: ", '   ' + ns.nFormat(ns.getPlayer()['exp']['hacking'], '0,0'), col.hak);
 	  pushCont(headers, values, "Str | Def: ", '   ' + ns.nFormat(ns.getPlayer()['exp']['strength'], '0,0') + ' | ' + ns.nFormat(ns.getPlayer()['exp']['defense'], '0,0'), col.sta);
@@ -74,7 +86,7 @@ export async function main(ns) {
 	  endSec(headers, values);
 	  // --------------------------------
 	  if (ns.gang.inGang()) {
-			pushBreak(headers, values, 'GANG', '─────────────────', gngMin, "gngMin");
+			pushBreak(headers, values, 'GANG', '─────────────────', gngMin, "gngMin", 'gang');
 			startSec(headers, values, "gang", gngMin ? "none" : "inline");
 			if (ns.gang.getBonusTime() > 3000) {
 				pushCont(headers, values, "Bonus Time: ", '   ' + ns.tFormat(ns.gang.getBonusTime()), col.hak);
@@ -97,8 +109,12 @@ export async function main(ns) {
 	  // --------------------------------
 	  if (ns.getPlayer()['hasCorporation']) {
 			let corp = eval("ns.corporation.getCorporation()");
-			pushBreak(headers, values, 'CORP', '─────────────────', crpMin, "crpMin");
+			let bTime = eval("ns.corporation.getBonusTime()")
+			pushBreak(headers, values, 'CORP', '─────────────────', crpMin, "crpMin", 'corp');
 			startSec(headers, values, "corp", crpMin ? "none" : "inline");
+			if (bTime > 3000) {
+				pushCont(headers, values, "Bonus Time: ", `   ${ns.tFormat(bTime)}`, col.hak);
+			}
 			pushCont(headers, values, "Name: ", '   ' + corp['name'], col.def);
 			pushCont(headers, values, "Funds: ", '   ' + ns.nFormat(corp['funds'], '$0,0'), col.money);
 			pushCont(headers, values, "Revenue: ", '   ' + ns.nFormat(corp['revenue'], '$0,0') + '/s', col.money);
@@ -109,8 +125,11 @@ export async function main(ns) {
 	  }
 	  // --------------------------------
 	  if (ns.getPlayer()['inBladeburner']) {
-			pushBreak(headers, values, 'BLADEBURNERS', '─────────────', bldMin, "bldMin");
+			pushBreak(headers, values, 'BLADEBURNERS', '─────────────', bldMin, "bldMin", 'blade');
 			startSec(headers, values, "blade", bldMin ? "none" : "inline");
+			if (ns.bladeburner.getBonusTime > 3000) {
+				pushCont(headers, values, "Bonus Time: ", `   ${ns.tFormat(ns.bladeburner.getBonusTime())}`, col.hak)
+			}
 			pushCont(headers, values, "Rank: ", '   ' + ns.nFormat(ns.bladeburner.getRank(), '0,0'), col.cha);
 			let stm = ns.bladeburner.getStamina();
 			pushCont(headers, values, "Stamina: ", `   ${ns.nFormat(stm[0], '0,0.00')}/${ns.nFormat(stm[1], '0,0.00')} | ${ns.nFormat(stm[0] / stm[1], '0.000%')}`, col.sta);
@@ -124,7 +143,7 @@ export async function main(ns) {
 			endSec(headers, values);
 	  }
 	  // --------------------------------
-	  pushBreak(headers, values, 'SERVER', '────────────────', srvMin, "srvMin");
+	  pushBreak(headers, values, 'SERVER', '────────────────', srvMin, "srvMin", 'server');
 	  startSec(headers, values, "server", srvMin ? "none" : "inline");
 	  pushCont(headers, values, 'Home: ', "   Cores: " + ns.getServer('home')['cpuCores'] + " | Ram: " + ns.nFormat(ns.getServerUsedRam('home'), '0,0') + ' / ' + ns.nFormat(ns.getServerMaxRam('home'), '0,0'), col.hak);
 	  //addProgBar(headers, values, 'Ram: ', "rgb(17,17,17)", col.hak, ns.getServerUsedRam('home')/ns.getServerMaxRam('home'))
@@ -133,13 +152,13 @@ export async function main(ns) {
 	  }
 	  endSec(headers, values);
 	  // --------------------------------
-	  pushBreak(headers, values, 'PLAYTIME', '───────────────', pltMin, "pltMin");
+	  pushBreak(headers, values, 'PLAYTIME', '───────────────', pltMin, "pltMin", 'platt');
 	  startSec(headers, values, "playt", pltMin ? "none" : "inline");
 	  pushCont(headers, values, `BN${ns.getPlayer()['bitNodeN']}: `, ns.tFormat(ns.getPlayer()['playtimeSinceLastBitnode']), col.def);
 	  pushCont(headers, values, 'Total: ', ns.tFormat(ns.getPlayer()['totalPlaytime']), col.def);
 	  endSec(headers, values);
 		// --------------------------------
-		pushBreak(headers, values, 'SCRIPT RUNNERS', '────────────', runMin, "runMin");
+		pushBreak(headers, values, 'SCRIPT RUNNERS', '────────────', runMin, "runMin", 'srcr');
 		let buttonCSS = `transition: all 0.2s; display: inline; width: 90%; background-color: rgba(0,0,0,0); color: ${col.hak}; cursor: pointer;`
 		startSec(headers, values, 'srcr', runMin ? "none" : "inline");
 		pushCont(headers, values, "Breach: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = '/xsink/breach.js'">Root every server you can.</button>`, col.hak)
@@ -160,7 +179,7 @@ export async function main(ns) {
 //min is the boolean passed, minVar is the boolean var name passed as a string
 function pushBreak(hed, val, sec, dv, min, minVar) {
   hed.push(`<span style="color: ${col.def}">├───────────────</span><br>`)
-  val.push(`<span style="color: ${col.def}">${dv} <span style="color: ${col.hak}">${sec}</span> ${createMin(dv, min, minVar)}┤</span><br>`)
+  val.push(`<span style="color: ${col.def}">${dv} <span style="color: ${col.hak}">${sec}</span> ${createMin(dv, min, minVar, cls)}┤</span><br>`)
 }
 
 function pushCont(hed, val, tp, cont, col) {
@@ -186,12 +205,12 @@ function endSec(hed, val) {
 }
 
 //cVar should be a STRING that is the variable
-function createMin(dv, isMin, cVar) {
+function createMin(dv, isMin, cVar, id) {
   dv.slice(0, -4);
   if (isMin) {
-		dv += ` <a style="cursor: pointer;" onclick="${cVar} = !${cVar}"></a> ─`;
+		dv += ` <a id="${id}" style="cursor: pointer;" onclick="${cVar} = !${cVar}; ovvMax(${id})"></a> ─`;
   } else {
-		dv += ` <a style="cursor: pointer;" onclick="${cVar} = !${cVar}"></a> ─`;
+		dv += ` <a id="${id}" style="cursor: pointer;" onclick="${cVar} = !${cVar}; ovvMin(${id})"></a> ─`;
   }
   return dv;
 }
