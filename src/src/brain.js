@@ -32,8 +32,8 @@ let doc = eval("document");
 export async function main(ns) {
 	let instance = ns.args[2];
 	let cycles = 0;
-	const hook0 = doc.getElementById('overview-extra-hook-0');
-	const hook1 = doc.getElementById('overview-extra-hook-1');
+	const hook0 = doc.getElementById('scriptContent-hook-0');
+	const hook1 = doc.getElementById('scriptContent-hook-1');
 	let hs = ns.args[0];
 	let ram = ns.args[1];
 	//let coH = Math.floor((ram/3)/1.6);
