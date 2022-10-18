@@ -75,8 +75,6 @@ const col = {
 	cha: "#c678dd",
 	hp: "#E06C75"
 }
-
-let scriptContent = false;
 /** @param {NS} ns */
 /** @param {import(".").NS} ns */
 export async function main(ns) {
@@ -113,6 +111,7 @@ export async function main(ns) {
 	let cusMin = false;
 	let nsgRun = null;
 	let toRun;
+	let scriptContent = false;
 	let sleeveDo = {action: undefined, task: undefined};`
 	let sty = `.scrRun:hover {background-color: ${col.hak}; color: ${col.def}}
 	.ovvMin:hover {color: ${col.hak}}`
