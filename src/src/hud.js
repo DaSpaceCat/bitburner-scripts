@@ -47,7 +47,7 @@ export async function main(ns) {
 	let nsgRun = null;
 	let toRun;
 	let sleeveDo = {action: undefined, task: undefined};`
-	let sty = `.scrRun:hover {background-color: ${col.hak}; color: ${col.def}}`
+	let sty = `.scrRun:hover {background-color: ${col.hak}; color: ${col.def}} .ovvMin:hover {color: ${col.hak}}`
 	createGlobalStyle("hudSty", sty)
 	createGlobalScript("hudMins", gVars);
 	gMinPID = ns.run("/src/nsg.js");
@@ -121,16 +121,20 @@ export async function main(ns) {
 				let action = ns.sleeve.getTask(i);
 				let stat = ns.sleeve.getSleeveStats(i)
 				let hp = {cur: ns.sleeve.getInformation(i).hp.current, max: ns.sleeve.getInformation(i).hp.max}
-				switch (action.type) {
-					case "CRIME":
-						pushCont(headers, values, ` <span style="color: ${col.def};">│</span> Action: `, `Crime, ${action.crimeType}`, col.hak)
-						break;
-					case "FACTION":
-						pushCont(headers, values, ` <span style="color: ${col.def};">│</span> Action: `, `Faction Work for ${action.factionName}: ${action.factionWorkType}`, col.hak)
-						break;
-					case undefined:
-						pushCont(headers, values, ` <span style="color: ${col.def};">│</span> Action: `, `Bladeburner: ${action.actionType}: ${action.actionName}`, col.hak);
-						break;
+				if (action != null) {
+					switch (action.type) {
+						case "CRIME":
+							pushCont(headers, values, ` <span style="color: ${col.def};">│</span> Action: `, `Crime, ${action.crimeType}`, col.hak)
+							break;
+						case "FACTION":
+							pushCont(headers, values, ` <span style="color: ${col.def};">│</span> Action: `, `Faction Work for ${action.factionName}: ${action.factionWorkType}`, col.hak)
+							break;
+						case undefined:
+							pushCont(headers, values, ` <span style="color: ${col.def};">│</span> Action: `, `Bladeburner: ${action.actionType}: ${action.actionName}`, col.hak);
+							break;
+					}
+				} else {
+					pushCont(headers, values, ` <span style="color: ${col.def};">│</span> Action: `, `Idle`, col.sta)
 				}
 				pushCont(headers, values, ` <span style="color: ${col.def};">│ </span>Health: `, `${ns.nFormat(hp.cur, '0,0')} / ${ns.nFormat(hp.max, '0,0')} | ${ns.nFormat(hp.cur/hp.max, '0.00%')}`, col.hp);
 				pushCont(headers, values, ` <span style="color: ${col.def};">│ </span>Hack: `, `${ns.nFormat(stat.hacking, '0,0')}`, col.hak);
@@ -299,9 +303,9 @@ function endSec(hed, val) {
 function createMin(dv, isMin, cVar, id) {
 	dv.slice(0, -4);
 	if (isMin) {
-		dv += ` <a id="${id}" style="cursor: pointer;" onclick="${cVar} = !${cVar}; ovvMax('${id}')"></a> ─`;
+		dv += ` <a class="ovvMin" id="${id}" style="cursor: pointer; transition: all .2s;" onclick="${cVar} = !${cVar}; ovvMax('${id}')"></a> ─`;
 	} else {
-		dv += ` <a id="${id}" style="cursor: pointer;" onclick="${cVar} = !${cVar}; ovvMin('${id}')"></a> ─`;
+		dv += ` <a class="ovvMin" id="${id}" style="cursor: pointer; transition: all .2s;" onclick="${cVar} = !${cVar}; ovvMin('${id}')"></a> ─`;
 	}
 	return dv;
 }
