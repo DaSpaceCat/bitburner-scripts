@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /** @param {NS} ns */
 /*
 this script is called with [server name], [ram usable (in gigabytes)], and [instance] (starts at 0)
@@ -34,6 +35,7 @@ export async function main(ns) {
 	let cycles = 0;
 	const hook0 = doc.getElementById('scriptContent-hook-0');
 	const hook1 = doc.getElementById('scriptContent-hook-1');
+	if (instance == 0) scriptContent = true;
 	let hs = ns.args[0];
 	let ram = ns.args[1];
 	//let coH = Math.floor((ram/3)/1.6);
