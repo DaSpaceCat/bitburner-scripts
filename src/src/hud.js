@@ -36,6 +36,7 @@ export async function main(ns) {
 	let crmMin = false;
 	let monMin = false;
 	let sklMin = false;
+	let slvMin = true;
 	let gngMin = false;
 	let crpMin = false;
 	let bldMin = false;
@@ -44,11 +45,13 @@ export async function main(ns) {
 	let runMin = false;
 	let cusMin = false;
 	let nsgRun = null;
-	let toRun;`
+	let toRun;
+	let sleeveDo = {action: undefined, task: undefined};`
 	let sty = `.scrRun:hover {background-color: ${col.hak}; color: ${col.def}}`
 	createGlobalStyle("hudSty", sty)
 	createGlobalScript("hudMins", gVars);
 	gMinPID = ns.run("/src/nsg.js");
+	let buttonCSS = `transition: all 0.2s; display: inline; width: 90%; background-color: rgba(0,0,0,0); cursor: pointer;`
 	while (true) {
 		ovv.style.borderRadius = "10px";
 		ovv.style.backgroundColor = "rgba(33,37,43,0.8)";
@@ -70,7 +73,7 @@ export async function main(ns) {
 			const values = [];
 			pushContE(headers ,values, "╭───────────────", "────────────────────────────────────────────╮", col.def)
 			pushCont(headers, values, "In: " + ns.getPlayer()['city'], "At: " + ns.getPlayer()['location'], col.def);
-			pushCont(headers, values, "Health: ", `   ${ns.nFormat(ns.getPlayer().hp.current, '0,0')} / ${ns.nFormat(ns.getPlayer().hp.max, '0,0')}`, col.hp)
+			pushCont(headers, values, "Health: ", `   ${ns.nFormat(ns.getPlayer().hp.current, '0,0')} / ${ns.nFormat(ns.getPlayer().hp.max, '0,0')} | ${ns.nFormat(ns.getPlayer().hp.current/ns.getPlayer().hp.max, '0.000%')}`, col.hp)
 			// --------------------------------
 			pushBreak(headers, values, 'LEVELS', '────────────────', lvlMin, "lvlMin", 'levels');
 			startSec(headers, values, "levels", lvlMin ? "none" : "inline");
@@ -108,6 +111,34 @@ export async function main(ns) {
 			headers.push('Hashes: ');
 				values.push(' ' + ns.hacknet.numHashes().toPrecision(3) + ' / ' + ns.hacknet.hashCapacity().toPrecision(3));
 			}*/
+			endSec(headers, values);
+			// --------------------------------
+			pushBreak(headers, values, 'SLEEVE', '────────────────', slvMin, "slvMin", 'sleeve')
+			startSec(headers, values, "sleeve", slvMin ? "none" : "inline");
+			//sleeves are quite the beast
+			for (let i = 0; i < ns.sleeve.getNumSleeves(); i++) {
+				pushCont(headers, values, `Sleeve ${i}:`, `Shock: ${ns.nFormat(ns.sleeve.getSleeveStats(i).shock, '0.000%')} | Sync: ${ns.nFormat(ns.sleeve.getSleeveStats(i).sync / 100, '0.00%')}`, col.def)
+				let action = ns.sleeve.getTask(i);
+				let stat = ns.sleeve.getSleeveStats(i)
+				let hp = {cur: ns.sleeve.getInformation(i).hp.current, max: ns.sleeve.getInformation(i).hp.max}
+				switch (action.type) {
+					case "CRIME":
+						pushCont(headers, values, ` <span style="color: ${col.def};">│</span> Action: `, `Crime, ${action.crimeType}`, col.hak)
+						break;
+					case "FACTION":
+						pushCont(headers, values, ` <span style="color: ${col.def};">│</span> Action: `, `Faction Work for ${action.factionName}: ${action.factionWorkType}`, col.hak)
+						break;
+					case undefined:
+						pushCont(headers, values, ` <span style="color: ${col.def};">│</span> Action: `, `Bladeburner: ${action.actionType}: ${action.actionName}`, col.hak);
+						break;
+				}
+				pushCont(headers, values, ` <span style="color: ${col.def};">│ </span>Health: `, `${ns.nFormat(hp.cur, '0,0')} / ${ns.nFormat(hp.max, '0,0')} | ${ns.nFormat(hp.cur/hp.max, '0.00%')}`, col.hp);
+				pushCont(headers, values, ` <span style="color: ${col.def};">│ </span>Hack: `, `${ns.nFormat(stat.hacking, '0,0')}`, col.hak);
+				pushCont(headers, values, ` <span style="color: ${col.def};">│ </span>Str/Def: `, `${ns.nFormat(stat.strength, '0,0')}/${ns.nFormat(stat.defense, '0,0')}`, col.sta);
+				pushCont(headers, values, ` <span style="color: ${col.def};">│ </span>Dex/Agi: `, `${ns.nFormat(stat.dexterity, '0,0')}/${ns.nFormat(stat.agility, '0,0')}`, col.sta);
+				pushCont(headers, values, ` ╰─────────────`, `────────────────────────────────────────────`, col.def)
+			}
+			pushCont(headers, values, "quikMurder:", `<span class="gngRun" style="${buttonCSS}" onclick="sleeveDo.action = 'crime'; sleeveDo.task = 'Homicide';">Set every Sleeve to Homicide</button>`, col.hp)
 			endSec(headers, values);
 			// --------------------------------
 			if (ns.gang.inGang()) {
@@ -209,7 +240,6 @@ export async function main(ns) {
 			endSec(headers, values);
 			// --------------------------------
 			pushBreak(headers, values, 'SCRIPT RUNNERS', '────────────', runMin, "runMin", 'srcr');
-			let buttonCSS = `transition: all 0.2s; display: inline; width: 90%; background-color: rgba(0,0,0,0); color: ${col.hak}; cursor: pointer;`
 			startSec(headers, values, 'srcr', runMin ? "none" : "inline");
 			pushCont(headers, values, "Breach: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/xsink/breach.js', false]">Root every server you can.</button>`, col.hak)
 			pushCont(headers, values, "Matrix: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/ui/matrix.js', false]">Create a Matrix background.</button>`, col.hak)
@@ -239,9 +269,13 @@ function pushBreak(hed, val, sec, dv, min, minVar, cls) {
 	val.push(`<span style="color: ${col.def}">${dv} <span style="color: ${col.hak}">${sec}</span> ${createMin(dv, min, minVar, cls)}┤</span><br>`)
 }
 
-function pushCont(hed, val, tp, cont, col) {
+function pushCont(hed, val, tp, cont, col, all) {
 	hed.push(`<span style="color: #ffffff">│</span><span style="color: ${col}">${tp}</span><br>`)
 	//val.push(`<span style="color: ${col}">${cont}<span class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate" style="background-color: ${progCol}; transform: translateX(-${progPrec}%)"></span></span><span style="color: #ffffff">│</span><br>`)
+	if (all != undefined) {
+		val.push(`<span style="color: ${col}; text-allign: ${all}">${cont}</span><span style="color: #ffffff">│</span><br>`)
+		return;
+	}
 	val.push(`<span style="color: ${col}">${cont}</span><span style="color: #ffffff">│</span><br>`)
 }
 

@@ -1,7 +1,4 @@
 export async function main(ns) {
-  /*nsgRun = function (scr) {
-	  toRun = scr;
-	}*/
 	async function run() {
 		if (toRun != undefined) {
 			ns.run(toRun[0]);
@@ -12,8 +9,23 @@ export async function main(ns) {
 			toRun = undefined;
 		}
 	}
+	async function sleeve() {
+		if (sleeveDo.action != undefined) {
+			switch(sleeveDo.action) {
+				case "crime":
+					for (let i = 0; i < ns.sleeve.getNumSleeves(); i++)
+						ns.sleeve.setToCommitCrime(i, sleeveDo.task);
+					break;
+				case "shockRecovery":
+					ns.sleeve.setToShockRecovery(i);
+					break;
+			}
+			sleeveDo.action = undefined;
+		}
+	}
   while (true) {
-		run()
+		run();
+		sleeve();
 		await ns.sleep(100);
   }
 }

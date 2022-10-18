@@ -1,4 +1,4 @@
 /**  */
 export async function main(ns) {
-	ns.tprint(ns.bladeburner.getCurrentAction());
+	for (let i = 0; i < 6; i++) ns.tprint(ns.sleeve.getInformation(i));
 }
