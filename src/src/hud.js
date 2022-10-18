@@ -75,6 +75,7 @@ const col = {
 	cha: "#c678dd",
 	hp: "#E06C75"
 }
+let gMinPID;
 /** @param {NS} ns */
 /** @param {import(".").NS} ns */
 export async function main(ns) {
