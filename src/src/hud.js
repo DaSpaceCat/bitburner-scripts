@@ -14,6 +14,7 @@ let scriptContent = false;
 /** @param {NS} ns */
 /** @param {import(".").NS} ns */
 export async function main(ns) {
+	let hoverOvvCont = false
 	const doc = eval('document');
 	const hook0 = doc.getElementById('overview-extra-hook-0');
 	const hook1 = doc.getElementById('overview-extra-hook-1');
@@ -47,7 +48,8 @@ export async function main(ns) {
 	let nsgRun = null;
 	let toRun;
 	let sleeveDo = {action: undefined, task: undefined};`
-	let sty = `.scrRun:hover {background-color: ${col.hak}; color: ${col.def}} .ovvMin:hover {color: ${col.hak}}`
+	let sty = `.scrRun:hover {background-color: ${col.hak}; color: ${col.def}}
+	.ovvMin:hover {color: ${col.hak}}`
 	createGlobalStyle("hudSty", sty)
 	createGlobalScript("hudMins", gVars);
 	gMinPID = ns.run("/src/nsg.js");
@@ -59,7 +61,23 @@ export async function main(ns) {
 		ovv.style.border = "none";
 		ovv.style.boxShadow = "5px 5px 10px rgba(0,0,0,0.5)"
 		ovv.style.zIndex = "99999999";
-		ovvCont.style.maxHeight = "400px";
+		ovv.style.transiton = "all .2s";
+		ovv.addEventListener('mouseover', (e) => {
+			ovv.style.transform = "scale(1)";
+		});
+		ovv.addEventListener('mouseout', (e) => {
+			ovv.style.transform = "scale(1)";
+		});
+		ovvCont.addEventListener('mouseover', (e) => {
+			ovvCont.style.maxHeight = "600px";
+			hoverOvvCont = true;
+		});
+		ovvCont.addEventListener('mouseout', (e) => {
+			ovvCont.style.maxHeight = "400px";
+			hoverOvvCont = false;
+		});
+		ovvCont.style.transition = "all .2s";
+		if (!hoverOvvCont) ovvCont.style.maxHeight = "400px";
 		ovvCont.style.overflow = "scroll";
 		//ns.atExit(function () {ns.kill(gMinPID);});
 		//hide default stats
