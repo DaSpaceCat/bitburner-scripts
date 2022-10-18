@@ -62,12 +62,12 @@ export async function main(ns) {
 		ovv.style.boxShadow = "5px 5px 10px rgba(0,0,0,0.5)"
 		ovv.style.zIndex = "99999999";
 		ovv.style.transiton = "all .2s";
-		ovv.addEventListener('mouseover', (e) => {
+		/*ovv.addEventListener('mouseover', (e) => {
 			ovv.style.transform = "scale(1)";
 		});
 		ovv.addEventListener('mouseout', (e) => {
 			ovv.style.transform = "scale(1)";
-		});
+		});*/
 		ovvCont.addEventListener('mouseover', (e) => {
 			ovvCont.style.maxHeight = "600px";
 			hoverOvvCont = true;
