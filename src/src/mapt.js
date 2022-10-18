@@ -26,10 +26,10 @@ export async function main(ns) {
 		ns.clearLog();
 		var seenList = [];
 		_ns = ns;
-		ns.print("╭┐Map ┌──────────────────────────────────────────────────────────────────╮");
-		ns.print(`│${col.g}R: Home ${col.d}[1]                                                             │`);
+		ns.print("╭┐Map ┌────────────────────────────────────────────────────────────────────────────────────────────────╮");
+		ns.print(`│${col.g}R: Home ${col.d}[1]                                                                                           │`);
 		ScanServer("home", seenList, 0, "");
-		ns.print("╰──────────────────────────────────────────────────────────────────┘Map └╯");
+		ns.print("╰────────────────────────────────────────────────────────────────────────────────────────────────┘Map └╯");
 		await ns.sleep(1000);
 	}
 }
@@ -80,13 +80,14 @@ function PrintServerInfo(serverName, prefix) {
 	var serverRam = _ns.getServerMaxRam(serverName);
 	var hackSkill = _ns.getPlayer()['skills']['hacking'];
 	var hackDiff;
+	var money = [_ns.nFormat(_ns.getServerMoneyAvailable(serverName), '$0,0'), _ns.nFormat(_ns.getServerMaxMoney(serverName), '$0,0')]
 	if (serverHackingLevel > hackSkill) hackDiff = `-${serverHackingLevel - hackSkill}`;
 	if (serverHackingLevel == hackSkill) hackDiff = 0;
 	if (serverHackingLevel < hackSkill) hackDiff = `+${hackSkill - serverHackingLevel}`;
 	var canhack = false;
-	var dfstring = `│${prefix}R:${hacked} ${serverName} ${serverRam}GB [${serverHackingLevel}] ${hackDiff}`
+	var dfstring = `│${prefix}R:${hacked} ${serverName} ${serverRam}GB [${serverHackingLevel}] ${hackDiff} ${money[0]}/${money[1]}`
 	let dfl = dfstring.length
-	let spa = 74 - dfl;
+	let spa = 104 - dfl;
 	let sp = "";
 	for (let i = 0; i < spa; i++) {
 		sp += " "
@@ -94,15 +95,15 @@ function PrintServerInfo(serverName, prefix) {
 	if (_ns.getHackingLevel() >= serverHackingLevel) {canhack = true}
 	if (_ns.hasRootAccess(serverName)) {
 		if (canhack) {
-      _ns.print(`│${prefix}${col.g}R:${hacked} ${serverName}${col.d} ${serverRam}GB [${serverHackingLevel}] ${hackDiff}${sp}│`)
+      _ns.print(`│${prefix}${col.g}R:${hacked} ${serverName}${col.d} ${serverRam}GB [${serverHackingLevel}] ${hackDiff} ${col.y}${money[0]}/${money[1]}${col.d}${sp}│`)
     } else {
-      _ns.print(`│${prefix}${col.g}R:${hacked}${col.y} ${serverName}${col.d} ${serverRam}GB [${serverHackingLevel}] ${hackDiff}${sp}│`)
+      _ns.print(`│${prefix}${col.g}R:${hacked}${col.y} ${serverName}${col.d} ${serverRam}GB [${serverHackingLevel}] ${hackDiff} ${col.y}${money[0]}/${money[1]}${col.d}${sp}│`)
     }
 	} else {
 		if (canhack) {
-			_ns.print(`│${prefix}${col.r}R:${hacked}${col.y} ${serverName}${col.d} ${serverRam}GB [${serverHackingLevel}] ${hackDiff}${sp}│`)
+			_ns.print(`│${prefix}${col.r}R:${hacked}${col.y} ${serverName}${col.d} ${serverRam}GB [${serverHackingLevel}] ${hackDiff} ${col.y}${money[0]}/${money[1]}${col.d}${sp}│`)
 		} else {
-			_ns.print(`│${prefix}${col.r}R:${hacked} ${serverName}${col.d} ${serverRam}GB [${serverHackingLevel}] ${hackDiff}${sp}│`)
+			_ns.print(`│${prefix}${col.r}R:${hacked} ${serverName}${col.d} ${serverRam}GB [${serverHackingLevel}] ${hackDiff} ${col.y}${money[0]}/${money[1]}${col.d}${sp}│`)
 		}
 	}
 }

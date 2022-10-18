@@ -10,6 +10,7 @@ const col = {
 	hp: "#E06C75"
 }
 let gMinPID;
+let scriptContent = false;
 /** @param {NS} ns */
 /** @param {import(".").NS} ns */
 export async function main(ns) {
@@ -31,6 +32,7 @@ export async function main(ns) {
 		document.getElementById(cls).innerHTML = "";
 		document.getElementById(cls).onclick = ` + "`ovvMin('${cls}')`" + `
 	}
+	let lvlMin = false;
 	let crmMin = false;
 	let monMin = false;
 	let sklMin = false;
@@ -40,6 +42,7 @@ export async function main(ns) {
 	let srvMin = false;
 	let pltMin = false;
 	let runMin = false;
+	let cusMin = false;
 	let nsgRun = null;
 	let toRun;`
 	let sty = `.scrRun:hover {background-color: ${col.hak}; color: ${col.def}}`
@@ -53,14 +56,38 @@ export async function main(ns) {
 		ovv.style.border = "none";
 		ovv.style.boxShadow = "5px 5px 10px rgba(0,0,0,0.5)"
 		ovv.style.zIndex = "99999999";
-		ovvCont.style.height = "400px";
+		ovvCont.style.maxHeight = "400px";
 		ovvCont.style.overflow = "scroll";
 		//ns.atExit(function () {ns.kill(gMinPID);});
+		//hide default stats
+		let ovvInCont = ovvCont.firstChild.childNodes;
+		for (let i = 0; i < 15; i++) {
+			let elm = ovvCont.firstChild.childNodes[i]
+			elm.style.display = "none";
+		}
 		try {
 			const headers = [];
 			const values = [];
-			pushContE(headers ,values, "╭─ CUSTOM STATS ", "────────────────────────────────────────────╮", col.def)
+			pushContE(headers ,values, "╭───────────────", "────────────────────────────────────────────╮", col.def)
 			pushCont(headers, values, "In: " + ns.getPlayer()['city'], "At: " + ns.getPlayer()['location'], col.def);
+			pushCont(headers, values, "Health: ", `   ${ns.nFormat(ns.getPlayer().hp.current, '0,0')} / ${ns.nFormat(ns.getPlayer().hp.max, '0,0')}`, col.hp)
+			// --------------------------------
+			pushBreak(headers, values, 'LEVELS', '────────────────', lvlMin, "lvlMin", 'levels');
+			startSec(headers, values, "levels", lvlMin ? "none" : "inline");
+			pushCont(headers, values, "Hacking: ", `   ${ns.nFormat(ns.getPlayer().skills.hacking, '0,0')}`, col.hak);
+			pushCont(headers, values, "Str | Def: ", `   ${ns.nFormat(ns.getPlayer().skills.strength, '0,0')} | ${ns.nFormat(ns.getPlayer().skills.defense, '0,0')}`, col.sta);
+			pushCont(headers, values, "Dex | Agi: ", `   ${ns.nFormat(ns.getPlayer().skills.dexterity, '0,0')} | ${ns.nFormat(ns.getPlayer().skills.agility, '0,0')}`, col.sta);
+			pushCont(headers, values, "Charisma: ", `   ${ns.nFormat(ns.getPlayer().skills.charisma, '0,0')}`, col.cha);
+			endSec(headers, values);
+			// --------------------------------
+			pushBreak(headers, values, 'SKILL EXPERIENCE', '───────────', sklMin, "sklMin", 'skill');
+			startSec(headers, values, "skill", sklMin ? "none" : "inline");
+			pushCont(headers, values, "Hacking: ", '   ' + ns.nFormat(ns.getPlayer()['exp']['hacking'], '0,0'), col.hak);
+			pushCont(headers, values, "Str | Def: ", '   ' + ns.nFormat(ns.getPlayer()['exp']['strength'], '0,0') + ' | ' + ns.nFormat(ns.getPlayer()['exp']['defense'], '0,0'), col.sta);
+			pushCont(headers, values, "Dex | Agi: ", '   ' + ns.nFormat(ns.getPlayer()['exp']['dexterity'], '0,0') + ' | ' + ns.nFormat(ns.getPlayer()['exp']['agility'], '0,0'), col.sta);
+			pushCont(headers, values, "Charisma: ", '   ' + ns.nFormat(ns.getPlayer()['exp']['charisma'], '0,0'), col.cha);
+			//pushCont(headers, values, 'Intelligence: ', '   ' + ns.nFormat(ns.getPlayer()['exp']['intelligence'], '0,0'), col.def);
+			endSec(headers, values);
 			// --------------------------------
 			pushBreak(headers, values, 'CRIMES', '────────────────', crmMin, "crmMin", 'crime');
 			startSec(headers, values, "crime", crmMin ? "none" : "inline");
@@ -81,15 +108,6 @@ export async function main(ns) {
 			headers.push('Hashes: ');
 				values.push(' ' + ns.hacknet.numHashes().toPrecision(3) + ' / ' + ns.hacknet.hashCapacity().toPrecision(3));
 			}*/
-			endSec(headers, values);
-			// --------------------------------
-			pushBreak(headers, values, 'SKILL EXPERIENCE', '───────────', sklMin, "sklMin", 'skill');
-			startSec(headers, values, "skill", sklMin ? "none" : "inline");
-			pushCont(headers, values, "Hacking: ", '   ' + ns.nFormat(ns.getPlayer()['exp']['hacking'], '0,0'), col.hak);
-			pushCont(headers, values, "Str | Def: ", '   ' + ns.nFormat(ns.getPlayer()['exp']['strength'], '0,0') + ' | ' + ns.nFormat(ns.getPlayer()['exp']['defense'], '0,0'), col.sta);
-			pushCont(headers, values, "Dex | Agi: ", '   ' + ns.nFormat(ns.getPlayer()['exp']['dexterity'], '0,0') + ' | ' + ns.nFormat(ns.getPlayer()['exp']['agility'], '0,0'), col.sta);
-			pushCont(headers, values, "Charisma: ", '   ' + ns.nFormat(ns.getPlayer()['exp']['charisma'], '0,0'), col.cha);
-			//pushCont(headers, values, 'Intelligence: ', '   ' + ns.nFormat(ns.getPlayer()['exp']['intelligence'], '0,0'), col.def);
 			endSec(headers, values);
 			// --------------------------------
 			if (ns.gang.inGang()) {
@@ -140,10 +158,35 @@ export async function main(ns) {
 				pushCont(headers, values, "Rank: ", '   ' + ns.nFormat(ns.bladeburner.getRank(), '0,0'), col.cha);
 				let stm = ns.bladeburner.getStamina();
 				pushCont(headers, values, "Stamina: ", `   ${ns.nFormat(stm[0], '0,0.00')}/${ns.nFormat(stm[1], '0,0.00')} | ${ns.nFormat(stm[0] / stm[1], '0.000%')}`, col.hp);
-				if (ns.bladeburner.getCurrentAction()['type'] == "Idle") {
+				if (ns.bladeburner.getCurrentAction().type == "Idle") {
 					pushCont(headers, values, "Action: ", '   ' + ns.bladeburner.getCurrentAction()['type'], col.sta);
 				} else {
-					pushCont(headers, values, "Action: ", `   ${ns.bladeburner.getCurrentAction()['type']}: ${ns.bladeburner.getCurrentAction()['name']}`, col.hak);
+					let action = ns.bladeburner.getCurrentAction()
+					let chance = ns.bladeburner.getActionEstimatedSuccessChance(action.type, action.name);
+					let curTime = ns.bladeburner.getActionCurrentTime()
+					let takTime = ns.bladeburner.getActionTime(action.type, action.name)
+					let cbbLvl = ns.bladeburner.getActionCurrentLevel(action.type, action.name);
+					let mbbLvl = ns.bladeburner.getActionMaxLevel(action.type, action.name);
+					//mess with bb time display because the hud isn't big enough for "seconds" and "minutes"
+					let dspCurTime = ns.tFormat(curTime)
+					let dspTakTime = ns.tFormat(takTime)
+					dspCurTime = dspCurTime.replace(' minutes', 'm');
+					dspCurTime = dspCurTime.replace(' seconds', 's');
+					dspCurTime = dspCurTime.replace(' minute', 'm');
+					dspCurTime = dspCurTime.replace(' second', 's');
+					dspTakTime = dspTakTime.replace(' minutes', 'm');
+					dspTakTime = dspTakTime.replace(' seconds', 's');
+					dspTakTime = dspTakTime.replace(' minute', 'm');
+					dspTakTime = dspTakTime.replace(' second', 's');
+					//actual adding
+					pushCont(headers, values, "Action: ", `   ${action.type}: ${action.name}`, col.hak);
+					pushCont(headers, values, "Time: ", `   ${dspCurTime} / ${dspTakTime} : ${ns.nFormat(curTime / takTime, "0.00%")}`)
+					pushCont(headers, values, "Level: ", `   ${ns.nFormat(cbbLvl, '0,0')} / ${ns.nFormat(mbbLvl, '0,0')}`);
+					if (chance[0] != chance[1]) {
+						pushCont(headers, values, "Est. Chance: ", `   ${ns.nFormat(chance[0], '0.00%')} ~ ${ns.nFormat(chance[1], '0.00%')}`, col.hak)
+					} else {
+						pushCont(headers, values, "Chance: ", `   ${ns.nFormat(chance[0], '0.00%')}`, col.hak)
+					}
 				}
 				pushCont(headers, values, "Skill Points: ", '   ' + ns.nFormat(ns.bladeburner.getSkillPoints(), '0,0'), col.hak);
 				pushCont(headers, values, "City: ", '   ' + ns.bladeburner.getCity(), col.sta);
@@ -172,7 +215,13 @@ export async function main(ns) {
 			pushCont(headers, values, "Matrix: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/ui/matrix.js', false]">Create a Matrix background.</button>`, col.hak)
 			pushCont(headers, values, "Map: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/mapt.js', true]">Show a map of all servers.</button>`, col.hak)
 			endSec(headers, values);
-			pushContE(headers ,values, "╰─ CUSTOM STATS ", "────────────────────────────────────────────╯", col.def)
+			if (scriptContent) {
+				pushBreak(headers, values, 'SCRIPT CONTENT', '────────────', cusMin, "cusMin", 'scriptCont')
+				startSec(headers, values, 'scriptCont', cusMin ? "none" : "inline");
+				pushCont(headers, values, `<span id="scriptContent-hook-0"></span>`, `<span id="scriptContent-hook-1"></span>`, col.def);
+				endSec(headers, values);
+			}
+			pushContE(headers ,values, "╰───────────────", "────────────────────────────────────────────╯", col.def)
 			hook0.innerHTML = headers.join(" \n");
 			hook1.innerHTML = values.join("\n");
 			ns.print(doc.getElementById('hudMins'));
