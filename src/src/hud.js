@@ -1,70 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-constant-condition */
 /* eslint-disable no-unused-vars */
-
-// helper functions for UI handling
-export const hudHelper = {
-	createGlobalScript: function(id, script) {
-		let doc = eval("document")
-		if (doc.getElementById(id) == null) {
-			let s = doc.createElement("script");
-			s.id = id;
-			s.innerHTML = script;
-			doc.head.appendChild(s);
-		} else {
-			console.log("WARN: Script with that ID already exists! overwriting current!");
-			doc.getElementById(id).innerHTML = script;
-		}
-	},
-	createGlobalStyle: function (id, style) {
-		let doc = eval("document")
-		if (doc.getElementById(id) == null) {
-			let s = doc.createElement("style");
-			s.id = id;
-			s.innerHTML = style;
-			doc.head.appendChild(s);
-		} else {
-			console.log("WARN: Style with that ID already exists! overwriting current!");
-			doc.getElementById(id).innerHTML = style;
-		}
-	},
-	//cVar should be a STRING that is the variable
-	createMin: function(dv, isMin, cVar, id) {
-		dv.slice(0, -4);
-		if (isMin) {
-			dv += ` <a class="ovvMin" id="${id}" style="cursor: pointer; transition: all .2s;" onclick="${cVar} = !${cVar}; ovvMax('${id}')"></a> ─`;
-		} else {
-			dv += ` <a class="ovvMin" id="${id}" style="cursor: pointer; transition: all .2s;" onclick="${cVar} = !${cVar}; ovvMin('${id}')"></a> ─`;
-		}
-		return dv;
-	},
-	endSec: function(hed, val) {
-		hed.push("</div>")
-		val.push("</div>")
-	},
-	//min is the boolean passed, minVar is the boolean var name passed as a string
-	pushBreak: function(hed, val, sec, dv, min, minVar, cls) {
-		hed.push(`<span style="color: ${col.def}">├───────────────</span><br>`)
-		val.push(`<span style="color: ${col.def}">${dv} <span style="color: ${col.hak}">${sec}</span> ${hudHelper.createMin(dv, min, minVar, cls)}┤</span><br>`)
-	},
-	pushCont: function(hed, val, tp, cont, col, all) {
-		hed.push(`<span style="color: #ffffff">│</span><span style="color: ${col}">${tp}</span><br>`)
-		if (all != undefined) {
-			val.push(`<span style="color: ${col}; text-allign: ${all}">${cont}</span><span style="color: #ffffff">│</span><br>`)
-			return;
-		}
-		val.push(`<span style="color: ${col}">${cont}</span><span style="color: #ffffff">│</span><br>`)
-	},
-	pushContE: function(hed, val, tp, cont, col) {
-		hed.push(`<span style="color: ${col}">${tp}</span><br>`)
-		val.push(`<span style="color: ${col}">${cont}</span><br>`)
-	},
-	//dsp should either be "none" or "inline"
-	startSec: function(hed, val, clas, dsp) {
-		hed.push(`<div class="${clas}" style="display: ${dsp}">`)
-		val.push(`<div class="${clas}" style="display: ${dsp}">`)
-	}
-}
+import { hudHelper, globalHelper } from "/src/helpers.js"
 
 //colors for the UI, defined how they would be in CSS
 const col = {
@@ -75,6 +12,8 @@ const col = {
 	cha: "#c678dd",
 	hp: "#E06C75"
 }
+
+
 let gMinPID;
 /** @param {NS} ns */
 /** @param {import(".").NS} ns */
@@ -116,8 +55,8 @@ export async function main(ns) {
 	let sleeveDo = {action: undefined, task: undefined};`
 	let sty = `.scrRun:hover {background-color: ${col.hak}; color: ${col.def}}
 	.ovvMin:hover {color: ${col.hak}}`
-	hudHelper.createGlobalStyle("hudSty", sty)
-	hudHelper.createGlobalScript("hudMins", gVars);
+	globalHelper.createGlobalStyle("hudSty", sty)
+	globalHelper.createGlobalScript("hudMins", gVars);
 	gMinPID = ns.run("/src/nsg.js");
 	let buttonCSS = `transition: all 0.2s; display: inline; width: 90%; background-color: rgba(0,0,0,0); cursor: pointer;`
 	while (true) {
@@ -154,7 +93,7 @@ export async function main(ns) {
 		try {
 			const headers = [];
 			const values = [];
-			hudHelper.pushContE(headers ,values, "╭───────────────", "────────────────────────────────────────────╮", col.def)
+			hudHelper.startHud(headers ,values)
 			hudHelper.pushCont(headers, values, "In: " + ns.getPlayer()['city'], "At: " + ns.getPlayer()['location'], col.def);
 			hudHelper.pushCont(headers, values, "Health: ", `   ${ns.nFormat(ns.getPlayer().hp.current, '0,0')} / ${ns.nFormat(ns.getPlayer().hp.max, '0,0')} | ${ns.nFormat(ns.getPlayer().hp.current/ns.getPlayer().hp.max, '0.000%')}`, col.hp)
 			// --------------------------------
@@ -336,7 +275,7 @@ export async function main(ns) {
 				hudHelper.pushCont(headers, values, `<span id="scriptContent-hook-0"></span>`, `<span id="scriptContent-hook-1"></span>`, col.def);
 				hudHelper.endSec(headers, values);
 			}
-			hudHelper.pushContE(headers ,values, "╰───────────────", "────────────────────────────────────────────╯", col.def)
+			hudHelper.endHud(headers ,value);
 			hook0.innerHTML = headers.join(" \n");
 			hook1.innerHTML = values.join("\n");
 			ns.print(doc.getElementById('hudMins'));
