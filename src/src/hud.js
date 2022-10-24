@@ -18,7 +18,7 @@ let gMinPID;
 /** @param {NS} ns */
 /** @param {import(".").NS} ns */
 export async function main(ns) {
-	let hoverOvvCont = false
+	let hoverOvvCont = false;
 	const doc = eval('document');
 	const hook0 = doc.getElementById('overview-extra-hook-0');
 	const hook1 = doc.getElementById('overview-extra-hook-1');
@@ -52,6 +52,7 @@ export async function main(ns) {
 	let nsgRun = null;
 	let toRun;
 	let scriptContent = false;
+	let scriptContentV0, scriptContentV1;
 	let sleeveDo = {action: undefined, task: undefined};`
 	let sty = `.scrRun:hover {background-color: ${col.hak}; color: ${col.def}}
 	.ovvMin:hover {color: ${col.hak}}`
@@ -85,7 +86,6 @@ export async function main(ns) {
 		if (!hoverOvvCont) ovvCont.style.maxHeight = "400px";
 		ovvCont.style.overflow = "scroll";
 		//hide default stats
-		//let ovvInCont = ovvCont.firstChild.childNodes;
 		for (let i = 0; i < 15; i++) {
 			let elm = ovvCont.firstChild.childNodes[i]
 			elm.style.display = "none";
@@ -272,7 +272,7 @@ export async function main(ns) {
 			if (scriptContent) {
 				hudHelper.pushBreak(headers, values, 'SCRIPT CONTENT', '────────────', cusMin, "cusMin", 'scriptCont')
 				hudHelper.startSec(headers, values, 'scriptCont', cusMin ? "none" : "inline");
-				hudHelper.pushCont(headers, values, `<span id="scriptContent-hook-0"></span>`, `<span id="scriptContent-hook-1"></span>`, col.def);
+				hudHelper.pushCont(headers, values, `<span id="scriptContent-hook-0">${scriptContentV0}</span>`, `<span id="scriptContent-hook-1">${scriptContentV1}</span>`, col.def);
 				hudHelper.endSec(headers, values);
 			}
 			hudHelper.endHud(headers ,value);

@@ -11,7 +11,7 @@ export async function WaitPids(ns, pids, hooks, vars, instance, cycles) {
 	if (!Array.isArray(pids)) pids = [pids];
 	while (pids.some(p => ns.getRunningScript(p) != undefined)) {
 		await ns.sleep(5);
-		hud(ns, hooks[0], hooks[1], instance, cycles);
+		//hud(ns, hooks[0], hooks[1], instance, cycles);
 		console(ns, vars[0], vars[1], vars[2], vars[3], vars[4], vars[5], vars[6], instance, cycles);
 	}
 }
@@ -33,13 +33,9 @@ let doc = eval("document");
 export async function main(ns) {
 	let instance = ns.args[2];
 	let cycles = 0;
-	const hook0 = doc.getElementById('scriptContent-hook-0');
-	const hook1 = doc.getElementById('scriptContent-hook-1');
-	if (instance == 0) scriptContent = true;
+	//if (instance == 0) scriptContent = true;
 	let hs = ns.args[0];
 	let ram = ns.args[1];
-	//let coH = Math.floor((ram/3)/1.6);
-	//let coG = Math.floor((ram/3)/1.6);
 	let coH = Math.floor((ram/3)/1.7);
 	let coG = Math.floor((ram/3)/1.75);
 	let coW = coG;
@@ -60,7 +56,7 @@ export async function main(ns) {
 	if (ns.getServerMinSecurityLevel(hs) < ns.getServerSecurityLevel(hs) || ns.getServerMaxMoney(hs) > ns.getServerMoneyAvailable(hs)) {
 		while (ns.getServerMinSecurityLevel(hs) < ns.getServerSecurityLevel(hs) || ns.getServerMaxMoney(hs) > ns.getServerMoneyAvailable(hs)) {
 			let prep = [ns.run('src/weak.js', coW, hs), ns.run('src/grow.js', coG * 2, hs)]
-			await WaitPids(ns, prep, [hook0, hook1], [hs, coH, coG, coW, gt, ht, wt], instance, cycles);
+			await WaitPids(ns, prep, [scriptContentV0, scriptContentV1], [hs, coH, coG, coW, gt, ht, wt], instance, cycles);
 		}
 	}
 
@@ -81,7 +77,7 @@ export async function main(ns) {
 	// eslint-disable-next-line no-constant-condition
 	while (true) {
 		let batch = [ns.run('src/weak.js', coW, hs), ns.run('src/grow.js', coG, hs), ns.run ('src/heck.js', coH, hs)]
-		await WaitPids(ns, batch, [hook0, hook1], [hs, coH, coG, coW, gt, ht, wt], instance, cycles);
+		await WaitPids(ns, batch, [scriptContentV0, scriptContentV1], [hs, coH, coG, coW, gt, ht, wt], instance, cycles);
 		cycles++
 		//rerun hack calc so that leveling up dosen't cause us to hack for more than we need
 		ha = ns.hackAnalyze(hs) * coH;
@@ -96,7 +92,7 @@ export async function main(ns) {
 		if (ns.getServerMinSecurityLevel(hs) < ns.getServerSecurityLevel(hs) || ns.getServerMaxMoney(hs) > ns.getServerMoneyAvailable(hs)) {
 			while (ns.getServerMinSecurityLevel(hs) < ns.getServerSecurityLevel(hs) || ns.getServerMaxMoney(hs) > ns.getServerMoneyAvailable(hs)) {
 				let prep = [ns.run('src/weak.js', coW, hs), ns.run('src/grow.js', pcoG, hs)]
-				await WaitPids(ns, prep, [hook0, hook1], [hs, coH, coG, coW, gt, ht, wt], instance, cycles);
+				await WaitPids(ns, prep, [scriptContentV0, scriptContentV1], [hs, coH, coG, coW, gt, ht, wt], instance, cycles);
 			}
 		}
 	}
@@ -116,11 +112,11 @@ function hud(ns, hook0, hook1, instance, cycles) {
 		ns.print(val);
 		// Now drop it into the placeholder elements
 		if (instance > 0) {
-			//hook0.innerText += "----\nInstance\n" + header;
-			//hook1.innerText += "----\n" + instance + "\n" + val;
+			//hook0 += "Instance\n" + header;
+			//hook1 += instance + "\n" + val;
 		} else {
-			hook0.innerText = "Instance\n" + header
-			hook1.innerText = "0\n" + val
+			hook0 = "Instance\n" + header;
+			hook1 = instance + "\n" + val;
 		}
 		let wam = ns.getServerMaxRam("home")
 		let wamU = ns.getServerUsedRam("home")
@@ -137,17 +133,10 @@ function hud(ns, hook0, hook1, instance, cycles) {
 		//add cycles
 		headers.push("Cycles")
 		values.push(cycles);
-		// Add ram
-		headers.push("Home Ram");
-		values.push(wam);
-		// add free ram
-		headers.push("Home Ram Free");
-		values.push(Math.round((wam - wamU) * 100) / 100);
-
 		// Now drop those into the placeholder elements
 		if (instance == 0) {
-			hook0.innerText += headers.join("\n");
-			hook1.innerText += values.join("\n");
+			hook0 += headers.join("\n");
+			hook1 += values.join("\n");
 		}
 	} catch (err) { // This might come in handy later
 		ns.print("ERROR: Update Skipped: " + String(err));
