@@ -130,5 +130,22 @@ export const sleeveHelper = {
 			//end
 		}
 		}
+	},
+	buyAllAugs: function (s) {
+		for (let i = 0; i < s.sleeve.getNumSleeves(); i++) {
+			const augs = s.sleeve.getSleevePurchasableAugs(i)
+			let totalCost;
+			for (let j = 0; j < augs.length; j++) {
+				totalCost += s.sleeve.getSleeveAugmentationPrice(augs[j]);
+			}
+			if (s.getPlayer().money < totalCost) {
+				s.tprint(`ERROR: Not enough dollariedoos to buy augments for sleeve ${i}. Aborting.`)
+				return;
+			}
+			for (let j = 0; j < augs.length; j++) {
+				purchaseSleeveAug(i, augs[j]);
+			}
+			return;
+		}
 	}
 }
