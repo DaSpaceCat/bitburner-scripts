@@ -176,7 +176,7 @@ export async function main(ns) {
 				if (ns.gang.getBonusTime() > 3000) {
 					hudHelper.pushCont(headers, values, "Bonus Time: ", '   ' + ns.tFormat(ns.gang.getBonusTime()), col.hak);
 				}
-				let gangType = (ns.gang.getGangInformation()['isHacking']) ? "Hacking" : "Combat";
+				let gangType = (ns.gang.getGangInformation().isHacking) ? "Hacking" : "Combat";
 				hudHelper.pushCont(headers, values, "Faction: ", '   ' + ns.gang.getGangInformation()['faction'] + ', ' + gangType, col.def);	
 				hudHelper.pushCont(headers, values, "Respect: ", '   ' + ns.nFormat(ns.gang.getGangInformation()['respect'], '0,0'), col.cha);
 				if (ns.gang.getGangInformation()['power'] > 1) {
