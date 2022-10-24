@@ -44,8 +44,8 @@ export const hudHelper = {
 	},
 	//min is the boolean passed, minVar is the boolean var name passed as a string
 	pushBreak: function(hed, val, sec, dv, min, minVar, cls) {
-		hed.push(`<span style="color: ${col.def}">├───────────────</span><br>`)
-		val.push(`<span style="color: ${col.def}">${dv} <span style="color: ${col.hak}">${sec}</span> ${hudHelper.createMin(dv, min, minVar, cls)}┤</span><br>`)
+		hed.push(`<span style="color: #FFFFFF">├───────────────</span><br>`)
+		val.push(`<span style="color: #FFFFFF">${dv} <span style="color: #98C379">${sec}</span> ${hudHelper.createMin(dv, min, minVar, cls)}┤</span><br>`)
 	},
 	pushCont: function(hed, val, tp, cont, col, all) {
 		hed.push(`<span style="color: #ffffff">│</span><span style="color: ${col}">${tp}</span><br>`)
@@ -72,71 +72,73 @@ export const hudHelper = {
 	}
 }
 
+//helpers dealing with sleeve actions
+//mostly just a diff function for task setting cause i think the way it's in the game normally is stupid
 export const sleeveHelper = {
 	setTask: function(s, a, n, t, o1, o2) {
 		let i = n;
 		let sleeves = 1
 		if (a) { i = 0; sleeves = s.sleeve.getNumSleeves(); }
 		for (i = i; i < sleeves; i++) {
-		switch (t) {
-			case "recovery":
-				return s.sleeve.setToShockRecovery(i)
-				break;
-			case "sync":
-				return s.sleeve.setToSynchronize(i)
-				break;
-			case "crime":
-				if (o1 != undefined) {
-					return s.sleeve.setToCommitCrime(i, o1);
-				} else { s.print("ERROR: no crime provided") }
-				break;
-			case "wFaction":
-				if (o1 != undefined) {
-					if (o2 != undefined) {
-						return s.sleeve.setToFactionWork(i, o1, o2)
-					} else { s.print("ERROR: no work type provided") }
-				} else { s.print("ERROR: no faction provided") }
-				break;
-			case "wCompany":
-				if (o1 != undefined) {
-					return s.sleeve.setToCompanyWork(i, o1)
-				} else { s.print("ERROR: no company defined") }
-				break;
-			case "gym":
-				if (o1 != undefined) {
-					if (o2 != undefined) {
-						return s.sleeve.setToGymWorkout(i, o1, o2)
-					} else { s.print("ERROR: no gym provided") }
-				} else { s.print("ERROR: no stat provided") }
-				break;
-			case "uni"
-				if (o1 != undefined) {
-					if (o2 != undefined) {
-						return s.sleeve.setToUniversityCourse(i, o1, o2)
-					} else { s.print("ERROR: no university provided") }
-				} else { s.print("ERROR: no course provided") }
-				break;
-			case "blade":
-				if (o1 != undefined) {
-					if (o2 != undefined) {
-						return s.sleeve.setToBladeburnerAction(i, o1, o2)
-					} else { s.print("ERROR: no category provided") }
-				} else { s.print("ERROR: no contract provided") }
-				break;
-			case undefined:
-				s.print("you, didn't define a work type. what are tou even doing?");
-				return("check the script log");
-				break;
-			//end
-		}
+			switch (t) {
+				case "recovery":
+					return s.sleeve.setToShockRecovery(i)
+					break;
+				case "sync":
+					return eval("s.sleeve.setToSynchronize(i)");
+					break;
+				case "crime":
+					if (o1 != undefined) {
+						return eval("s.sleeve.setToCommitCrime(i, o1)");
+					} else { s.print("ERROR: no crime provided") }
+					break;
+				case "wFaction":
+					if (o1 != undefined) {
+						if (o2 != undefined) {
+							return eval("s.sleeve.setToFactionWork(i, o1, o2)");
+						} else { s.print("ERROR: no work type provided") }
+					} else { s.print("ERROR: no faction provided") }
+					break;
+				case "wCompany":
+					if (o1 != undefined) {
+						return eval("s.sleeve.setToCompanyWork(i, o1)");
+					} else { s.print("ERROR: no company defined") }
+					break;
+				case "gym":
+					if (o1 != undefined) {
+						if (o2 != undefined) {
+							return eval("s.sleeve.setToGymWorkout(i, o1, o2)");
+						} else { s.print("ERROR: no gym provided") }
+					} else { s.print("ERROR: no stat provided") }
+					break;
+				case "uni"
+					if (o1 != undefined) {
+						if (o2 != undefined) {
+							return eval("s.sleeve.setToUniversityCourse(i, o1, o2)");
+						} else { s.print("ERROR: no university provided") }
+					} else { s.print("ERROR: no course provided") }
+					break;
+				case "blade":
+					if (o1 != undefined) {
+						if (o2 != undefined) {
+							return eval("s.sleeve.setToBladeburnerAction(i, o1, o2)");
+						} else { s.print("ERROR: no category provided") }
+					} else { s.print("ERROR: no contract provided") }
+					break;
+				case undefined:
+					s.print("you, didn't define a work type. what are you even doing?");
+					return("check the script log");
+					break;
+				//end
+			}
 		}
 	},
 	buyAllAugs: function (s) {
 		for (let i = 0; i < s.sleeve.getNumSleeves(); i++) {
-			const augs = s.sleeve.getSleevePurchasableAugs(i)
+			const augs = eval("s.sleeve.getSleevePurchasableAugs(i)");
 			let totalCost;
 			for (let j = 0; j < augs.length; j++) {
-				totalCost += s.sleeve.getSleeveAugmentationPrice(augs[j]);
+				totalCost += eval("s.sleeve.getSleeveAugmentationPrice(augs[j])");
 			}
 			if (s.getPlayer().money < totalCost) {
 				s.tprint(`ERROR: Not enough dollariedoos to buy augments for sleeve ${i}. Aborting.`)
@@ -147,5 +149,43 @@ export const sleeveHelper = {
 			}
 			return;
 		}
+	}
+}
+
+export const gangHelper = {
+	randomName: function () {
+		const names = [
+			"Boe Jiden",
+			"Beff Jesos",
+			"Darcetine",
+			"Gill Bates",
+			"Zarco",
+			"Lilly",
+			"Doc. Brown",
+			"Marty McFly",
+			"Roxy",
+			"Natalie",
+			"Rem",
+			"Tai",
+			"Luther",
+			"Sean",
+			"Celso",
+			"Paul",
+			"Kit",
+			"Anna",
+			"Todd",
+			"Chozo",
+			"Kai",
+			"Tucker",
+			"John Doe",
+			"undefined",
+			"Nezomi",
+			"Avery",
+			"Phillip",
+			"Amtrak",
+			"Avelican",
+			"You"
+		]
+		return names[Math.floor(Math.random() * names.length)];
 	}
 }

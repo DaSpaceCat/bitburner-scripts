@@ -1,3 +1,5 @@
+import { sleeveHelper } from "/src/helpers.js";
+
 export async function main(ns) {
 	async function run() {
 		if (toRun != undefined) {
@@ -11,16 +13,7 @@ export async function main(ns) {
 	}
 	async function sleeve() {
 		if (sleeveDo.action != undefined) {
-			switch(sleeveDo.action) {
-				case "crime":
-					for (let i = 0; i < ns.sleeve.getNumSleeves(); i++)
-						ns.sleeve.setToCommitCrime(i, sleeveDo.task);
-					break;
-				case "shockRecovery":
-					ns.sleeve.setToShockRecovery(i);
-					break;
-			}
-			sleeveDo.action = undefined;
+			sleeveHelper.setTask(ns, true, undefined, sleeveDo.action, sleeveDo.task)
 		}
 	}
   while (true) {

@@ -10,6 +10,7 @@ const col = {
 	hak: "#98c379",
 	sta: "#abb2bf",
 	cha: "#c678dd",
+	int: "#61AFEF"
 	hp: "#E06C75"
 }
 
@@ -86,7 +87,8 @@ export async function main(ns) {
 		if (!hoverOvvCont) ovvCont.style.maxHeight = "400px";
 		ovvCont.style.overflow = "scroll";
 		//hide default stats
-		for (let i = 0; i < 15; i++) {
+		//                  VV should be 15 if you don't have int unlocked
+		for (let i = 0; i < 17; i++) {
 			let elm = ovvCont.firstChild.childNodes[i]
 			elm.style.display = "none";
 		}
@@ -103,6 +105,7 @@ export async function main(ns) {
 			hudHelper.pushCont(headers, values, "Str | Def: ", `   ${ns.nFormat(ns.getPlayer().skills.strength, '0,0')} | ${ns.nFormat(ns.getPlayer().skills.defense, '0,0')}`, col.sta);
 			hudHelper.pushCont(headers, values, "Dex | Agi: ", `   ${ns.nFormat(ns.getPlayer().skills.dexterity, '0,0')} | ${ns.nFormat(ns.getPlayer().skills.agility, '0,0')}`, col.sta);
 			hudHelper.pushCont(headers, values, "Charisma: ", `   ${ns.nFormat(ns.getPlayer().skills.charisma, '0,0')}`, col.cha);
+			hudHelper.pushCont(headers, values, 'Intelligence: ', '   ' + ns.nFormat(ns.getPlayer().skills.intelligence, '0,0'), col.int);
 			hudHelper.endSec(headers, values);
 			// --------------------------------
 			hudHelper.pushBreak(headers, values, 'SKILL EXPERIENCE', '───────────', sklMin, "sklMin", 'skill');
@@ -111,7 +114,7 @@ export async function main(ns) {
 			hudHelper.pushCont(headers, values, "Str | Def: ", '   ' + ns.nFormat(ns.getPlayer()['exp']['strength'], '0,0') + ' | ' + ns.nFormat(ns.getPlayer()['exp']['defense'], '0,0'), col.sta);
 			hudHelper.pushCont(headers, values, "Dex | Agi: ", '   ' + ns.nFormat(ns.getPlayer()['exp']['dexterity'], '0,0') + ' | ' + ns.nFormat(ns.getPlayer()['exp']['agility'], '0,0'), col.sta);
 			hudHelper.pushCont(headers, values, "Charisma: ", '   ' + ns.nFormat(ns.getPlayer()['exp']['charisma'], '0,0'), col.cha);
-			//hudHelper.pushCont(headers, values, 'Intelligence: ', '   ' + ns.nFormat(ns.getPlayer()['exp']['intelligence'], '0,0'), col.def);
+			hudHelper.pushCont(headers, values, 'Intelligence: ', '   ' + ns.nFormat(ns.getPlayer()['exp']['intelligence'], '0,0'), col.int);
 			hudHelper.endSec(headers, values);
 			// --------------------------------
 			hudHelper.pushBreak(headers, values, 'CRIMES', '────────────────', crmMin, "crmMin", 'crime');
@@ -163,7 +166,7 @@ export async function main(ns) {
 				hudHelper.pushCont(headers, values, ` <span style="color: ${col.def};">│ </span>Dex/Agi: `, `${ns.nFormat(stat.dexterity, '0,0')}/${ns.nFormat(stat.agility, '0,0')}`, col.sta);
 				hudHelper.pushCont(headers, values, ` ╰─────────────`, `────────────────────────────────────────────`, col.def)
 			}
-			hudHelper.pushCont(headers, values, "quikMurder:", `<span class="gngRun" style="${buttonCSS}" onclick="sleeveDo.action = 'crime'; sleeveDo.task = 'Homicide';">Set every Sleeve to Homicide</button>`, col.hp)
+			hudHelper.pushCont(headers, values, "quikMurder:", `<span class="gngRun" style="${buttonCSS}" onclick="sleeveDo.action = 'crime'; task = 'Homicide';">Set every Sleeve to Homicide</button>`, col.hp)
 			hudHelper.endSec(headers, values);
 			// --------------------------------
 			if (ns.gang.inGang()) {
@@ -275,7 +278,7 @@ export async function main(ns) {
 				hudHelper.pushCont(headers, values, `<span id="scriptContent-hook-0">${scriptContentV0}</span>`, `<span id="scriptContent-hook-1">${scriptContentV1}</span>`, col.def);
 				hudHelper.endSec(headers, values);
 			}
-			hudHelper.endHud(headers ,value);
+			hudHelper.endHud(headers ,values);
 			hook0.innerHTML = headers.join(" \n");
 			hook1.innerHTML = values.join("\n");
 			ns.print(doc.getElementById('hudMins'));
