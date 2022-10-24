@@ -75,50 +75,51 @@ export const hudHelper = {
 export const sleeveHelper = {
 	setTask: function(s, a, n, t, o1, o2) {
 		let i = n;
-		let sleeves = s.sleeve.getNumSleeves();
-		if (a) { i = 0; sleeves 
+		let sleeves = 1
+		if (a) { i = 0; sleeves = s.sleeve.getNumSleeves(); }
+		for (i = i; i < sleeves; i++) {
 		switch (t) {
 			case "recovery":
-				return s.sleeve.setToShockRecovery(n)
+				return s.sleeve.setToShockRecovery(i)
 				break;
 			case "sync":
-				return s.sleeve.setToSynchronize(n)
+				return s.sleeve.setToSynchronize(i)
 				break;
 			case "crime":
 				if (o1 != undefined) {
-					return s.sleeve.setToCommitCrime(n, o1);
+					return s.sleeve.setToCommitCrime(i, o1);
 				} else { s.print("ERROR: no crime provided") }
 				break;
 			case "wFaction":
 				if (o1 != undefined) {
 					if (o2 != undefined) {
-						return s.sleeve.setToFactionWork(n, o1, o2)
+						return s.sleeve.setToFactionWork(i, o1, o2)
 					} else { s.print("ERROR: no work type provided") }
 				} else { s.print("ERROR: no faction provided") }
 				break;
 			case "wCompany":
 				if (o1 != undefined) {
-					return s.sleeve.setToCompanyWork(n, o1)
+					return s.sleeve.setToCompanyWork(i, o1)
 				} else { s.print("ERROR: no company defined") }
 				break;
 			case "gym":
 				if (o1 != undefined) {
 					if (o2 != undefined) {
-						return s.sleeve.setToGymWorkout(n, o1, o2)
+						return s.sleeve.setToGymWorkout(i, o1, o2)
 					} else { s.print("ERROR: no gym provided") }
 				} else { s.print("ERROR: no stat provided") }
 				break;
 			case "uni"
 				if (o1 != undefined) {
 					if (o2 != undefined) {
-						return s.sleeve.setToUniversityCourse(n, o1, o2)
+						return s.sleeve.setToUniversityCourse(i, o1, o2)
 					} else { s.print("ERROR: no university provided") }
 				} else { s.print("ERROR: no course provided") }
 				break;
 			case "blade":
 				if (o1 != undefined) {
 					if (o2 != undefined) {
-						return s.sleeve.setToBladeburnerAction(n, o1, o2)
+						return s.sleeve.setToBladeburnerAction(i, o1, o2)
 					} else { s.print("ERROR: no category provided") }
 				} else { s.print("ERROR: no contract provided") }
 				break;
@@ -127,6 +128,7 @@ export const sleeveHelper = {
 				return("check the script log");
 				break;
 			//end
+		}
 		}
 	}
 }
