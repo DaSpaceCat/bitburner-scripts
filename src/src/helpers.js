@@ -1,3 +1,5 @@
+/* eslint-disable no-self-assign */
+/* eslint-disable no-unreachable */
 //helpers that deal with global elements
 export const globalHelper = {
 	createGlobalScript: function(id, script) {
@@ -111,7 +113,7 @@ export const sleeveHelper = {
 						} else { s.print("ERROR: no gym provided") }
 					} else { s.print("ERROR: no stat provided") }
 					break;
-				case "uni"
+				case "uni":
 					if (o1 != undefined) {
 						if (o2 != undefined) {
 							return eval("s.sleeve.setToUniversityCourse(i, o1, o2)");
@@ -145,7 +147,7 @@ export const sleeveHelper = {
 				return;
 			}
 			for (let j = 0; j < augs.length; j++) {
-				purchaseSleeveAug(i, augs[j]);
+				s.purchaseSleeveAug(i, augs[j]);
 			}
 			return;
 		}
@@ -153,7 +155,7 @@ export const sleeveHelper = {
 }
 
 export const gangHelper = {
-	randomName: function () {
+	randomName: function (members) {
 		const names = [
 			"Boe Jiden",
 			"Beff Jesos",
@@ -186,6 +188,14 @@ export const gangHelper = {
 			"Avelican",
 			"You"
 		]
+		//remove names already in use
+		for (let i = 0; i < members; i++) {
+			for (let j = 0; j < names.length; j++) {
+				if (names[j] == members[i]) {
+					names.splice(j, 1);
+				}
+			}
+		}
 		return names[Math.floor(Math.random() * names.length)];
 	}
 }

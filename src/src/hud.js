@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-undef */
 /* eslint-disable no-constant-condition */
 /* eslint-disable no-unused-vars */
@@ -10,7 +11,7 @@ const col = {
 	hak: "#98c379",
 	sta: "#abb2bf",
 	cha: "#c678dd",
-	int: "#61AFEF"
+	int: "#61AFEF",
 	hp: "#E06C75"
 }
 
@@ -62,7 +63,7 @@ export async function main(ns) {
 	gMinPID = ns.run("/src/nsg.js");
 	let buttonCSS = `transition: all 0.2s; display: inline; width: 90%; background-color: rgba(0,0,0,0); cursor: pointer;`
 	while (true) {
-		ovv.style.borderRadius = "10px";
+		ovv.style.borderRadius = "0px 0px 10px 10px";
 		ovv.style.backgroundColor = "rgba(33,37,43,0.8)";
 		ovv.style.backdropFilter = "blur(1px)";
 		ovv.style.border = "none";
