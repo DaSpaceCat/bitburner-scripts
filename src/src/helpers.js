@@ -1,3 +1,4 @@
+//helpers that deal with global elements
 export const globalHelper = {
 	createGlobalScript: function(id, script) {
 		let doc = eval("document")
@@ -25,6 +26,7 @@ export const globalHelper = {
 	}
 }
 
+//helpers that deal with creating custom HUD displays
 export const hudHelper = {
 	//cVar should be a STRING that is the variable
 	createMin: function(dv, isMin, cVar, id) {
@@ -67,5 +69,64 @@ export const hudHelper = {
 	},
 	endHud: function(hed, val) {
 		this.pushContE(hed, val, "╰───────────────", "────────────────────────────────────────────╯", "#FFFFFF")
+	}
+}
+
+export const sleeveHelper = {
+	setTask: function(s, a, n, t, o1, o2) {
+		let i = n;
+		let sleeves = s.sleeve.getNumSleeves();
+		if (a) { i = 0; sleeves 
+		switch (t) {
+			case "recovery":
+				return s.sleeve.setToShockRecovery(n)
+				break;
+			case "sync":
+				return s.sleeve.setToSynchronize(n)
+				break;
+			case "crime":
+				if (o1 != undefined) {
+					return s.sleeve.setToCommitCrime(n, o1);
+				} else { s.print("ERROR: no crime provided") }
+				break;
+			case "wFaction":
+				if (o1 != undefined) {
+					if (o2 != undefined) {
+						return s.sleeve.setToFactionWork(n, o1, o2)
+					} else { s.print("ERROR: no work type provided") }
+				} else { s.print("ERROR: no faction provided") }
+				break;
+			case "wCompany":
+				if (o1 != undefined) {
+					return s.sleeve.setToCompanyWork(n, o1)
+				} else { s.print("ERROR: no company defined") }
+				break;
+			case "gym":
+				if (o1 != undefined) {
+					if (o2 != undefined) {
+						return s.sleeve.setToGymWorkout(n, o1, o2)
+					} else { s.print("ERROR: no gym provided") }
+				} else { s.print("ERROR: no stat provided") }
+				break;
+			case "uni"
+				if (o1 != undefined) {
+					if (o2 != undefined) {
+						return s.sleeve.setToUniversityCourse(n, o1, o2)
+					} else { s.print("ERROR: no university provided") }
+				} else { s.print("ERROR: no course provided") }
+				break;
+			case "blade":
+				if (o1 != undefined) {
+					if (o2 != undefined) {
+						return s.sleeve.setToBladeburnerAction(n, o1, o2)
+					} else { s.print("ERROR: no category provided") }
+				} else { s.print("ERROR: no contract provided") }
+				break;
+			case undefined:
+				s.print("you, didn't define a work type. what are tou even doing?");
+				return("check the script log");
+				break;
+			//end
+		}
 	}
 }
