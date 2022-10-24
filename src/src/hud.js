@@ -142,7 +142,7 @@ export async function main(ns) {
 			hudHelper.pushBreak(headers, values, 'SLEEVE', '────────────────', slvMin, "slvMin", 'sleeve')
 			hudHelper.startSec(headers, values, "sleeve", slvMin ? "none" : "inline");
 			for (let i = 0; i < ns.sleeve.getNumSleeves(); i++) {
-				hudHelper.pushCont(headers, values, `Sleeve ${i}:`, `Shock: ${ns.nFormat(ns.sleeve.getSleeveStats(i).shock, '0.000%')} | Sync: ${ns.nFormat(ns.sleeve.getSleeveStats(i).sync / 100, '0.00%')}`, col.def)
+				hudHelper.pushCont(headers, values, `Sleeve ${i}:`, `Shock: ${ns.nFormat(ns.sleeve.getSleeveStats(i).shock, '0.000%')} | Sync: ${ns.nFormat(ns.sleeve.getSleeveStats(i).sync / 100, '0.00%')}`, col.int)
 				let action = ns.sleeve.getTask(i);
 				let stat = ns.sleeve.getSleeveStats(i)
 				let hp = {cur: ns.sleeve.getInformation(i).hp.current, max: ns.sleeve.getInformation(i).hp.max}

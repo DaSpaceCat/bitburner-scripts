@@ -85,10 +85,8 @@ export const sleeveHelper = {
 			switch (t) {
 				case "recovery":
 					return s.sleeve.setToShockRecovery(i)
-					break;
 				case "sync":
 					return eval("s.sleeve.setToSynchronize(i)");
-					break;
 				case "crime":
 					if (o1 != undefined) {
 						return eval("s.sleeve.setToCommitCrime(i, o1)");
@@ -130,7 +128,6 @@ export const sleeveHelper = {
 				case undefined:
 					s.print("you, didn't define a work type. what are you even doing?");
 					return("check the script log");
-					break;
 				//end
 			}
 		}
