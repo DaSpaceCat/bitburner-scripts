@@ -167,7 +167,7 @@ export async function main(ns) {
 				hudHelper.pushCont(hed, val, ` <span style="color: ${col.def};">│ </span>Dex/Agi: `, `${ns.nFormat(stat.dexterity, '0,0')}/${ns.nFormat(stat.agility, '0,0')}`, col.sta);
 				hudHelper.pushCont(hed, val, ` ╰─────────────`, `────────────────────────────────────────────`, col.def)
 			}
-			hudHelper.pushCont(hed, val, "quikMurder:", `<span class="gngRun" style="${buttonCSS}" onclick="sleeveDo.action = 'crime'; task = 'Homicide';">Set every Sleeve to Homicide</button>`, col.hp)
+			hudHelper.pushCont(hed, val, "quikMurder:", `<span class="gngRun" style="${buttonCSS}" onclick="sleeveDo.action = 'crime'; sleeveDo.task = 'Homicide';">Set every Sleeve to Homicide</button>`, col.hp)
 			hudHelper.endSec(hed, val);
 			// --------------------------------
 			if (ns.gang.inGang()) {

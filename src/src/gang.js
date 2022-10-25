@@ -53,6 +53,9 @@ export async function main(ns) {
 					equipment[name] = ns.gang.getEquipmentInformation(name);
 				}
 			});
+		} else {
+			ns.tprint("you're not in a gang, dingy");
 		}
+		await ns.sleep(1000);
 	}
 }
