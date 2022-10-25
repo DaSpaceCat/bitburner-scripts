@@ -84,50 +84,53 @@ export const sleeveHelper = {
 		for (i = i; i < sleeves; i++) {
 			switch (t) {
 				case "recovery":
-					return s.sleeve.setToShockRecovery(i)
+					s.sleeve.setToShockRecovery(i)
+					break;
 				case "sync":
-					return eval("s.sleeve.setToSynchronize(i)");
+					eval("s.sleeve.setToSynchronize(i)");
+					break;
 				case "crime":
 					if (o1 != undefined) {
-						return eval("s.sleeve.setToCommitCrime(i, o1)");
+						eval("s.sleeve.setToCommitCrime(i, o1)");
 					} else { s.print("ERROR: no crime provided") }
 					break;
 				case "wFaction":
 					if (o1 != undefined) {
 						if (o2 != undefined) {
-							return eval("s.sleeve.setToFactionWork(i, o1, o2)");
+							eval("s.sleeve.setToFactionWork(i, o1, o2)");
 						} else { s.print("ERROR: no work type provided") }
 					} else { s.print("ERROR: no faction provided") }
 					break;
 				case "wCompany":
 					if (o1 != undefined) {
-						return eval("s.sleeve.setToCompanyWork(i, o1)");
+						eval("s.sleeve.setToCompanyWork(i, o1)");
 					} else { s.print("ERROR: no company defined") }
 					break;
 				case "gym":
 					if (o1 != undefined) {
 						if (o2 != undefined) {
-							return eval("s.sleeve.setToGymWorkout(i, o1, o2)");
+							eval("s.sleeve.setToGymWorkout(i, o1, o2)");
 						} else { s.print("ERROR: no gym provided") }
 					} else { s.print("ERROR: no stat provided") }
 					break;
 				case "uni":
 					if (o1 != undefined) {
 						if (o2 != undefined) {
-							return eval("s.sleeve.setToUniversityCourse(i, o1, o2)");
+							eval("s.sleeve.setToUniversityCourse(i, o1, o2)");
 						} else { s.print("ERROR: no university provided") }
 					} else { s.print("ERROR: no course provided") }
 					break;
 				case "blade":
 					if (o1 != undefined) {
 						if (o2 != undefined) {
-							return eval("s.sleeve.setToBladeburnerAction(i, o1, o2)");
+							eval("s.sleeve.setToBladeburnerAction(i, o1, o2)");
 						} else { s.print("ERROR: no category provided") }
 					} else { s.print("ERROR: no contract provided") }
 					break;
 				case undefined:
 					s.print("you, didn't define a work type. what are you even doing?");
-					return("check the script log");
+					("check the script log");
+					break;
 				//end
 			}
 		}
@@ -183,7 +186,17 @@ export const gangHelper = {
 			"Phillip",
 			"Amtrak",
 			"Avelican",
-			"You"
+			"You",
+			"Hydroflame",
+			"xsinx",
+			"Zoe",
+			"Zelow",
+			"nightElf",
+			"Jeoshua",
+			"Lyra",
+			"Dashi",
+			"ElJay",
+			"Quacksouls"
 		]
 		//remove names already in use
 		for (let i = 0; i < members; i++) {
