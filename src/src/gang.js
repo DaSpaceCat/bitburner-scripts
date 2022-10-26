@@ -49,13 +49,20 @@ export async function main(ns) {
 			//can we buy some augments?
 			let augs;
 			ns.gang.getEquipmentNames().forEach((name) => {
-				if (ns.gang.getEquipmentType(name) == "augment") {
-					equipment[name] = ns.gang.getEquipmentInformation(name);
+				if (ns.gang.getEquipmentType(name) == "Augment") {
+					augs.push({ name: name, stats: ns.gang.getEquipmentStats(name) });
 				}
 			});
+			const discount = gangHelper.getUpgradeDiscount(ns.gang.getGangInformation().power, ns.gang.getGangInformation().respect);
+			if (discount >= 0.9) {
+				let totalPrice;
+				augs.forEach((aug) => {
+					totalPrice += ns.gang.getEquipmentCost(aug);
+				});
+			}
 		} else {
 			ns.tprint("you're not in a gang, dingy");
 		}
-		await ns.sleep(1000);
+		await ns.sleep(250);
 	}
 }

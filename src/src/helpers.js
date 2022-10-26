@@ -196,7 +196,33 @@ export const gangHelper = {
 			"Lyra",
 			"Dashi",
 			"ElJay",
-			"Quacksouls"
+			"Quacksouls",
+			"_NAME_PLACEHOLDER_",
+			"Neo",
+			"Trinity",
+			"Morpheus",
+			"Agent Smith",
+			"Keanu Reeves",
+			"John Matrix",
+			"Mughur",
+			"Khan",
+			"James T. Kirk",
+			"Spock",
+			"Leonard McCoy",
+			"Jean-Luc Picard",
+			"William Riker",
+			"Data",
+			"Kathryn Janeway",
+			"Chakotay",
+			"Tom Paris",
+			"Harry Kim",
+			"Neelix",
+			"The Borg Queen",
+			"Seven of Nine",
+			"Q",
+			"Mariah Carey",
+			"Rafi",
+			"Rios"
 		]
 		//remove names already in use
 		for (let i = 0; i < members; i++) {
@@ -207,5 +233,11 @@ export const gangHelper = {
 			}
 		}
 		return names[Math.floor(Math.random() * names.length)];
+	},
+	getUpgradeDiscount: function (pwr, rep) {
+		const rlf = 5e6;
+		const plf = 1e6;
+		const d = Math.pow(rep, 0.01) + rep / rlf + Math.pow(pwr, 0.01) + pwr / plf - 1;
+		return Math.max(1, d);
 	}
 }
