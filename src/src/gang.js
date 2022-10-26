@@ -29,7 +29,7 @@ export async function main(ns) {
 						if (i == 0) {
 							ns.gang.setMemberTask(members[i], "Vigilante Justice");
 						} else {
-							ns.gang.setMemberTask(members[i], "Human Traffiking");
+							ns.gang.setMemberTask(members[i], "Human Trafficking");
 						}
 					}
 				}
