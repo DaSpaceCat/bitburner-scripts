@@ -44,6 +44,7 @@ export async function main(ns) {
 				const expGoalStr = member.str_asc_mult * 4000;
 				if ((member.agi_exp >= expGoalAgi || member.agi >= lvlThres) && member.def_exp >= expGoalDef && member.dex_exp >= expGoalDex && member.str_exp >= expGoalStr) {
 					ns.gang.ascendMember(members[i]);
+					const n = new Notification("Gang", {body: members[i] + " has been ascended!"});
 				}
 			}
 			//can we buy some augments?

@@ -222,7 +222,11 @@ export const gangHelper = {
 			"Q",
 			"Mariah Carey",
 			"Rafi",
-			"Rios"
+			"Rios",
+			"Grant",
+			"Alex",
+			"Robert",
+			"Ace",
 		]
 		//remove names already in use
 		for (let i = 0; i < members; i++) {
