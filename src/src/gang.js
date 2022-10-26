@@ -42,7 +42,7 @@ export async function main(ns) {
 				const expGoalDef = member.def_asc_mult * 4000;
 				const expGoalDex = member.dex_asc_mult * 4000;
 				const expGoalStr = member.str_asc_mult * 4000;
-				if (member.agi_exp >= expGoalAgi && member.def_exp >= expGoalDef && member.dex_exp >= expGoalDex && member.str_exp >= expGoalStr) {
+				if ((member.agi_exp >= expGoalAgi || member.agi >= lvlThres) && member.def_exp >= expGoalDef && member.dex_exp >= expGoalDex && member.str_exp >= expGoalStr) {
 					ns.gang.ascendMember(members[i]);
 				}
 			}
