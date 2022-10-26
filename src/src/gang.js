@@ -56,9 +56,9 @@ export async function main(ns) {
 			const discount = gangHelper.getUpgradeDiscount(ns.gang.getGangInformation().power, ns.gang.getGangInformation().respect);
 			if (discount >= 0.9) {
 				let totalPrice;
-				augs.forEach((aug) => {
+				/*augs.forEach((aug) => {
 					totalPrice += ns.gang.getEquipmentCost(aug);
-				});
+				});*/
 			}
 		} else {
 			ns.tprint("you're not in a gang, dingy");
