@@ -18,7 +18,7 @@ const col = {
 
 let gMinPID;
 /** @param {NS} ns */
-/** @param {import(".").NS} ns */
+/** @param {import("../../").NS} ns */
 export async function main(ns) {
 	let hoverOvvCont = false;
 	const doc = eval('document');

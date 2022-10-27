@@ -2,7 +2,7 @@
 /* eslint-disable no-constant-condition */
 import { gangHelper } from "/src/helpers.js";
 
-/** @param {import(".").NS} ns */
+/** @param {import("../../").NS} ns */
 export async function main(ns) {
 	const lvlThres = 20000
 	while (true) {
