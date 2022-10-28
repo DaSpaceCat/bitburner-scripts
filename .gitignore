@@ -23,7 +23,7 @@ playground/dist/
 **/NetscriptDefinitions.d.ts
 
 src/achive
-src/bitpaks
+src/bitpacks
 src/box
 src/os
 src/oCorp
