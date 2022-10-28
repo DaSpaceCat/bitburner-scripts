@@ -21,3 +21,10 @@ playground/dist/
 
 # Bitburner type definitions
 **/NetscriptDefinitions.d.ts
+
+src/achive
+src/bitpaks
+src/box
+src/os
+src/oCorp
+src/xsink

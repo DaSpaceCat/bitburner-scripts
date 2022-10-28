@@ -1,0 +1,30 @@
+rm - Remove files and directories
+
+Usage:
+rm [OPTIONS]... FILE... 
+
+-f, --force
+    ignore nonexistent files, never prompt
+-r, -R, --recursive
+    remove directories and their contents recursively 
+-v, --verbose
+    explain what is being done 
+-h, --host
+    run the command on the specified host
+--help
+    displays this help text
+
+Examples:
+rm foo.txt
+    Deletes foo.txt
+
+rm -rf foo.txt bar
+    Deletes foo.txt and the 'bar' directory without prompting for confirmation
+
+alias rm="run /bitpacks/rm/rm.js" to override the built-in terminal command.
+
+import {rm} from "/bitpacks/rm/rm.js" to use in scripts.
+function rm(ns: NS, files: string[], options: {recursive?: boolean, host: string});
+
+Example:
+rm(ns, ["test.txt", "some_directory"], {recursive: true, host: 'n00dles'});

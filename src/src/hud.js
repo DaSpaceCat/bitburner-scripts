@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-constant-condition */
 /* eslint-disable no-unused-vars */
-import { hudHelper, globalHelper } from "/src/helpers.js"
+import { hudHelper, globalHelper, formulaHelper } from "/src/helpers.js"
 
 //colors for the UI, defined how they would be in CSS
 const col = {
@@ -50,6 +50,7 @@ export async function main(ns) {
 	let srvMin = false;
 	let pltMin = false;
 	let runMin = false;
+	let mscMin = false;
 	let cusMin = false;
 	let nsgRun = null;
 	let toRun;
@@ -174,7 +175,7 @@ export async function main(ns) {
 				hudHelper.pushBreak(hed, val, 'GANG', '─────────────────', gngMin, "gngMin", 'gang');
 				hudHelper.startSec(hed, val, "gang", gngMin ? "none" : "inline");
 				if (ns.gang.getBonusTime() > 3000) {
-					hudHelper.pushCont(hed, val, "Bonus Time: ", ns.tFormat(ns.gang.getBonusTime()), col.hak);
+					hudHelper.pushCont(hed, val, "Bonus Time: ", ns.tFormat(ns.gang.getBonusTime()), col.int);
 				}
 				let gangType = (ns.gang.getGangInformation().isHacking) ? "Hacking" : "Combat";
 				hudHelper.pushCont(hed, val, "Faction: ", ns.gang.getGangInformation()['faction'] + ', ' + gangType, col.def);	
@@ -272,6 +273,19 @@ export async function main(ns) {
 			hudHelper.pushCont(hed, val, "Breach: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/xsink/breach.js', false]">Root every server you can.</button>`, col.hak)
 			hudHelper.pushCont(hed, val, "Matrix: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/ui/matrix.js', false]">Create a Matrix background.</button>`, col.hak)
 			hudHelper.pushCont(hed, val, "Map: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/mapt.js', true]">Show a map of all servers.</button>`, col.hak)
+			hudHelper.endSec(hed, val);
+			// --------------------------------
+			hudHelper.pushBreak(hed, val, 'MISC', '─────────────────', mscMin, "mscMin", 'misc');
+			hudHelper.startSec(hed, val, 'misc', mscMin ? "none" : "inline");
+			hudHelper.pushCont(hed, val, "Daedalus Req:", `Hacking Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', 2500), '0,0')}`, col.hak);
+			hudHelper.pushCont(hed, val, " │ ", `Strength Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'strength', 1500), '0,0')}`, col.sta);
+			hudHelper.pushCont(hed, val, " │ ", `Defense Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'defense', 1500), '0,0')}`, col.sta);
+			hudHelper.pushCont(hed, val, " │ ", `Dexterity Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'dexterity', 1500), '0,0')}`, col.sta);
+			hudHelper.pushCont(hed, val, " │ ", `Agility Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'agility', 1500), '0,0')}`, col.sta);
+			hudHelper.pushCont(hed, val, ` ╰─────────────`, `────────────────────────────────────────────`, col.def)
+			const wdl = ns.getBitNodeMultipliers().WorldDaemonDifficulty * 3000
+			hudHelper.pushCont(hed, val, "w0r1d_d43m0n", `Hack Req: ${wdl}`, col.hak);
+			hudHelper.pushCont(hed, val, "", `You need ${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', wdl), '')} exp.`, col.hak);
 			hudHelper.endSec(hed, val);
 			if (scriptContent) {
 				hudHelper.pushBreak(hed, val, 'SCRIPT CONTENT', '────────────', cusMin, "cusMin", 'scriptCont')

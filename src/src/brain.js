@@ -4,7 +4,7 @@
 this script is called with [server name], [ram usable (in gigabytes)], and [instance] (starts at 0)
 */
 
-import {hudHelper} from "./hud.js";
+import {hudHelper} from "/src/hud.js";
 
 /** @param {import(".").NS} ns */
 export async function WaitPids(ns, pids, hooks, vars, instance, cycles) {

@@ -1,0 +1,9 @@
+{
+    "bitpacks": {
+        "theme-browser": "4",
+        "ls": "7",
+        "rm": "6",
+        "bb-vue": "8"
+    },
+    "options": {}
+}

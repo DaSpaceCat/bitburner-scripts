@@ -6,7 +6,7 @@ export async function main(ns) {
         ns.tprint("You don't have a corporation you dingus");
         return;
     }
-    
     let corpObj = corp.getCorporation();
     if (corpObj[])
+        ;
 }

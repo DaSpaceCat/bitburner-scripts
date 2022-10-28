@@ -1,0 +1,12 @@
+{
+    "uniqueName": "ls",
+    "author": "Solomon (Talamond) Bailem",
+    "descriptiveName": "ls",
+    "shortDescription": "Alternate ls tool with added features",
+    "longDescription": "Alternative ls tool adding alternate view features, hidden files, and more",
+    "tags": [],
+    "aliases": {
+        "ls": "ls.js"
+    },
+    "welcome": "Use ls -h to see options. Some files are now hidden without ls -a."
+}

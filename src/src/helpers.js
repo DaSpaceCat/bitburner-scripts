@@ -245,3 +245,24 @@ export const gangHelper = {
 		return Math.max(1, d);
 	}
 }
+
+/** @param {import("../../").NS} s*/
+export const formulaHelper = {
+	hasFormulas : function (s) { return s.fileExists("Formulas.exe", "home"); },
+	//returns how much exp you need to get the provided level
+	getExpReq: function (s, sk, lvl) {
+		const exp = s.getPlayer()['exp'][sk];
+		const multi = s.getPlayer()['mults'][sk];
+		const expReq = s.formulas.skills.calculateExp(lvl, multi);
+		return expReq - exp;
+	},
+	/** @param {import("../../").NS} s*/
+	levelsFromExpGain: function (s, sk, exp) {
+		const multi = s.getPlayer()['mults'][sk];
+		const cexp = s.getPlayer()['exp'][sk] + exp;
+		const clvl = s.getPlayer()['skills'][sk];
+		const lvlExp = s.formulas.skills.calculateSkill(cexp, multi);
+		const extLvls = lvlExp - clvl;
+		return extLvls;
+	}
+}
