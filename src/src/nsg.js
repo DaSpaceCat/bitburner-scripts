@@ -1,4 +1,4 @@
-import { sleeveHelper } from "/src/helpers.js";
+import { sleeveHelper } from "./helpers.js";
 
 export async function main(ns) {
 	async function run() {
@@ -14,6 +14,7 @@ export async function main(ns) {
 	async function sleeve() {
 		if (sleeveDo.action != undefined) {
 			sleeveHelper.setTask(ns, true, undefined, sleeveDo.action, sleeveDo.task)
+			sleeveDo = undefined;
 		}
 	}
   while (true) {

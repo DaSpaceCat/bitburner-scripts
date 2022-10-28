@@ -2,7 +2,8 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-constant-condition */
 /* eslint-disable no-unused-vars */
-import { hudHelper, globalHelper, formulaHelper } from "/src/helpers.js"
+import { hudHelper, globalHelper, formulaHelper } from "./helpers.js"
+import { ProgressBar, FiraBar } from "./glyph.js"
 
 //colors for the UI, defined how they would be in CSS
 const col = {
@@ -20,6 +21,7 @@ let gMinPID;
 /** @param {NS} ns */
 /** @param {import("../../").NS} ns */
 export async function main(ns) {
+	ns.disableLog("ALL");
 	let hoverOvvCont = false;
 	const doc = eval('document');
 	const hook0 = doc.getElementById('overview-extra-hook-0');
@@ -257,6 +259,14 @@ export async function main(ns) {
 			hudHelper.pushBreak(hed, val, 'SERVER', '────────────────', srvMin, "srvMin", 'server');
 			hudHelper.startSec(hed, val, "server", srvMin ? "none" : "inline");
 			hudHelper.pushCont(hed, val, 'Home: ', "   Cores: " + ns.getServer('home').cpuCores + " | Ram: " + ns.nFormat(ns.getServerUsedRam('home'), '0,0') + ' / ' + ns.nFormat(ns.getServerMaxRam('home'), '0,0'), col.hak);
+			const mxRm = ns.getServerMaxRam('home');
+			const usRm = ns.getServerUsedRam('home');
+			const pcRm = (usRm / mxRm) * 100;
+			const pdf = 2.27272727272727;
+			const dpb = Math.floor(pcRm / pdf);
+			ns.print(`filled: ` + dpb);
+			ns.print(`precent of ram: ` + pcRm * 100);
+			hudHelper.pushCont(hed, val, 'Home: ', `${ProgressBar(44, dpb, FiraBar)}`, col.hak)
 			for (let i = 0; i <= srvs.length - 1; i++) {
 				hudHelper.pushCont(hed, val, srvs[i] + ": ", `Cores: ${ns.getServer(srvs[i]).cpuCores} | Ram: ${ns.nFormat(ns.getServerUsedRam(srvs[i]), '0,0')} / ${ns.nFormat(ns.getServerMaxRam(srvs[i]), '0,0')}`, col.hak);
 			}
@@ -295,8 +305,7 @@ export async function main(ns) {
 			}
 			hudHelper.endHud(hed ,val);
 			hook0.innerHTML = hed.join(" \n");
-			hook1.innerHTML = val.join("\n");
-			ns.print(doc.getElementById('hudMins'));
+			hook1.innerHTML = val.join("\n");	
 		}
 		catch (err) {
 			ns.print("ERROR: Update Skipped: " + String(err));

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-constant-condition */
-import { gangHelper } from "/src/helpers.js";
+import { gangHelper } from "./helpers.js";
 
 /** @param {import("../../").NS} ns */
 export async function main(ns) {
