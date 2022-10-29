@@ -136,10 +136,17 @@ export async function main(ns) {
 				}
 			}
 			hudHelper.pushCont(hed, val, 'Hack Income: ', ns.nFormat(ns.getTotalScriptIncome()[0], '$0,0') + ' /s', col.money);
-			/*if (ns.hacknet.numHashes() > 0) {
-			hed.push('Hashes: ');
-				val.push(' ' + ns.hacknet.numHashes().toPrecision(3) + ' / ' + ns.hacknet.hashCapacity().toPrecision(3));
-			}*/
+			// HASHNET
+			hudHelper.startSubsec(hed, val, 'HASHNET', '─────────────────');
+			hudHelper.pushContSub(hed, val, 'Hashes: ', `${ns.nFormat(ns.hacknet.numHashes(), '0,0')} / ${ns.nFormat(ns.hacknet.hashCapacity(), '0,0')}`, col.money);
+			//calc hash gain
+			let hashGain = 0;
+			for (let i = 0; i < ns.hacknet.numNodes(); i++) {
+				hashGain += ns.hacknet.getNodeStats(i).production;
+			}
+			hudHelper.pushContSub(hed, val, 'Hash Gain: ', ns.nFormat(hashGain, '0,0.000') + ' h/s', col.money);
+			hudHelper.pushContSub(hed, val, 'Nodes: ', ns.nFormat(ns.hacknet.numNodes(), '0,0'), col.hak);
+			hudHelper.endSubsec(hed, val);
 			hudHelper.endSec(hed, val);
 			// --------------------------------
 			hudHelper.pushBreak(hed, val, 'SLEEVE', '────────────────', slvMin, "slvMin", 'sleeve')
@@ -212,7 +219,7 @@ export async function main(ns) {
 				hudHelper.endSec(hed, val);
 			}
 			// --------------------------------
-			if (ns.getPlayer()['inBladeburner']) {
+			/*if (ns.getPlayer()['inBladeburner']) {
 				hudHelper.pushBreak(hed, val, 'BLADEBURNERS', '─────────────', bldMin, "bldMin", 'blade');
 				hudHelper.startSec(hed, val, "blade", bldMin ? "none" : "inline");
 				if (ns.bladeburner.getBonusTime > 3000) {
@@ -254,7 +261,7 @@ export async function main(ns) {
 				hudHelper.pushCont(hed, val, "Skill Points: ", ns.nFormat(ns.bladeburner.getSkillPoints(), '0,0'), col.hak);
 				hudHelper.pushCont(hed, val, "City: ", ns.bladeburner.getCity(), col.sta);
 				hudHelper.endSec(hed, val);
-			}
+			}*/
 			// --------------------------------
 			hudHelper.pushBreak(hed, val, 'SERVER', '────────────────', srvMin, "srvMin", 'server');
 			hudHelper.startSec(hed, val, "server", srvMin ? "none" : "inline");
@@ -266,9 +273,20 @@ export async function main(ns) {
 			const dpb = Math.floor(pcRm / pdf);
 			ns.print(`filled: ` + dpb);
 			ns.print(`precent of ram: ` + pcRm * 100);
-			hudHelper.pushCont(hed, val, 'Home: ', `${ProgressBar(44, dpb, FiraBar)}`, col.hak)
+			hudHelper.pushCont(hed, val, ' |----------> ', `${ProgressBar(44, dpb, FiraBar)}`, col.hak)
 			for (let i = 0; i <= srvs.length - 1; i++) {
-				hudHelper.pushCont(hed, val, srvs[i] + ": ", `Cores: ${ns.getServer(srvs[i]).cpuCores} | Ram: ${ns.nFormat(ns.getServerUsedRam(srvs[i]), '0,0')} / ${ns.nFormat(ns.getServerMaxRam(srvs[i]), '0,0')}`, col.hak);
+				hudHelper.pushCont(hed, val, ` ──────────────`, `─────────────────────────────────────────── `, col.def)
+				//shorten hacknet node names
+				const dspSrv = srvs[i].replace('hacknet-node', 'HKN');
+				hudHelper.pushCont(hed, val, dspSrv + ": ", `Cores: ${ns.getServer(srvs[i]).cpuCores} | Ram: ${ns.nFormat(ns.getServerUsedRam(srvs[i]), '0,0')} / ${ns.nFormat(ns.getServerMaxRam(srvs[i]), '0,0')}`, col.hak);
+				const mxRm = ns.getServerMaxRam(srvs[i]);
+				const usRm = ns.getServerUsedRam(srvs[i]);
+				const pcRm = (usRm / mxRm) * 100;
+				const pdf = 2.27272727272727;
+				const dpb = Math.floor(pcRm / pdf);
+				ns.print(`filled: ` + dpb);
+				ns.print(`precent of ram: ` + pcRm * 100);
+				hudHelper.pushCont(hed, val, ' |----------> ', `${ProgressBar(44, dpb, FiraBar)}`, col.hak)
 			}
 			hudHelper.endSec(hed, val);
 			// --------------------------------

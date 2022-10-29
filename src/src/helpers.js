@@ -71,6 +71,16 @@ export const hudHelper = {
 	},
 	endHud: function(hed, val) {
 		this.pushContE(hed, val, "╰───────────────", "────────────────────────────────────────────╯", "#FFFFFF")
+	},
+	startSubsec: function(hed, val, t, f) {
+		this.pushContE(hed ,val, "│╭──────────────", `${f} <span style="color: #98C379">${t}</span> ${f}╮│`, "#FFFFFF")
+	},
+	endSubsec: function(hed, val) {
+		this.pushContE(hed, val, "│╰──────────────", "───────────────────────────────────────────╯│", "#FFFFFF")
+	},
+	pushContSub: function(hed, val, tp, cont, col) {
+		hed.push(`<span style="color: #ffffff">││</span><span style="color: ${col}">${tp}</span><br>`)
+		val.push(`<span style="color: ${col}">${cont}</span><span style="color: #ffffff">││</span><br>`)
 	}
 }
 
@@ -147,7 +157,7 @@ export const sleeveHelper = {
 				return;
 			}
 			for (let j = 0; j < augs.length; j++) {
-				s.purchaseSleeveAug(i, augs[j]);
+				eval("s.purchaseSleeveAug(i, augs[j])");
 			}
 			return;
 		}
