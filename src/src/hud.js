@@ -16,6 +16,33 @@ const col = {
 	hp: "#E06C75"
 }
 
+const verse = [
+"            ", "              O                          ",
+"            ", " |  O  O      |      O  O  |             ",
+"        O   ", " |  | /     __|       \\ |  |    O        ",
+"      O |   ", " O  | |  O /  |  O    | |  O    | O      ",
+"    | | |   ", " |  |_/  |/   |   \\_  \\_|  |    | | |    ",
+"  O | | | O ", " |  | O__/    |   / \\__ |  |  O | | | O  ",
+"  | | | | | ", " |  |   /    /|  O  /  \\|  |  | | | | |  ",
+"O | | |  \\| ", " |  O  /   _/ |    /    O  |  |/  | | | O",
+"| | | |O  / ", " |  | O   /   |   O   O |  |  \\  O| | | |",
+"| | |/  \\/  ", "/ __| | |/ \\  |   \\   | |__ \\  \\/  \\| | |",
+" \\| O   |  |", "_/    |\\|   \\ O    \\__|    \\_|  |   O |/ ",
+"  | |   |_/ ", "      | |    \\|    /  |       \\_|   | |  ",
+"   \\|   /   ", "       \\|     |   /  /          \\   |/   ",
+"    |  O    ", "        |     |  /  |            O  |    ",
+"  O |  |    ", "        |     |     |            |  | O  ",
+"  | |  |    ", "        /    / \\    \\            |  | |  ",
+"   \\|  |    ", "       /  O /   \\ O  \\           |  |/   ",
+"    \\  |    ", "      /  / |     | \\  \\          |  /    ",
+"     \\ \\JUMP", " O3R |  |  |     |  |  | R3O PMUJ/ /     ",
+"      \\||   ", " |   |  |  |     |  |  |   |    ||/      ",
+"       \\|   ", "  \\_ |  |  |     |  |  | _/     |/       ",
+"        \\   ", "    \\| /    \\   /    \\ |/       /        ",
+"         O  ", "     |/   O  | |  O   \\|       O         ",
+"         |  ", "     |    |  | |  |    |       |         ",
+"          \\J", "UMP3R|JUMP|3R| |R3|PMUJ|R3PMUJ/          "
+]
 
 let gMinPID;
 /** @param {NS} ns */
@@ -53,6 +80,7 @@ export async function main(ns) {
 	let pltMin = false;
 	let runMin = false;
 	let mscMin = false;
+	let bvsMin = false;
 	let cusMin = false;
 	let nsgRun = null;
 	let toRun;
@@ -314,6 +342,12 @@ export async function main(ns) {
 			const wdl = ns.getBitNodeMultipliers().WorldDaemonDifficulty * 3000
 			hudHelper.pushCont(hed, val, "w0r1d_d43m0n", `Hack Req: ${wdl}`, col.hak);
 			hudHelper.pushCont(hed, val, "", `You need ${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', wdl), '')} exp.`, col.hak);
+			hudHelper.endSec(hed, val);
+			hudHelper.pushBreak(hed, val, 'BITVERSE', '───────────────', bvsMin, "bvsMin", 'bitverse');
+			hudHelper.startSec(hed, val, 'bitverse', bvsMin ? "none" : "inline");
+			for (let i = 0; i < verse.length; i += 2) {
+				hudHelper.pushCont(hed, val, `<span style="white-space: break-spaces;">   ${verse[i]}</span>`, `<span style="white-space: break-spaces;">${verse[i + 1]}   </span>`, col.hak)
+			}
 			hudHelper.endSec(hed, val);
 			if (scriptContent) {
 				hudHelper.pushBreak(hed, val, 'SCRIPT CONTENT', '────────────', cusMin, "cusMin", 'scriptCont')
