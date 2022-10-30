@@ -84,6 +84,23 @@ export const hudHelper = {
 	}
 }
 
+export const miscHelper = {
+	/** 
+	 * Gets a route to the specified server.
+	 * @param {ns} Netscript ref.
+	 * @param {string} srv The server to get the route to.
+	 * @returns {array} An array containing the route.
+	 */
+	findRoute: function (s, srv) {
+		let route = [srv]
+		while (route[0] != "home") {
+			let temp = s.scan(route[0])
+			route.unshift(temp[0])
+		}
+		return route;
+	}
+}
+
 //helpers dealing with sleeve actions
 //mostly just a diff function for task setting cause i think the way it's in the game normally is stupid
 export const sleeveHelper = {

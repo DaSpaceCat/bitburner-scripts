@@ -5,6 +5,7 @@ import { gangHelper } from "./helpers.js";
 /** @param {import("../../").NS} ns */
 export async function main(ns) {
 	const lvlThres = 20000
+	const ascThres = 8000
 	while (true) {
 		if (ns.gang.inGang()) {
 			//do member recruting if we can
@@ -46,17 +47,17 @@ export async function main(ns) {
 				const member = ns.gang.getMemberInformation(members[i])
 				//basically, what this says, is that when every stat applicable to the gang type, based off of 0x asc, we will ascend
 				if (ns.gang.getGangInformation().isHacking) {
-					const expGoalHck = member.hack_asc_mult * 4000;
+					const expGoalHck = member.hack_asc_mult * ascThres;
 					if (member.hack_exp >= expGoalHck) {
 						ns.gang.ascendMember(members[i]);
 						const n = new Notification("Gang", { body: `${members[i]} has been ascended!` });
 					}
 				} else {
 					//for COMBAT gangs
-					const expGoalAgi = member.agi_asc_mult * 4000;
-					const expGoalDef = member.def_asc_mult * 4000;
-					const expGoalDex = member.dex_asc_mult * 4000;
-					const expGoalStr = member.str_asc_mult * 4000;
+					const expGoalAgi = member.agi_asc_mult * ascThres;
+					const expGoalDef = member.def_asc_mult * ascThres;
+					const expGoalDex = member.dex_asc_mult * ascThres;
+					const expGoalStr = member.str_asc_mult * ascThres;
 					if ((member.agi_exp >= expGoalAgi || member.agi >= lvlThres) && member.def_exp >= expGoalDef && member.dex_exp >= expGoalDex && member.str_exp >= expGoalStr) {
 						ns.gang.ascendMember(members[i]);
 						const n = new Notification("Gang", {body: `${members[i]} has been ascended!`});

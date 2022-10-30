@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
+import { miscHelper } from "./src/helpers.js";
+
 /**  @param {import("../").NS} ns */
 export async function main(ns) {
-	//uwu
-	let types = [];
+	//get gang aug types
+	/*let types = [];
 	ns.gang.getEquipmentNames().forEach((e) => {
 		const eType = ns.gang.getEquipmentType(e);
 		for (let i = 0; i < types.length; i++) {
@@ -10,5 +13,7 @@ export async function main(ns) {
 		}
 		types.push(eType);
 	});
-	ns.tprint(types);
+	ns.tprint(types);*/
+
+	ns.tprint(miscHelper.findRoute(ns, "The-Cave"));
 }

@@ -166,15 +166,22 @@ export async function main(ns) {
 			hudHelper.pushCont(hed, val, 'Hack Income: ', ns.nFormat(ns.getTotalScriptIncome()[0], '$0,0') + ' /s', col.money);
 			// HASHNET
 			hudHelper.startSubsec(hed, val, 'HASHNET', '─────────────────');
-			hudHelper.pushContSub(hed, val, 'Hashes: ', `${ns.nFormat(ns.hacknet.numHashes(), '0,0')} / ${ns.nFormat(ns.hacknet.hashCapacity(), '0,0')}`, col.money);
+			hudHelper.pushContSub(hed, val, 'Hashes: ', `${ns.nFormat(ns.hacknet.numHashes(), '0,0.000')} / ${ns.nFormat(ns.hacknet.hashCapacity(), '0,0')}`, col.hak);
+			hudHelper.pushContSub(hed, val, '"Money":', ns.nFormat(Math.floor(ns.hacknet.numHashes() / 4) * 1000000, '$0,0'), col.money);
+			hudHelper.pushContSub(hed, val, 'Corp Fund: ', ns.nFormat(Math.floor(ns.hacknet.numHashes() / 100) * 1000000000, '$0,0'), col.money);
 			//calc hash gain
 			let hashGain = 0;
 			for (let i = 0; i < ns.hacknet.numNodes(); i++) {
 				hashGain += ns.hacknet.getNodeStats(i).production;
 			}
-			hudHelper.pushContSub(hed, val, 'Hash Gain: ', ns.nFormat(hashGain, '0,0.000') + ' h/s', col.money);
+			hudHelper.pushContSub(hed, val, 'Hash Gain: ', ns.nFormat(hashGain, '0,0.000') + ' h/s', col.hak);
+			hudHelper.pushContSub(hed, val, '"Money" Gain: ', ns.nFormat((hashGain / 4) * 1000000, '$0,0'), col.money)
+			hudHelper.pushContSub(hed, val, 'Corp FGain:', ns.nFormat((hashGain / 100) * 1000000000, '$0,0'), col.money);
+			hudHelper.pushContSub(hed, val, "Exchange: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/getHashMoney.js', false]">Exchange hashes for money</button>`, col.money)
+			hudHelper.pushContSub(hed, val, "Exchange: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/getHashCorp.js', false]">Exchange hashes for Corp funds.</button>`, col.money)
 			hudHelper.pushContSub(hed, val, 'Nodes: ', ns.nFormat(ns.hacknet.numNodes(), '0,0'), col.hak);
 			hudHelper.endSubsec(hed, val);
+			// END HASHNET
 			hudHelper.endSec(hed, val);
 			// --------------------------------
 			hudHelper.pushBreak(hed, val, 'SLEEVE', '────────────────', slvMin, "slvMin", 'sleeve')
@@ -326,7 +333,7 @@ export async function main(ns) {
 			// --------------------------------
 			hudHelper.pushBreak(hed, val, 'SCRIPT RUNNERS', '────────────', runMin, "runMin", 'srcr');
 			hudHelper.startSec(hed, val, 'srcr', runMin ? "none" : "inline");
-			hudHelper.pushCont(hed, val, "Breach: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/xsink/breach.js', false]">Root every server you can.</button>`, col.hak)
+			hudHelper.pushCont(hed, val, "Breach: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/breach.js', false]">Root every server you can.</button>`, col.hak)
 			hudHelper.pushCont(hed, val, "Matrix: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/ui/matrix.js', false]">Create a Matrix background.</button>`, col.hak)
 			hudHelper.pushCont(hed, val, "Map: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/mapt.js', true]">Show a map of all servers.</button>`, col.hak)
 			hudHelper.endSec(hed, val);
@@ -362,6 +369,6 @@ export async function main(ns) {
 		catch (err) {
 			ns.print("ERROR: Update Skipped: " + String(err));
 		}
-		await ns.sleep(1000);
+		await ns.sleep(500);
 	}
 }
