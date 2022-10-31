@@ -28,9 +28,13 @@ export const globalHelper = {
 	}
 }
 
-//helpers that deal with creating custom HUD displays
+/**
+ * Library of HUD helper functions.
+ */
 export const hudHelper = {
-	//cVar should be a STRING that is the variable
+	/** 
+	 * Internal Function.
+	 */
 	createMin: function(dv, isMin, cVar, id) {
 		dv.slice(0, -4);
 		if (isMin) {
@@ -40,44 +44,116 @@ export const hudHelper = {
 		}
 		return dv;
 	},
+
+	/**
+	 * End a section of the HUD.
+	 * @param {hed} array The array of hud header elements.
+	 * @param {val} array The array of hud value elements.
+	 */
 	endSec: function(hed, val) {
 		hed.push("</div>")
 		val.push("</div>")
 	},
-	//min is the boolean passed, minVar is the boolean var name passed as a string
+
+	/**
+	 * Insert a break between sections of the HUD.
+	 * @param {hed} array The array of hud header elements.
+	 * @param {val} array The array of hud value elements.
+	 * @param {sec} string The name of the section.
+	 * @param {dv} string The divider string. should be made up of the ─ character.
+	 * @param {min} boolean Whether or not the section should be minimized by default.
+	 * @param {minVar} string The name of the variable that will be used to store the minimized state.
+	 * @param {cls} string The class name of the DIV the minimize button wil use.
+	 */
 	pushBreak: function(hed, val, sec, dv, min, minVar, cls) {
 		hed.push(`<span style="color: #FFFFFF">├───────────────</span><br>`)
 		val.push(`<span style="color: #FFFFFF">${dv} <span style="color: #98C379">${sec}</span> ${hudHelper.createMin(dv, min, minVar, cls)}┤</span><br>`)
 	},
-	pushCont: function(hed, val, tp, cont, col, all) {
+
+	/**
+	 * Insert content into the hud.
+	 * @param {hed} array The array of hud header elements.
+	 * @param {val} array The array of hud value elements.
+	 * @param {tp} string The header content.
+	 * @param {val} string The value content.
+	 * @param {col} string The color of the content. can be any valid CSS color value
+	 * @param {allign} string Optional. The CSS text allignment of the content.
+	 */
+	pushCont: function(hed, val, tp, cont, col, allign) {
 		hed.push(`<span style="color: #ffffff">│</span><span style="color: ${col}">${tp}</span><br>`)
 		if (all != undefined) {
-			val.push(`<span style="color: ${col}; text-allign: ${all}">${cont}</span><span style="color: #ffffff">│</span><br>`)
+			val.push(`<span style="color: ${col}; text-allign: ${allign}">${cont}</span><span style="color: #ffffff">│</span><br>`)
 			return;
 		}
 		val.push(`<span style="color: ${col}">${cont}</span><span style="color: #ffffff">│</span><br>`)
 	},
+
+	/**
+	 * Internal Function.
+	 */
 	pushContE: function(hed, val, tp, cont, col) {
 		hed.push(`<span style="color: ${col}">${tp}</span><br>`)
 		val.push(`<span style="color: ${col}">${cont}</span><br>`)
 	},
-	//dsp should either be "none" or "inline"
+
+	/**
+	 * Start a section of the hud. has no effect on the hud appearance.
+	 * @param {hed} array The array of hud header elements.
+	 * @param {val} array The array of hud value elements.
+	 * @param {clas} string The class of the section.
+	 * @param {dsp} string The display style of the section. should be either "none" or "inline".
+	 */
 	startSec: function(hed, val, clas, dsp) {
 		hed.push(`<div class="${clas}" style="display: ${dsp}">`)
 		val.push(`<div class="${clas}" style="display: ${dsp}">`)
 	},
+
+	/**
+	 * Push the starting text of the HUD.
+	 * @param {hed} array The array of hud header elements.
+	 * @param {val} array The array of hud value elements.
+	 */
 	startHud: function(hed, val) {
 		this.pushContE(hed ,val, "╭───────────────", "────────────────────────────────────────────╮", "#FFFFFF")
 	},
+
+	/**
+	 * Push the ending text of the HUD.
+	 * @param {hed} array The array of hud header elements.
+	 * @param {val} array The array of hud value elements.
+	 */
 	endHud: function(hed, val) {
 		this.pushContE(hed, val, "╰───────────────", "────────────────────────────────────────────╯", "#FFFFFF")
 	},
+
+	/**
+	 * Start a subsection of the HUD.
+	 * @param {hed} array The array of hud header elements.
+	 * @param {val} array The array of hud value elements.
+	 * @param {t} string The title of the subsection.
+	 * @param {f} string The divider text. should be made up of the ─ character.
+	 */
 	startSubsec: function(hed, val, t, f) {
 		this.pushContE(hed ,val, "│╭──────────────", `${f} <span style="color: #98C379">${t}</span> ${f}╮│`, "#FFFFFF")
 	},
+
+	/**
+	 * End a subsection of the HUD.
+	 * @param {hed} array The array of hud header elements.
+	 * @param {val} array The array of hud value elements.
+	 */
 	endSubsec: function(hed, val) {
 		this.pushContE(hed, val, "│╰──────────────", "───────────────────────────────────────────╯│", "#FFFFFF")
 	},
+
+	/**
+	 * 
+	 * @param {hed} array The array of hud header elements.
+	 * @param {val} array The array of hud value elements.
+	 * @param {tp} string The header content.
+	 * @param {cont} string The value content.
+	 * @param {col} string The color of the content. can be any valid CSS color value
+	 */
 	pushContSub: function(hed, val, tp, cont, col) {
 		hed.push(`<span style="color: #ffffff">││</span><span style="color: ${col}">${tp}</span><br>`)
 		val.push(`<span style="color: ${col}">${cont}</span><span style="color: #ffffff">││</span><br>`)
@@ -87,7 +163,7 @@ export const hudHelper = {
 export const miscHelper = {
 	/** 
 	 * Gets a route to the specified server.
-	 * @param {ns} Netscript ref.
+	 * @param {s} ns Reference to netscript.
 	 * @param {string} srv The server to get the route to.
 	 * @returns {array} An array containing the route.
 	 */
