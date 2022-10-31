@@ -167,7 +167,7 @@ export async function main(ns) {
 			// HASHNET
 			hudHelper.startSubsec(hed, val, 'HASHNET', '─────────────────');
 			hudHelper.pushContSub(hed, val, 'Hashes: ', `${ns.nFormat(ns.hacknet.numHashes(), '0,0.000')} / ${ns.nFormat(ns.hacknet.hashCapacity(), '0,0')}`, col.hak);
-			hudHelper.pushContSub(hed, val, '"Money":', ns.nFormat(Math.floor(ns.hacknet.numHashes() / 4) * 1000000, '$0,0'), col.money);
+			hudHelper.pushContSub(hed, val, '"Money":', `${ns.nFormat(Math.floor(ns.hacknet.numHashes() / 4) * 1000000, '$0,0')} / ${ns.nFormat((ns.hacknet.hashCapacity() / 4) * 1000000, '$0,0')}`, col.money);
 			hudHelper.pushContSub(hed, val, 'Corp Fund: ', ns.nFormat(Math.floor(ns.hacknet.numHashes() / 100) * 1000000000, '$0,0'), col.money);
 			//calc hash gain
 			let hashGain = 0;
