@@ -47,8 +47,8 @@ export const hudHelper = {
 
 	/**
 	 * End a section of the HUD.
-	 * @param {hed} array The array of hud header elements.
-	 * @param {val} array The array of hud value elements.
+	 * @param {array} hed The array of hud header elements.
+	 * @param {array} val The array of hud value elements.
 	 */
 	endSec: function(hed, val) {
 		hed.push("</div>")
@@ -57,13 +57,13 @@ export const hudHelper = {
 
 	/**
 	 * Insert a break between sections of the HUD.
-	 * @param {hed} array The array of hud header elements.
-	 * @param {val} array The array of hud value elements.
-	 * @param {sec} string The name of the section.
-	 * @param {dv} string The divider string. should be made up of the ─ character.
-	 * @param {min} boolean Whether or not the section should be minimized by default.
-	 * @param {minVar} string The name of the variable that will be used to store the minimized state.
-	 * @param {cls} string The class name of the DIV the minimize button wil use.
+	 * @param {array} hed The array of hud header elements.
+	 * @param {array} val The array of hud value elements.
+	 * @param {string} sec The name of the section.
+	 * @param {string} dv The divider string. should be made up of the ─ character.
+	 * @param {boolean} min Whether or not the section should be minimized by default.
+	 * @param {string} minVar The name of the variable that will be used to store the minimized state.
+	 * @param {string} cls The class name of the DIV the minimize button wil use.
 	 */
 	pushBreak: function(hed, val, sec, dv, min, minVar, cls) {
 		hed.push(`<span style="color: #FFFFFF">├───────────────</span><br>`)
@@ -72,12 +72,12 @@ export const hudHelper = {
 
 	/**
 	 * Insert content into the hud.
-	 * @param {hed} array The array of hud header elements.
-	 * @param {val} array The array of hud value elements.
-	 * @param {tp} string The header content.
-	 * @param {val} string The value content.
-	 * @param {col} string The color of the content. can be any valid CSS color value
-	 * @param {allign} string Optional. The CSS text allignment of the content.
+	 * @param {array} hed The array of hud header elements.
+	 * @param {array} val The array of hud value elements.
+	 * @param {string} tp The header content.
+	 * @param {string} val The value content.
+	 * @param {string} col The color of the content. can be any valid CSS color value
+	 * @param {string} allign Optional. The CSS text allignment of the content.
 	 */
 	pushCont: function(hed, val, tp, cont, col, allign) {
 		hed.push(`<span style="color: #ffffff">│</span><span style="color: ${col}">${tp}</span><br>`)
@@ -98,10 +98,10 @@ export const hudHelper = {
 
 	/**
 	 * Start a section of the hud. has no effect on the hud appearance.
-	 * @param {hed} array The array of hud header elements.
-	 * @param {val} array The array of hud value elements.
-	 * @param {clas} string The class of the section.
-	 * @param {dsp} string The display style of the section. should be either "none" or "inline".
+	 * @param {array} hed The array of hud header elements.
+	 * @param {array} val The array of hud value elements.
+	 * @param {string} clas The class of the section.
+	 * @param {string} dsp The display style of the section. should be either "none" or "inline".
 	 */
 	startSec: function(hed, val, clas, dsp) {
 		hed.push(`<div class="${clas}" style="display: ${dsp}">`)
@@ -110,8 +110,8 @@ export const hudHelper = {
 
 	/**
 	 * Push the starting text of the HUD.
-	 * @param {hed} array The array of hud header elements.
-	 * @param {val} array The array of hud value elements.
+	 * @param {array} hed The array of hud header elements.
+	 * @param {array} val The array of hud value elements.
 	 */
 	startHud: function(hed, val) {
 		this.pushContE(hed ,val, "╭───────────────", "────────────────────────────────────────────╮", "#FFFFFF")
@@ -119,8 +119,8 @@ export const hudHelper = {
 
 	/**
 	 * Push the ending text of the HUD.
-	 * @param {hed} array The array of hud header elements.
-	 * @param {val} array The array of hud value elements.
+	 * @param {array} hed The array of hud header elements.
+	 * @param {array} val The array of hud value elements.
 	 */
 	endHud: function(hed, val) {
 		this.pushContE(hed, val, "╰───────────────", "────────────────────────────────────────────╯", "#FFFFFF")
@@ -128,10 +128,10 @@ export const hudHelper = {
 
 	/**
 	 * Start a subsection of the HUD.
-	 * @param {hed} array The array of hud header elements.
-	 * @param {val} array The array of hud value elements.
-	 * @param {t} string The title of the subsection.
-	 * @param {f} string The divider text. should be made up of the ─ character.
+	 * @param {array} hed The array of hud header elements.
+	 * @param {array} val The array of hud value elements.
+	 * @param {string} t The title of the subsection.
+	 * @param {string} f The divider text. should be made up of the ─ character.
 	 */
 	startSubsec: function(hed, val, t, f) {
 		this.pushContE(hed ,val, "│╭──────────────", `${f} <span style="color: #98C379">${t}</span> ${f}╮│`, "#FFFFFF")
@@ -139,8 +139,8 @@ export const hudHelper = {
 
 	/**
 	 * End a subsection of the HUD.
-	 * @param {hed} array The array of hud header elements.
-	 * @param {val} array The array of hud value elements.
+	 * @param {array} hed The array of hud header elements.
+	 * @param {array} val The array of hud value elements.
 	 */
 	endSubsec: function(hed, val) {
 		this.pushContE(hed, val, "│╰──────────────", "───────────────────────────────────────────╯│", "#FFFFFF")
@@ -148,11 +148,11 @@ export const hudHelper = {
 
 	/**
 	 * 
-	 * @param {hed} array The array of hud header elements.
-	 * @param {val} array The array of hud value elements.
-	 * @param {tp} string The header content.
-	 * @param {cont} string The value content.
-	 * @param {col} string The color of the content. can be any valid CSS color value
+	 * @param {array} hed The array of hud header elements.
+	 * @param {array} val The array of hud value elements.
+	 * @param {string} tp The header content.
+	 * @param {string} col The color of the content. can be any valid CSS color value
+	 * @param {string} cont The value content.
 	 */
 	pushContSub: function(hed, val, tp, cont, col) {
 		hed.push(`<span style="color: #ffffff">││</span><span style="color: ${col}">${tp}</span><br>`)
@@ -163,7 +163,7 @@ export const hudHelper = {
 export const miscHelper = {
 	/** 
 	 * Gets a route to the specified server.
-	 * @param {s} ns Reference to netscript.
+	 * @param {ns} s Reference to netscript.
 	 * @param {string} srv The server to get the route to.
 	 * @returns {array} An array containing the route.
 	 */
