@@ -1,7 +1,29 @@
 /* eslint-disable no-self-assign */
 /* eslint-disable no-unreachable */
-//helpers that deal with global elements
+
+/*
+ ____  _     _ _       ____  _ _   _
+|  _ \| |__ (_| )___  | __ )(_) |_| |__  _   _ _ __ _ __   ___ _ __
+| |_) | '_ \| |// __| |  _ \| | __| '_ \| | | | '__| '_ \ / _ \ '__|
+|  _ <| | | | | \__ \ | |_) | | |_| |_) | |_| | |  | | | |  __/ |
+|_| \_\_| |_|_| |___/ |____/|_|\__|_.__/ \__,_|_|  |_| |_|\___|_|
+ _   _      _                   _     _ _
+| | | | ___| |_ __   ___ _ __  | |   (_) |__  _ __ __ _ _ __ _   _
+| |_| |/ _ \ | '_ \ / _ \ '__| | |   | | '_ \| '__/ _` | '__| | | |
+|  _  |  __/ | |_) |  __/ |    | |___| | |_) | | | (_| | |  | |_| |
+|_| |_|\___|_| .__/ \___|_|    |_____|_|_.__/|_|  \__,_|_|   \__, |
+             |_|                                             |___/
+*/
+
+/**
+ * Helpers for global objects in the DOM
+ */
 export const globalHelper = {
+	/**
+	 * Inject a script into the DOM
+	 * @param {string} id HTML element id
+	 * @param {string} script the JavaScript to inject.
+	 */
 	createGlobalScript: function(id, script) {
 		let doc = eval("document")
 		if (doc.getElementById(id) == null) {
@@ -14,6 +36,12 @@ export const globalHelper = {
 			doc.getElementById(id).innerHTML = script;
 		}
 	},
+
+	/**
+	 * Inject CSS into the DOM
+	 * @param {string} id HTML element id
+	 * @param {string} style the CSS to inject.
+	 */
 	createGlobalStyle: function (id, style) {
 		let doc = eval("document")
 		if (doc.getElementById(id) == null) {
@@ -29,7 +57,7 @@ export const globalHelper = {
 }
 
 /**
- * Library of HUD helper functions.
+ * HUD helper functions.
  */
 export const hudHelper = {
 	/** 
@@ -160,6 +188,9 @@ export const hudHelper = {
 	}
 }
 
+/**
+ * Miscelaneous helper functions that didn't fit anywhere else.
+ */
 export const miscHelper = {
 	/** 
 	 * Gets a route to the specified server.
@@ -177,9 +208,19 @@ export const miscHelper = {
 	}
 }
 
-//helpers dealing with sleeve actions
-//mostly just a diff function for task setting cause i think the way it's in the game normally is stupid
+/**
+ * Sleeve API helpers.
+ */
 export const sleeveHelper = {
+	/**
+	 * Change the action of a sleeve.
+	 * @param {ns} s Netscript reference.
+	 * @param {boolean} a If true, change the action of every sleeve.
+	 * @param {number} n The sleeve to change the action of. Can be any number if `a` is `true`.
+	 * @param {string} t The action to change to. Can be: `"recovery"`, `"sync"`, `"crime"`, `"wFaction"`, `"wCompany"`, `"gym"`, `"uni"`, or `"blade"`. 
+	 * @param {string} o1 The sub-action of the action. Only applies to some actions.
+	 * @param {string} o2 The sub-sub-action of the action. Only applies to some actions.
+	 */
 	setTask: function(s, a, n, t, o1, o2) {
 		let i = n;
 		let sleeves = 1
@@ -238,6 +279,11 @@ export const sleeveHelper = {
 			}
 		}
 	},
+
+	/**
+	 * Buy all augments for every sleeve.
+	 * @param {ns} s Netscript reference.
+	 */
 	buyAllAugs: function (s) {
 		for (let i = 0; i < s.sleeve.getNumSleeves(); i++) {
 			const augs = eval("s.sleeve.getSleevePurchasableAugs(i)");
@@ -257,7 +303,15 @@ export const sleeveHelper = {
 	}
 }
 
+/**
+ * Helper functions for Gangs.
+ */
 export const gangHelper = {
+	/**
+	 * get a random name from a list, excluding current names.
+	 * @param {array} members The array of current gang members.
+	 * @returns a random name from the list, excluding names in the passed list.
+	 */
 	randomName: function (members) {
 		const names = [
 			"Boe Jiden",
@@ -341,6 +395,13 @@ export const gangHelper = {
 		}
 		return names[Math.floor(Math.random() * names.length)];
 	},
+
+	/**
+	 * Get the current equipment discount for a gang.
+	 * @param {number} pwr the gang's power
+	 * @param {number} rep the gang's reputation
+	 * @returns {number} The discount percentage
+	 */
 	getUpgradeDiscount: function (pwr, rep) {
 		const rlf = 5e6;
 		const plf = 1e6;
@@ -349,17 +410,38 @@ export const gangHelper = {
 	}
 }
 
-/** @param {import("../../").NS} s*/
+/**
+ * Helpers for the Formulas API.
+ */
 export const formulaHelper = {
+	/**
+	 * Check if the player has formulas.
+	 * @param {ns} s netscript object
+	 * @returns boolean stating whether or not the player has formulas.exe
+	 */
 	hasFormulas : function (s) { return s.fileExists("Formulas.exe", "home"); },
-	//returns how much exp you need to get the provided level
+
+	/** 
+	 * Get the EXP required to get to a specific level of a skill.
+	 * @param {ns} s netscript object
+	 * @param {string} sk The skill to check.
+	 * @param {number} lvl The level you want to get to.
+	 * @returns The EXP required to get to the specified level.
+	*/
 	getExpReq: function (s, sk, lvl) {
 		const exp = s.getPlayer()['exp'][sk];
 		const multi = s.getPlayer()['mults'][sk];
 		const expReq = s.formulas.skills.calculateExp(lvl, multi);
 		return expReq - exp;
 	},
-	/** @param {import("../../").NS} s*/
+	
+	/**
+	 * get how many levels that getting `exp` EXP will give you.
+	 * @param {ns} s netscript object
+	 * @param {string} sk the skill to check
+	 * @param {number} exp the amount of EXP to use for the calculation.
+	 * @returns 
+	 */
 	levelsFromExpGain: function (s, sk, exp) {
 		const multi = s.getPlayer()['mults'][sk];
 		const cexp = s.getPlayer()['exp'][sk] + exp;
