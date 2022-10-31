@@ -75,7 +75,7 @@ export const hudHelper = {
 	 * @param {array} hed The array of hud header elements.
 	 * @param {array} val The array of hud value elements.
 	 * @param {string} tp The header content.
-	 * @param {string} val The value content.
+	 * @param {string} cont The value content.
 	 * @param {string} col The color of the content. can be any valid CSS color value
 	 * @param {string} allign Optional. The CSS text allignment of the content.
 	 */
