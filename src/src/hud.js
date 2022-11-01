@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-constant-condition */
 /* eslint-disable no-unused-vars */
-import { hudHelper, globalHelper, formulaHelper } from "./helpers.js"
+import { hudHelper, globalHelper, formulaHelper, hashnetHelper } from "./helpers.js"
 import { ProgressBar, FiraBar } from "./glyph.js"
 
 //colors for the UI, defined how they would be in CSS
@@ -168,7 +168,8 @@ export async function main(ns) {
 			hudHelper.startSubsec(hed, val, 'HASHNET', '─────────────────');
 			hudHelper.pushContSub(hed, val, 'Hashes: ', `${ns.nFormat(ns.hacknet.numHashes(), '0,0.000')} / ${ns.nFormat(ns.hacknet.hashCapacity(), '0,0')}`, col.hak);
 			hudHelper.pushContSub(hed, val, '"Money":', `${ns.nFormat(Math.floor(ns.hacknet.numHashes() / 4) * 1000000, '$0,0')} / ${ns.nFormat((ns.hacknet.hashCapacity() / 4) * 1000000, '$0,0')}`, col.money);
-			hudHelper.pushContSub(hed, val, 'Corp Fund: ', ns.nFormat(Math.floor(ns.hacknet.numHashes() / 100) * 1000000000, '$0,0'), col.money);
+			const posCorp = hashnetHelper.canGet(ns, "Sell for Corporation Funds")
+			hudHelper.pushContSub(hed, val, 'Corp Fund: ', ns.nFormat(posCorp * 1000000000, '$0,0'), col.money);
 			//calc hash gain
 			let hashGain = 0;
 			for (let i = 0; i < ns.hacknet.numNodes(); i++) {
@@ -176,7 +177,7 @@ export async function main(ns) {
 			}
 			hudHelper.pushContSub(hed, val, 'Hash Gain: ', ns.nFormat(hashGain, '0,0.000') + ' h/s', col.hak);
 			hudHelper.pushContSub(hed, val, '"Money" Gain: ', ns.nFormat((hashGain / 4) * 1000000, '$0,0'), col.money)
-			hudHelper.pushContSub(hed, val, 'Corp FGain:', ns.nFormat((hashGain / 100) * 1000000000, '$0,0'), col.money);
+			hudHelper.pushContSub(hed, val, 'Corp FGain:', ns.nFormat((hashGain / ns.hacknet.hashCost("Sell for Corporation Funds")) * 1000000000, '$0,0'), col.money);
 			hudHelper.pushContSub(hed, val, "Exchange: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/getHashMoney.js', false]">Exchange hashes for money</button>`, col.money)
 			hudHelper.pushContSub(hed, val, "Exchange: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/getHashCorp.js', false]">Exchange hashes for Corp funds.</button>`, col.money)
 			hudHelper.pushContSub(hed, val, 'Nodes: ', ns.nFormat(ns.hacknet.numNodes(), '0,0'), col.hak);

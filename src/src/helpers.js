@@ -456,22 +456,20 @@ export const hashnetHelper = {
 	 * Check if you have the hashes to purchase `num` of `upgrade`.
 	 * @param {ns} s Netscript object.
 	 * @param {string} upgrade The name of the upgrade. What's shown ingame.
-	 * @param {number} num The amount of upgrades you want to buy.
-	 * @returns A boolean that tells you if you can purchase `num` of `upgrade`.
+	 * @returns The number of `upgrade` you can buy with your current hashes.
 	 */
-	canGet: function (s, upgrade, num) {
-		const hashes = s.hacknet.numHashes();
+	canGet: function (s, upgrade) {
+		let hashes = s.hacknet.numHashes();
 		const dCost = s.hacknet.hashCost(upgrade, 1);
 		const inc = this.getPriceIncrease(upgrade);
-		for (i = 0; i < num; i++) {
+		for (let i = 0; hashes > 0; i++) {
 			//the cost will be the cost of what it is right now, and the cost of the increase
 			//multiplied by the current iteration of purchasing.
 			hashes -= dCost + (inc * i);
 			if (hashes < 0) {
-				return false;
+				return i;
 			}
 		}
-		return true;
 	},
 
 	/**
