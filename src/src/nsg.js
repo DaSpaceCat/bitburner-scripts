@@ -14,7 +14,7 @@ export async function main(ns) {
 	async function sleeve() {
 		if (sleeveDo.action != undefined) {
 			sleeveHelper.setTask(ns, true, undefined, sleeveDo.action, sleeveDo.task)
-			sleeveDo = undefined;
+			sleeveDo.action = undefined;
 		}
 	}
   while (true) {
