@@ -438,6 +438,6 @@ export async function main(ns) {
 		catch (err) {
 			ns.print("ERROR: Update Skipped: " + String(err));
 		}
-		await ns.sleep(500);
+		await ns.sleep(50);
 	}
 }
