@@ -106,7 +106,7 @@ export const hudHelper = {
 	 */
 	pushCont: function(hed, val, tp, cont, col, allign) {
 		hed.push(`<span style="color: #ffffff">│</span><span style="color: ${col}">${tp}</span><br>`)
-		if (all != undefined) {
+		if (allign != undefined) {
 			val.push(`<span style="color: ${col}; text-allign: ${allign}">${cont}</span><span style="color: #ffffff">│</span><br>`)
 			return;
 		}

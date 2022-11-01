@@ -254,7 +254,7 @@ export async function main(ns) {
 				hudHelper.endSec(hed, val);
 			}
 			// --------------------------------
-			/*if (ns.getPlayer()['inBladeburner']) {
+			if (ns.getPlayer()['inBladeburner']) {
 				hudHelper.pushBreak(hed, val, 'BLADEBURNERS', '─────────────', bldMin, "bldMin", 'blade');
 				hudHelper.startSec(hed, val, "blade", bldMin ? "none" : "inline");
 				if (ns.bladeburner.getBonusTime > 3000) {
@@ -296,7 +296,7 @@ export async function main(ns) {
 				hudHelper.pushCont(hed, val, "Skill Points: ", ns.nFormat(ns.bladeburner.getSkillPoints(), '0,0'), col.hak);
 				hudHelper.pushCont(hed, val, "City: ", ns.bladeburner.getCity(), col.sta);
 				hudHelper.endSec(hed, val);
-			}*/
+			}
 			// --------------------------------
 			hudHelper.pushBreak(hed, val, 'SERVER', '────────────────', srvMin, "srvMin", 'server');
 			hudHelper.startSec(hed, val, "server", srvMin ? "none" : "inline");
