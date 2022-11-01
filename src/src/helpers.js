@@ -451,3 +451,15 @@ export const formulaHelper = {
 		return extLvls;
 	}
 }
+
+/**
+ * Hashnet Helper functions.
+ */
+export const hashnetHelper = {
+
+	/** @param {import("../../").NS} s */
+	canGet: function (s, upgrade) {
+		s.hacknet.getHashUpgradeLevel(upgrade);
+		const hashes = s.hacknet.numHashes();
+	}
+}
