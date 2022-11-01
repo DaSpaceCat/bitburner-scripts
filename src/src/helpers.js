@@ -1,6 +1,3 @@
-/* eslint-disable no-self-assign */
-/* eslint-disable no-unreachable */
-
 /*
  ____  _     _ _       ____  _ _   _
 |  _ \| |__ (_| )___  | __ )(_) |_| |__  _   _ _ __ _ __   ___ _ __
@@ -453,13 +450,57 @@ export const formulaHelper = {
 }
 
 /**
- * Hashnet Helper functions.
+ * Helpers for the Hash/Hacknet API.
  */
 export const hashnetHelper = {
 
-	/** @param {import("../../").NS} s */
-	canGet: function (s, upgrade) {
-		s.hacknet.getHashUpgradeLevel(upgrade);
+	/**
+	 * Check if you have the hashes to purchase `num` of `upgrade`.
+	 * @param {ns} s Netscript object.
+	 * @param {string} upgrade The name of the upgrade. What's shown ingame.
+	 * @param {number} num The amount of upgrades you want to buy.
+	 * @returns A boolean that tells you if you can purchase `num` of `upgrade`.
+	 */
+	canGet: function (s, upgrade, num) {
 		const hashes = s.hacknet.numHashes();
+		const dCost = s.hacknet.hashCost(upgrade, 1);
+		const inc = this.getPriceIncrease(upgrade);
+		for (i = 0; i < num; i++) {
+			//the cost will be the cost of what it is right now, and the cost of the increase
+			//multiplied by the current iteration of purchasing.
+			hashes -= dCost + (inc * i);
+			if (hashes < 0) {
+				return false;
+			}
+		}
+		return true;
+	},
+
+	/**
+	 * get the price increase of a hashnet upgrade.
+	 * @param {string} upgrade the upgrade to check.
+	 * @returns {number} the price increase.
+	 */
+	getPriceIncrease: function (upgrade) {
+		switch (upgrade) {
+			case "Sell for Corporation Funds":
+				return 100;
+			case "Reduce Minimum Security":
+				return 50;
+			case "Increase Maximum Money":
+				return 50;
+			case "Improve Studying":
+				return 50;
+			case "Improve Gym Training":
+				return 50
+			case "Exchange for Corporation Research":
+				return 200;
+			case "Exchange for Bladeburner Rank":
+				return 250;
+			case "Exchange for Bladeburner SP":
+				return 250;
+			case "Generate Coding Contract":
+				return 200;
+		}
 	}
 }
