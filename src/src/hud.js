@@ -2,6 +2,23 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-constant-condition */
 /* eslint-disable no-unused-vars */
+
+/*
+ _               _    _
+| |__  _   _  __| |  (_)___
+| '_ \| | | |/ _` |  | / __|
+| | | | |_| | (_| |_ | \__ \
+|_| |_|\__,_|\__,_(_)/ |___/
+                   |__/
+
+ ____  _     _ _       _   _ _   _ ____                  _       _
+|  _ \| |__ (_| )___  | | | | | | |  _ \   ___  ___ _ __(_)_ __ | |_
+| |_) | '_ \| |// __| | |_| | | | | | | | / __|/ __| '__| | '_ \| __|
+|  _ <| | | | | \__ \ |  _  | |_| | |_| | \__ \ (__| |  | | |_) | |_
+|_| \_\_| |_|_| |___/ |_| |_|\___/|____/  |___/\___|_|  |_| .__/ \__|
+                                                          |_|
+*/
+
 import { hudHelper, globalHelper, formulaHelper, hashnetHelper } from "./helpers.js"
 import { ProgressBar, FiraBar } from "./glyph.js"
 
@@ -130,7 +147,13 @@ export async function main(ns) {
 			hudHelper.startHud(hed ,val)
 			hudHelper.pushCont(hed, val, "In: " + ns.getPlayer()['city'], "At: " + ns.getPlayer()['location'], col.def);
 			hudHelper.pushCont(hed, val, "Health: ", `${ns.nFormat(ns.getPlayer().hp.current, '0,0')} / ${ns.nFormat(ns.getPlayer().hp.max, '0,0')} | ${ns.nFormat(ns.getPlayer().hp.current/ns.getPlayer().hp.max, '0.000%')}`, col.hp)
-			// --------------------------------
+			/* --------------------------------
+			 ____  _    _ _ _
+			/ ___|| | _(_) | |___
+			\___ \| |/ / | | / __|
+			 ___) |   <| | | \__ \
+			|____/|_|\_\_|_|_|___/
+			-------------------------------- */
 			hudHelper.pushBreak(hed, val, 'LEVELS', '────────────────', lvlMin, "lvlMin", 'levels');
 			hudHelper.startSec(hed, val, "levels", lvlMin ? "none" : "inline");
 			hudHelper.pushCont(hed, val, "Hacking: ", `${ns.nFormat(ns.getPlayer().skills.hacking, '0,0')}`, col.hak);
@@ -154,7 +177,13 @@ export async function main(ns) {
 			hudHelper.pushCont(hed, val, "Total Karma: ", ns.nFormat(ns.heart.break(), '0,0'), col.cha);
 			hudHelper.pushCont(hed, val, "People Killed: ", ns.nFormat(ns.getPlayer()['numPeopleKilled'], '0,0'), col.hp);
 			hudHelper.endSec(hed, val);
-			// --------------------------------
+			/* --------------------------------
+			 ____             __ _ _
+			|  _ \ _ __ ___  / _(_) |_ ___
+			| |_) | '__/ _ \| |_| | __/ __|
+			|  __/| | | (_) |  _| | |_\__ \
+			|_|   |_|  \___/|_| |_|\__|___/
+			-------------------------------- */
 			hudHelper.pushBreak(hed, val, 'MONEY & PROFIT', '────────────', monMin, "monMin", 'money');
 			hudHelper.startSec(hed, val, "money", monMin ? "none" : "inline");
 			hudHelper.pushCont(hed, val, "Money: ", ns.nFormat(ns.getPlayer()['money'], '$0,0'), col.money);
@@ -165,26 +194,33 @@ export async function main(ns) {
 			}
 			hudHelper.pushCont(hed, val, 'Hack Income: ', ns.nFormat(ns.getTotalScriptIncome()[0], '$0,0') + ' /s', col.money);
 			// HASHNET
-			hudHelper.startSubsec(hed, val, 'HASHNET', '─────────────────');
-			hudHelper.pushContSub(hed, val, 'Hashes: ', `${ns.nFormat(ns.hacknet.numHashes(), '0,0.000')} / ${ns.nFormat(ns.hacknet.hashCapacity(), '0,0')}`, col.hak);
-			hudHelper.pushContSub(hed, val, '"Money":', `${ns.nFormat(Math.floor(ns.hacknet.numHashes() / 4) * 1000000, '$0,0')} / ${ns.nFormat((ns.hacknet.hashCapacity() / 4) * 1000000, '$0,0')}`, col.money);
-			const posCorp = hashnetHelper.canGet(ns, "Sell for Corporation Funds")
-			hudHelper.pushContSub(hed, val, 'Corp Fund: ', ns.nFormat(posCorp * 1000000000, '$0,0'), col.money);
-			//calc hash gain
-			let hashGain = 0;
-			for (let i = 0; i < ns.hacknet.numNodes(); i++) {
-				hashGain += ns.hacknet.getNodeStats(i).production;
+			if (ns.hacknet.numNodes() > 0) {
+				hudHelper.startSubsec(hed, val, 'HASHNET', '─────────────────');
+				hudHelper.pushContSub(hed, val, 'Hashes: ', `${ns.nFormat(ns.hacknet.numHashes(), '0,0.000')} / ${ns.nFormat(ns.hacknet.hashCapacity(), '0,0')}`, col.hak);
+				hudHelper.pushContSub(hed, val, '"Money":', `${ns.nFormat(Math.floor(ns.hacknet.numHashes() / 4) * 1000000, '$0,0')} / ${ns.nFormat((ns.hacknet.hashCapacity() / 4) * 1000000, '$0,0')}`, col.money);
+				const posCorp = hashnetHelper.canGet(ns, "Sell for Corporation Funds")
+				hudHelper.pushContSub(hed, val, 'Corp Fund: ', ns.nFormat(posCorp * 1000000000, '$0,0'), col.money);
+				//calc hash gain
+				let hashGain = 0;
+				for (let i = 0; i < ns.hacknet.numNodes(); i++) {
+					hashGain += ns.hacknet.getNodeStats(i).production;
+				}
+				hudHelper.pushContSub(hed, val, 'Hash Gain: ', ns.nFormat(hashGain, '0,0.000') + ' h/s', col.hak);
+				hudHelper.pushContSub(hed, val, '"Money" Gain: ', ns.nFormat((hashGain / 4) * 1000000, '$0,0'), col.money)
+				hudHelper.pushContSub(hed, val, 'Corp FGain:', ns.nFormat((hashGain / ns.hacknet.hashCost("Sell for Corporation Funds")) * 1000000000, '$0,0'), col.money);
+				hudHelper.pushContSub(hed, val, "Exchange: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/getHashMoney.js', false]">Exchange hashes for money</button>`, col.money)
+				hudHelper.pushContSub(hed, val, "Exchange: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/getHashCorp.js', false]">Exchange hashes for Corp funds.</button>`, col.money)
+				hudHelper.pushContSub(hed, val, 'Nodes: ', ns.nFormat(ns.hacknet.numNodes(), '0,0'), col.hak);
+				hudHelper.endSubsec(hed, val);
+				hudHelper.endSec(hed, val);
 			}
-			hudHelper.pushContSub(hed, val, 'Hash Gain: ', ns.nFormat(hashGain, '0,0.000') + ' h/s', col.hak);
-			hudHelper.pushContSub(hed, val, '"Money" Gain: ', ns.nFormat((hashGain / 4) * 1000000, '$0,0'), col.money)
-			hudHelper.pushContSub(hed, val, 'Corp FGain:', ns.nFormat((hashGain / ns.hacknet.hashCost("Sell for Corporation Funds")) * 1000000000, '$0,0'), col.money);
-			hudHelper.pushContSub(hed, val, "Exchange: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/getHashMoney.js', false]">Exchange hashes for money</button>`, col.money)
-			hudHelper.pushContSub(hed, val, "Exchange: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/getHashCorp.js', false]">Exchange hashes for Corp funds.</button>`, col.money)
-			hudHelper.pushContSub(hed, val, 'Nodes: ', ns.nFormat(ns.hacknet.numNodes(), '0,0'), col.hak);
-			hudHelper.endSubsec(hed, val);
-			// END HASHNET
-			hudHelper.endSec(hed, val);
-			// --------------------------------
+			/* --------------------------------
+			 ____  _
+			/ ___|| | ___  _____   _____  ___
+			\___ \| |/ _ \/ _ \ \ / / _ \/ __|
+			 ___) | |  __/  __/\ V /  __/\__ \
+			|____/|_|\___|\___| \_/ \___||___/
+			-------------------------------- */
 			hudHelper.pushBreak(hed, val, 'SLEEVE', '────────────────', slvMin, "slvMin", 'sleeve')
 			hudHelper.startSec(hed, val, "sleeve", slvMin ? "none" : "inline");
 			for (let i = 0; i < ns.sleeve.getNumSleeves(); i++) {
@@ -215,7 +251,14 @@ export async function main(ns) {
 			}
 			hudHelper.pushCont(hed, val, "quikMurder:", `<span class="gngRun" style="${buttonCSS}" onclick="sleeveDo.action = 'crime'; sleeveDo.task = 'Homicide';">Set every Sleeve to Homicide</button>`, col.hp)
 			hudHelper.endSec(hed, val);
-			// --------------------------------
+			/* --------------------------------
+			  ____
+			 / ___| __ _ _ __   __ _
+			| |  _ / _` | '_ \ / _` |
+			| |_| | (_| | | | | (_| |
+			 \____|\__,_|_| |_|\__, |
+			                   |___/
+			-------------------------------- */
 			if (ns.gang.inGang()) {
 				hudHelper.pushBreak(hed, val, 'GANG', '─────────────────', gngMin, "gngMin", 'gang');
 				hudHelper.startSec(hed, val, "gang", gngMin ? "none" : "inline");
@@ -237,7 +280,14 @@ export async function main(ns) {
 				}
 				hudHelper.endSec(hed, val);
 			}
-			// --------------------------------
+			/* --------------------------------
+			  ____                                 _   _
+			 / ___|___  _ __ _ __   ___  _ __ __ _| |_(_) ___  _ __
+			| |   / _ \| '__| '_ \ / _ \| '__/ _` | __| |/ _ \| '_ \
+			| |__| (_) | |  | |_) | (_) | | | (_| | |_| | (_) | | | |
+			 \____\___/|_|  | .__/ \___/|_|  \__,_|\__|_|\___/|_| |_|
+			                |_|
+			-------------------------------- */
 			if (ns.getPlayer()['hasCorporation']) {
 				let corp = eval("ns.corporation.getCorporation()");
 				let bTime = eval("ns.corporation.getBonusTime()")
@@ -254,7 +304,13 @@ export async function main(ns) {
 				hudHelper.pushCont(hed, val, "Shares: ", ns.nFormat(corp['numShares'], '0,0') + ' / ' + ns.nFormat(corp['totalShares'], '0,0'), col.hak);
 				hudHelper.endSec(hed, val);
 			}
-			// --------------------------------
+			/* --------------------------------
+			 ____  _           _      _
+			| __ )| | __ _  __| | ___| |__  _   _ _ __ _ __   ___ _ __
+			|  _ \| |/ _` |/ _` |/ _ \ '_ \| | | | '__| '_ \ / _ \ '__|
+			| |_) | | (_| | (_| |  __/ |_) | |_| | |  | | | |  __/ |
+			|____/|_|\__,_|\__,_|\___|_.__/ \__,_|_|  |_| |_|\___|_|
+			-------------------------------- */
 			if (ns.getPlayer()['inBladeburner']) {
 				hudHelper.pushBreak(hed, val, 'BLADEBURNERS', '─────────────', bldMin, "bldMin", 'blade');
 				hudHelper.startSec(hed, val, "blade", bldMin ? "none" : "inline");
@@ -298,7 +354,13 @@ export async function main(ns) {
 				hudHelper.pushCont(hed, val, "City: ", ns.bladeburner.getCity(), col.sta);
 				hudHelper.endSec(hed, val);
 			}
-			// --------------------------------
+			/* --------------------------------
+			 ____
+			/ ___|  ___ _ ____   _____ _ __ ___
+			\___ \ / _ \ '__\ \ / / _ \ '__/ __|
+			 ___) |  __/ |   \ V /  __/ |  \__ \
+			|____/ \___|_|    \_/ \___|_|  |___/
+			-------------------------------- */
 			hudHelper.pushBreak(hed, val, 'SERVER', '────────────────', srvMin, "srvMin", 'server');
 			hudHelper.startSec(hed, val, "server", srvMin ? "none" : "inline");
 			hudHelper.pushCont(hed, val, 'Home: ', "   Cores: " + ns.getServer('home').cpuCores + " | Ram: " + ns.nFormat(ns.getServerUsedRam('home'), '0,0') + ' / ' + ns.nFormat(ns.getServerMaxRam('home'), '0,0'), col.hak);
@@ -325,7 +387,13 @@ export async function main(ns) {
 				hudHelper.pushCont(hed, val, ' |----------> ', `${ProgressBar(44, dpb, FiraBar)}`, col.hak)
 			}
 			hudHelper.endSec(hed, val);
-			// --------------------------------
+			/* --------------------------------
+			 __  __ ___ ____   ____
+			|  \/  |_ _/ ___| / ___|
+			| |\/| || |\___ \| |
+			| |  | || | ___) | |___
+			|_|  |_|___|____/ \____|
+			-------------------------------- */
 			hudHelper.pushBreak(hed, val, 'PLAYTIME', '───────────────', pltMin, "pltMin", 'playt');
 			hudHelper.startSec(hed, val, "playt", pltMin ? "none" : "inline");
 			hudHelper.pushCont(hed, val, `BN${ns.getPlayer()['bitNodeN']}: `, ns.tFormat(ns.getPlayer()['playtimeSinceLastBitnode']), col.def);
