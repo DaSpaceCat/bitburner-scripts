@@ -66,81 +66,56 @@ let gMinPID;
 /** @param {import("../../").NS} ns */
 export async function main(ns) {
 	ns.disableLog("ALL");
+	
+	//grab some document elements, set hovering over hud to false
 	let hoverOvvCont = false;
 	const doc = eval('document');
 	const hook0 = doc.getElementById('overview-extra-hook-0');
 	const hook1 = doc.getElementById('overview-extra-hook-1');
 	const ovv = doc.getElementsByClassName('MuiPaper-root')[0];
 	const ovvCont = ovv.childNodes[1].firstChild.firstChild.firstChild;
+	
+	//change styles of those document elements for the custom HUD
+	ovv.style.borderRadius = "0px 0px 10px 10px";
+	ovv.style.backgroundColor = "rgba(33,37,43,0.8)";
+	ovv.style.backdropFilter = "blur(1px)";
+	ovv.style.border = "none";
+	ovv.style.boxShadow = "5px 5px 10px rgba(0,0,0,0.5)"
+	ovv.style.zIndex = "99999999";
+	ovv.style.transiton = "all .2s";
+	ovvCont.addEventListener('mouseover', (e) => {
+		ovvCont.style.maxHeight = "600px";
+		hoverOvvCont = true;
+	});
+	ovvCont.addEventListener('mouseout', (e) => {
+		ovvCont.style.maxHeight = "400px";
+		hoverOvvCont = false;
+	});
+	ovvCont.style.transition = "all .2s";
+	if (!hoverOvvCont) ovvCont.style.maxHeight = "400px";
+	ovvCont.style.overflow = "scroll";
+	//hide default stats
+	//                  VV should be 15 if you don't have int unlocked
+	for (let i = 0; i < 17; i++) {
+		let elm = ovvCont.firstChild.childNodes[i]
+		elm.style.display = "none";
+	}
+
+	//the extra servers are args passed to the script
 	let srvs = ns.args;
-	let gVars = `const ovvMin = function(cls) {
-		let els = document.getElementsByClassName(cls);
-		for (let i=0; i < els.length; i++) {els[i].style.display = "hidden"}
-		document.getElementById(cls).innerHTML = "";
-		document.getElementById(cls).onclick = ` + "`ovvMax(${cls})`" + `
-	}
-	const ovvMax = function(cls) {
-		let els = document.getElementsByClassName(cls);
-		for (let i=0; i < els.length; i++) {els[i].style.display = "inline"}
-		document.getElementById(cls).innerHTML = "";
-		document.getElementById(cls).onclick = ` + "`ovvMin('${cls}')`" + `
-	}
-	let lvlMin = false;
-	let crmMin = false;
-	let monMin = false;
-	let sklMin = false;
-	let slvMin = true;
-	let gngMin = false;
-	let crpMin = false;
-	let bldMin = false;
-	let srvMin = false;
-	let pltMin = false;
-	let runMin = false;
-	let mscMin = false;
-	let bvsMin = false;
-	let cusMin = false;
-	let nsgRun = null;
-	let toRun;
-	let scriptContent = false;
-	let scriptContentV0, scriptContentV1;
-	let sleeveDo = {action: undefined, task: undefined};`
-	let sty = `.scrRun:hover {background-color: ${col.hak}; color: ${col.def}}
-	.ovvMin:hover {color: ${col.hak}}`
+
+	//create global styles and variables
+	let gVars = `const ovvMin = function(cls) {let els = document.getElementsByClassName(cls);for (let i=0; i < els.length; i++) {els[i].style.display = "hidden"} document.getElementById(cls).innerHTML = "";document.getElementById(cls).onclick = ` + "`ovvMax(${cls})`" + `} const ovvMax = function(cls) {let els = document.getElementsByClassName(cls);for (let i=0; i < els.length; i++) {els[i].style.display = "inline"} document.getElementById(cls).innerHTML = "";document.getElementById(cls).onclick = ` + "`ovvMin('${cls}')`" + `} let lvlMin = false;let crmMin = false;let monMin = false;let sklMin = false;let slvMin = true;let gngMin = false;let crpMin = false;let bldMin = false;let srvMin = false;let pltMin = false;let runMin = false;let mscMin = false;let bvsMin = false;let cusMin = false;let nsgRun = null;let toRun;let scriptContent = false;let scriptContentV0, scriptContentV1;let sleeveDo = {action: undefined, task: undefined};`
+	let sty = `.scrRun:hover {background-color: ${col.hak}; color: ${col.def}} .ovvMin:hover {color: ${col.hak}}`
 	globalHelper.createGlobalStyle("hudSty", sty)
 	globalHelper.createGlobalScript("hudMins", gVars);
-	gMinPID = ns.run("/src/nsg.js");
 	let buttonCSS = `transition: all 0.2s; display: inline; width: 90%; background-color: rgba(0,0,0,0); cursor: pointer;`
+	
+	//exposes certian NS functions to a global context
+	gMinPID = ns.run("/src/nsg.js");
+	
+	//actual HUD
 	while (true) {
-		ovv.style.borderRadius = "0px 0px 10px 10px";
-		ovv.style.backgroundColor = "rgba(33,37,43,0.8)";
-		ovv.style.backdropFilter = "blur(1px)";
-		ovv.style.border = "none";
-		ovv.style.boxShadow = "5px 5px 10px rgba(0,0,0,0.5)"
-		ovv.style.zIndex = "99999999";
-		ovv.style.transiton = "all .2s";
-		/*ovv.addEventListener('mouseover', (e) => {
-			ovv.style.transform = "scale(1)";
-		});
-		ovv.addEventListener('mouseout', (e) => {
-			ovv.style.transform = "scale(1)";
-		});*/
-		ovvCont.addEventListener('mouseover', (e) => {
-			ovvCont.style.maxHeight = "600px";
-			hoverOvvCont = true;
-		});
-		ovvCont.addEventListener('mouseout', (e) => {
-			ovvCont.style.maxHeight = "400px";
-			hoverOvvCont = false;
-		});
-		ovvCont.style.transition = "all .2s";
-		if (!hoverOvvCont) ovvCont.style.maxHeight = "400px";
-		ovvCont.style.overflow = "scroll";
-		//hide default stats
-		//                  VV should be 15 if you don't have int unlocked
-		for (let i = 0; i < 17; i++) {
-			let elm = ovvCont.firstChild.childNodes[i]
-			elm.style.display = "none";
-		}
 		try {
 			const hed = [];
 			const val = [];
