@@ -117,11 +117,12 @@ export async function main(ns) {
 	//actual HUD
 	while (true) {
 		try {
+			const ply = ns.getPlayer();
 			const hed = [];
 			const val = [];
 			hudHelper.startHud(hed ,val)
-			hudHelper.pushCont(hed, val, "In: " + ns.getPlayer()['city'], "At: " + ns.getPlayer()['location'], col.def);
-			hudHelper.pushCont(hed, val, "Health: ", `${ns.nFormat(ns.getPlayer().hp.current, '0,0')} / ${ns.nFormat(ns.getPlayer().hp.max, '0,0')} | ${ns.nFormat(ns.getPlayer().hp.current/ns.getPlayer().hp.max, '0.000%')}`, col.hp)
+			hudHelper.pushCont(hed, val, "In: " + ply.city, "At: " + ply.location, col.def);
+			hudHelper.pushCont(hed, val, "Health: ", `${ns.nFormat(ply.hp.current, '0,0')} / ${ns.nFormat(ply.hp.max, '0,0')} | ${ns.nFormat(ply.hp.current/ply.hp.max, '0.000%')}`, col.hp)
 			/* --------------------------------
 			 ____  _    _ _ _
 			/ ___|| | _(_) | |___
@@ -131,26 +132,26 @@ export async function main(ns) {
 			-------------------------------- */
 			hudHelper.pushBreak(hed, val, 'LEVELS', '────────────────', lvlMin, "lvlMin", 'levels');
 			hudHelper.startSec(hed, val, "levels", lvlMin ? "none" : "inline");
-			hudHelper.pushCont(hed, val, "Hacking: ", `${ns.nFormat(ns.getPlayer().skills.hacking, '0,0')}`, col.hak);
-			hudHelper.pushCont(hed, val, "Str | Def: ", `${ns.nFormat(ns.getPlayer().skills.strength, '0,0')} | ${ns.nFormat(ns.getPlayer().skills.defense, '0,0')}`, col.sta);
-			hudHelper.pushCont(hed, val, "Dex | Agi: ", `${ns.nFormat(ns.getPlayer().skills.dexterity, '0,0')} | ${ns.nFormat(ns.getPlayer().skills.agility, '0,0')}`, col.sta);
-			hudHelper.pushCont(hed, val, "Charisma: ", `${ns.nFormat(ns.getPlayer().skills.charisma, '0,0')}`, col.cha);
-			hudHelper.pushCont(hed, val, 'Intelligence: ', ns.nFormat(ns.getPlayer().skills.intelligence, '0,0'), col.int);
+			hudHelper.pushCont(hed, val, "Hacking: ", `${ns.nFormat(ply.skills.hacking, '0,0')}`, col.hak);
+			hudHelper.pushCont(hed, val, "Str | Def: ", `${ns.nFormat(ply.skills.strength, '0,0')} | ${ns.nFormat(ply.skills.defense, '0,0')}`, col.sta);
+			hudHelper.pushCont(hed, val, "Dex | Agi: ", `${ns.nFormat(ply.skills.dexterity, '0,0')} | ${ns.nFormat(ply.skills.agility, '0,0')}`, col.sta);
+			hudHelper.pushCont(hed, val, "Charisma: ", `${ns.nFormat(ply.skills.charisma, '0,0')}`, col.cha);
+			hudHelper.pushCont(hed, val, 'Intelligence: ', ns.nFormat(ply.skills.intelligence, '0,0'), col.int);
 			hudHelper.endSec(hed, val);
 			// --------------------------------
 			hudHelper.pushBreak(hed, val, 'SKILL EXPERIENCE', '───────────', sklMin, "sklMin", 'skill');
 			hudHelper.startSec(hed, val, "skill", sklMin ? "none" : "inline");
-			hudHelper.pushCont(hed, val, "Hacking: ", ns.nFormat(ns.getPlayer()['exp']['hacking'], '0,0'), col.hak);
-			hudHelper.pushCont(hed, val, "Str | Def: ", ns.nFormat(ns.getPlayer()['exp']['strength'], '0,0') + ' | ' + ns.nFormat(ns.getPlayer()['exp']['defense'], '0,0'), col.sta);
-			hudHelper.pushCont(hed, val, "Dex | Agi: ", ns.nFormat(ns.getPlayer()['exp']['dexterity'], '0,0') + ' | ' + ns.nFormat(ns.getPlayer()['exp']['agility'], '0,0'), col.sta);
-			hudHelper.pushCont(hed, val, "Charisma: ", ns.nFormat(ns.getPlayer()['exp']['charisma'], '0,0'), col.cha);
-			hudHelper.pushCont(hed, val, 'Intelligence: ', ns.nFormat(ns.getPlayer()['exp']['intelligence'], '0,0'), col.int);
+			hudHelper.pushCont(hed, val, "Hacking: ", ns.nFormat(ply.exp.hacking, '0,0'), col.hak);
+			hudHelper.pushCont(hed, val, "Str | Def: ", ns.nFormat(ply.exp.strength, '0,0') + ' | ' + ns.nFormat(ply.exp.defense, '0,0'), col.sta);
+			hudHelper.pushCont(hed, val, "Dex | Agi: ", ns.nFormat(ply.exp.dexterity, '0,0') + ' | ' + ns.nFormat(ply.exp.agility, '0,0'), col.sta);
+			hudHelper.pushCont(hed, val, "Charisma: ", ns.nFormat(ply.exp.charisma, '0,0'), col.cha);
+			hudHelper.pushCont(hed, val, 'Intelligence: ', ns.nFormat(ply.exp.intelligence, '0,0'), col.int);
 			hudHelper.endSec(hed, val);
 			// --------------------------------
 			hudHelper.pushBreak(hed, val, 'CRIMES', '────────────────', crmMin, "crmMin", 'crime');
 			hudHelper.startSec(hed, val, "crime", crmMin ? "none" : "inline");
 			hudHelper.pushCont(hed, val, "Total Karma: ", ns.nFormat(ns.heart.break(), '0,0'), col.cha);
-			hudHelper.pushCont(hed, val, "People Killed: ", ns.nFormat(ns.getPlayer()['numPeopleKilled'], '0,0'), col.hp);
+			hudHelper.pushCont(hed, val, "People Killed: ", ns.nFormat(ply.numPeopleKilled, '0,0'), col.hp);
 			hudHelper.endSec(hed, val);
 			/* --------------------------------
 			 ____             __ _ _
@@ -161,7 +162,7 @@ export async function main(ns) {
 			-------------------------------- */
 			hudHelper.pushBreak(hed, val, 'MONEY & PROFIT', '────────────', monMin, "monMin", 'money');
 			hudHelper.startSec(hed, val, "money", monMin ? "none" : "inline");
-			hudHelper.pushCont(hed, val, "Money: ", ns.nFormat(ns.getPlayer()['money'], '$0,0'), col.money);
+			hudHelper.pushCont(hed, val, "Money: ", ns.nFormat(ply.money, '$0,0'), col.money);
 			if (ns.gang.inGang()) {
 				if (ns.gang.getGangInformation()['moneyGainRate'] > 0) {
 					hudHelper.pushCont(hed, val, "Gang Income: ", ns.nFormat((5 * ns.gang.getGangInformation()['moneyGainRate']), '$0,0') + ' /s', col.money);
@@ -263,7 +264,7 @@ export async function main(ns) {
 			 \____\___/|_|  | .__/ \___/|_|  \__,_|\__|_|\___/|_| |_|
 			                |_|
 			-------------------------------- */
-			if (ns.getPlayer()['hasCorporation']) {
+			if (ply.hasCorporation) {
 				let corp = eval("ns.corporation.getCorporation()");
 				let bTime = eval("ns.corporation.getBonusTime()")
 				hudHelper.pushBreak(hed, val, 'CORP', '─────────────────', crpMin, "crpMin", 'corp');
@@ -286,7 +287,7 @@ export async function main(ns) {
 			| |_) | | (_| | (_| |  __/ |_) | |_| | |  | | | |  __/ |
 			|____/|_|\__,_|\__,_|\___|_.__/ \__,_|_|  |_| |_|\___|_|
 			-------------------------------- */
-			if (ns.getPlayer()['inBladeburner']) {
+			if (ply.inBladeburner) {
 				hudHelper.pushBreak(hed, val, 'BLADEBURNERS', '─────────────', bldMin, "bldMin", 'blade');
 				hudHelper.startSec(hed, val, "blade", bldMin ? "none" : "inline");
 				if (ns.bladeburner.getBonusTime > 3000) {
@@ -371,8 +372,8 @@ export async function main(ns) {
 			-------------------------------- */
 			hudHelper.pushBreak(hed, val, 'PLAYTIME', '───────────────', pltMin, "pltMin", 'playt');
 			hudHelper.startSec(hed, val, "playt", pltMin ? "none" : "inline");
-			hudHelper.pushCont(hed, val, `BN${ns.getPlayer()['bitNodeN']}: `, ns.tFormat(ns.getPlayer()['playtimeSinceLastBitnode']), col.def);
-			hudHelper.pushCont(hed, val, 'Total: ', ns.tFormat(ns.getPlayer()['totalPlaytime']), col.def);
+			hudHelper.pushCont(hed, val, `BN${ply.bitNodeN}: `, ns.tFormat(ply.playtimeSinceLastBitnode), col.def);
+			hudHelper.pushCont(hed, val, 'Total: ', ns.tFormat(ply.totalPlaytime), col.def);
 			hudHelper.endSec(hed, val);
 			// --------------------------------
 			hudHelper.pushBreak(hed, val, 'SCRIPT RUNNERS', '────────────', runMin, "runMin", 'srcr');
@@ -413,6 +414,6 @@ export async function main(ns) {
 		catch (err) {
 			ns.print("ERROR: Update Skipped: " + String(err));
 		}
-		await ns.sleep(50);
+		await ns.sleep(100);
 	}
 }
