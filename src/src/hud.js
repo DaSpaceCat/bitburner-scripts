@@ -24,13 +24,13 @@ import { ProgressBar, FiraBar } from "./glyph.js"
 
 //colors for the UI, defined how they would be in CSS
 const col = {
-	money: "#e5C07B",
+	money: "#F9E2AF",
 	def: "#FFFFFF",
-	hak: "#98c379",
-	sta: "#abb2bf",
-	cha: "#c678dd",
-	int: "#61AFEF",
-	hp: "#E06C75"
+	hak: "#A6E3A1",
+	sta: "#A6ADC8",
+	cha: "#CBA6F7",
+	int: "#89B4FA",
+	hp: "#F38BA8"
 }
 
 const verse = [
@@ -77,7 +77,7 @@ export async function main(ns) {
 	
 	//change styles of those document elements for the custom HUD
 	ovv.style.borderRadius = "0px 0px 10px 10px";
-	ovv.style.backgroundColor = "rgba(33,37,43,0.8)";
+	ovv.style.backgroundColor = "#1E1E2E";
 	ovv.style.backdropFilter = "blur(1px)";
 	ovv.style.border = "none";
 	ovv.style.boxShadow = "5px 5px 10px rgba(0,0,0,0.5)"
