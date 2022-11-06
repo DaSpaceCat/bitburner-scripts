@@ -22,6 +22,9 @@
 import { hudHelper, globalHelper, formulaHelper, hashnetHelper } from "./helpers.js"
 import { ProgressBar, FiraBar } from "./glyph.js"
 
+//Boolean indicating wether or not you have SF5
+const sf5 = true
+
 //colors for the UI, defined how they would be in CSS
 const col = {
 	money: "#F9E2AF",
@@ -77,9 +80,10 @@ export async function main(ns) {
 	
 	//change styles of those document elements for the custom HUD
 	ovv.style.borderRadius = "0px 0px 10px 10px";
-	ovv.style.backgroundColor = "#1E1E2E";
+	ovv.style.backgroundColor = "#181825";
 	ovv.style.backdropFilter = "blur(1px)";
-	ovv.style.border = "none";
+	ovv.style.borderWidth = "2px";
+	ovv.style.margin = "0px";
 	ovv.style.boxShadow = "5px 5px 10px rgba(0,0,0,0.5)"
 	ovv.style.zIndex = "99999999";
 	ovv.style.transiton = "all .2s";
@@ -113,7 +117,57 @@ export async function main(ns) {
 	
 	//exposes certian NS functions to a global context
 	gMinPID = ns.run("/src/nsg.js");
-	
+
+	//MISC global CSS
+	let style = doc.createElement('style');
+	const css = `
+	.MuiPaper-root {
+		border-radius: 10px;
+	}
+	.MuiButtonBase-root {
+		border-radius: 10px;
+	}
+	.MuiButton-root {
+		border-radius: 10px;
+	}
+	.Mui-selected {
+		border-radius: 10px;
+	}
+	.MuiDrawer-paperAnchorDockedLeft {
+		border-radius: 0px !important;
+	}
+	.MuiPaper-elevation1 {
+		margin: 5px;
+		padding: 2.5px;
+	}
+	.MuiButton-textPrimary {
+		margin: 3px;
+	}`
+	Object.assign(style, { id: "glob-css" }), (style.type = "text/css"), (style.innerHTML = css), doc.head.appendChild(style);
+
+	//cleanup
+	ns.atExit(() => {
+		doc.getElementById("glob-css").remove();
+		doc.getElementById("hudSty").remove();
+		doc.getElementById("hudMins").remove();
+
+		//set overview back to usual style
+		hook1.innerHTML = "";
+		hook0.innerHTML = "";
+		ovv.style.borderRadius = "";
+		ovv.style.backgroundColor = "";
+		ovv.style.backdropFilter = "";
+		ovv.style.borderWidth = "";
+		ovv.style.margin = "";
+		ovv.style.boxShadow = ""
+		ovv.style.zIndex = "";
+		ovv.style.transiton = "";
+		for (let i = 0; i < 17; i++) {
+			let elm = ovvCont.firstChild.childNodes[i]
+			elm.style.display = "";
+		}	
+	});
+
 	//actual HUD
 	while (true) {
 		try {
@@ -162,7 +216,7 @@ export async function main(ns) {
 			-------------------------------- */
 			hudHelper.pushBreak(hed, val, 'MONEY & PROFIT', '────────────', monMin, "monMin", 'money');
 			hudHelper.startSec(hed, val, "money", monMin ? "none" : "inline");
-			hudHelper.pushCont(hed, val, "Money: ", ns.nFormat(ply.money, '$0,0'), col.money);
+			hudHelper.pushCont(hed, val, "Money: ", `$${ns.nFormat(ply.money, '0,0')}`, col.money);
 			if (ns.gang.inGang()) {
 				if (ns.gang.getGangInformation()['moneyGainRate'] > 0) {
 					hudHelper.pushCont(hed, val, "Gang Income: ", ns.nFormat((5 * ns.gang.getGangInformation()['moneyGainRate']), '$0,0') + ' /s', col.money);
@@ -188,8 +242,8 @@ export async function main(ns) {
 				hudHelper.pushContSub(hed, val, "Exchange: ", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/getHashCorp.js', false]">Exchange hashes for Corp funds.</button>`, col.money)
 				hudHelper.pushContSub(hed, val, 'Nodes: ', ns.nFormat(ns.hacknet.numNodes(), '0,0'), col.hak);
 				hudHelper.endSubsec(hed, val);
-				hudHelper.endSec(hed, val);
 			}
+			hudHelper.endSec(hed, val);
 			/* --------------------------------
 			 ____  _
 			/ ___|| | ___  _____   _____  ___
@@ -242,7 +296,7 @@ export async function main(ns) {
 					hudHelper.pushCont(hed, val, "Bonus Time: ", ns.tFormat(ns.gang.getBonusTime()), col.int);
 				}
 				let gangType = (ns.gang.getGangInformation().isHacking) ? "Hacking" : "Combat";
-				hudHelper.pushCont(hed, val, "Faction: ", ns.gang.getGangInformation()['faction'] + ', ' + gangType, col.def);	
+				hudHelper.pushCont(hed, val, "Faction: ", ns.gang.getGangInformation()['faction'] + ', ' + gangType, col.def);
 				hudHelper.pushCont(hed, val, "Respect: ", ns.nFormat(ns.gang.getGangInformation()['respect'], '0,0'), col.cha);
 				if (ns.gang.getGangInformation()['power'] > 1) {
 					hudHelper.pushCont(hed, val, "Power: ", ns.nFormat(ns.gang.getGangInformation()['power'], '0,0.00'), col.hp);
@@ -273,11 +327,11 @@ export async function main(ns) {
 					hudHelper.pushCont(hed, val, "Bonus Time: ", `${ns.tFormat(bTime)}`, col.hak);
 				}
 				hudHelper.pushCont(hed, val, "Name: ", corp['name'], col.def);
-				hudHelper.pushCont(hed, val, "Funds: ", ns.nFormat(corp['funds'], '$0,0'), col.money);
-				hudHelper.pushCont(hed, val, "Revenue: ", ns.nFormat(corp['revenue'], '$0,0') + '/s', col.money);
-				hudHelper.pushCont(hed, val, "Expenses: ", ns.nFormat(corp['expenses'], '$0,0') + '/s', col.money);
-				hudHelper.pushCont(hed, val, "Profit: ", ns.nFormat(corp['revenue'] - corp['expenses'], '$0,0') + '/s', col.money);
-				hudHelper.pushCont(hed, val, "Shares: ", ns.nFormat(corp['numShares'], '0,0') + ' / ' + ns.nFormat(corp['totalShares'], '0,0'), col.hak);
+				hudHelper.pushCont(hed, val, "Funds: ", `$${ns.nFormat(corp.funds, '0,0')}`, col.money);
+				hudHelper.pushCont(hed, val, "Revenue: ", `$${ns.nFormat(corp.revenue, '$0,0')}/s`, col.money);
+				hudHelper.pushCont(hed, val, "Expenses: ", `$${ns.nFormat(corp.expenses, '$0,0')}/s`, col.money);
+				hudHelper.pushCont(hed, val, "Profit: ", `$${ns.nFormat(corp.revenue - corp['expenses'], '$0,0')}/s`, col.money);
+				hudHelper.pushCont(hed, val, "Shares: ", ns.nFormat(corp.numShares, '0,0') + ' / ' + ns.nFormat(corp.totalShares, '0,0'), col.hak);
 				hudHelper.endSec(hed, val);
 			}
 			/* --------------------------------
@@ -287,7 +341,7 @@ export async function main(ns) {
 			| |_) | | (_| | (_| |  __/ |_) | |_| | |  | | | |  __/ |
 			|____/|_|\__,_|\__,_|\___|_.__/ \__,_|_|  |_| |_|\___|_|
 			-------------------------------- */
-			if (ply.inBladeburner) {
+			/*if (ply.inBladeburner) {
 				hudHelper.pushBreak(hed, val, 'BLADEBURNERS', '─────────────', bldMin, "bldMin", 'blade');
 				hudHelper.startSec(hed, val, "blade", bldMin ? "none" : "inline");
 				if (ns.bladeburner.getBonusTime > 3000) {
@@ -329,7 +383,7 @@ export async function main(ns) {
 				hudHelper.pushCont(hed, val, "Skill Points: ", ns.nFormat(ns.bladeburner.getSkillPoints(), '0,0'), col.hak);
 				hudHelper.pushCont(hed, val, "City: ", ns.bladeburner.getCity(), col.sta);
 				hudHelper.endSec(hed, val);
-			}
+			}*/
 			/* --------------------------------
 			 ____
 			/ ___|  ___ _ ____   _____ _ __ ___
@@ -385,15 +439,15 @@ export async function main(ns) {
 			// --------------------------------
 			hudHelper.pushBreak(hed, val, 'MISC', '─────────────────', mscMin, "mscMin", 'misc');
 			hudHelper.startSec(hed, val, 'misc', mscMin ? "none" : "inline");
-			hudHelper.pushCont(hed, val, "Daedalus Req:", `Hacking Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', 2500), '0,0')}`, col.hak);
-			hudHelper.pushCont(hed, val, " │ ", `Strength Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'strength', 1500), '0,0')}`, col.sta);
-			hudHelper.pushCont(hed, val, " │ ", `Defense Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'defense', 1500), '0,0')}`, col.sta);
-			hudHelper.pushCont(hed, val, " │ ", `Dexterity Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'dexterity', 1500), '0,0')}`, col.sta);
-			hudHelper.pushCont(hed, val, " │ ", `Agility Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'agility', 1500), '0,0')}`, col.sta);
+			hudHelper.pushCont(hed, val, "Daedalus Req:", `Hacking Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', 2500, sf5), '0,0')}`, col.hak);
+			hudHelper.pushCont(hed, val, " │ ", `Strength Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'strength', 1500, sf5), '0,0')}`, col.sta);
+			hudHelper.pushCont(hed, val, " │ ", `Defense Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'defense', 1500, sf5), '0,0')}`, col.sta);
+			hudHelper.pushCont(hed, val, " │ ", `Dexterity Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'dexterity', 1500, sf5), '0,0')}`, col.sta);
+			hudHelper.pushCont(hed, val, " │ ", `Agility Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'agility', 1500, sf5), '0,0')}`, col.sta);
 			hudHelper.pushCont(hed, val, ` ╰─────────────`, `────────────────────────────────────────────`, col.def)
 			const wdl = ns.getBitNodeMultipliers().WorldDaemonDifficulty * 3000
 			hudHelper.pushCont(hed, val, "w0r1d_d43m0n", `Hack Req: ${wdl}`, col.hak);
-			hudHelper.pushCont(hed, val, "", `You need ${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', wdl), '')} exp.`, col.hak);
+			hudHelper.pushCont(hed, val, "", `You need ${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', wdl, sf5), '0,0')} exp.`, col.hak);
 			hudHelper.endSec(hed, val);
 			hudHelper.pushBreak(hed, val, 'BITVERSE', '───────────────', bvsMin, "bvsMin", 'bitverse');
 			hudHelper.startSec(hed, val, 'bitverse', bvsMin ? "none" : "inline");
@@ -409,7 +463,7 @@ export async function main(ns) {
 			}
 			hudHelper.endHud(hed ,val);
 			hook0.innerHTML = hed.join(" \n");
-			hook1.innerHTML = val.join("\n");	
+			hook1.innerHTML = val.join("\n");
 		}
 		catch (err) {
 			ns.print("ERROR: Update Skipped: " + String(err));

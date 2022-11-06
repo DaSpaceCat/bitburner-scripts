@@ -350,11 +350,17 @@ export const formulaHelper = {
 	 * @param {ns} s netscript object
 	 * @param {string} sk The skill to check.
 	 * @param {number} lvl The level you want to get to.
+	 * @param {boolean} sf5 set to true if you have SF5, false otherwise.
 	 * @returns The EXP required to get to the specified level.
 	*/
-	getExpReq: function (s, sk, lvl) {
+	getExpReq: function (s, sk, lvl, sf5) {
 		const exp = s.getPlayer()['exp'][sk];
-		const multi = s.getPlayer()['mults'][sk];
+		let multi
+		if (sf5) {
+			multi = s.getBitNodeMultipliers().HackingLevelMultiplier * s.getPlayer()['mults'][sk];
+		} else {
+			multi = s.getPlayer()['mults'][sk];
+		}
 		const expReq = s.formulas.skills.calculateExp(lvl, multi);
 		return expReq - exp;
 	},
