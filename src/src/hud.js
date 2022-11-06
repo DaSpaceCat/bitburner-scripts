@@ -36,34 +36,6 @@ const col = {
 	hp: "#F38BA8"
 }
 
-const verse = [
-"            ", "              O                          ",
-"            ", " |  O  O      |      O  O  |             ",
-"        O   ", " |  | /     __|       \\ |  |    O        ",
-"      O |   ", " O  | |  O /  |  O    | |  O    | O      ",
-"    | | |   ", " |  |_/  |/   |   \\_  \\_|  |    | | |    ",
-"  O | | | O ", " |  | O__/    |   / \\__ |  |  O | | | O  ",
-"  | | | | | ", " |  |   /    /|  O  /  \\|  |  | | | | |  ",
-"O | | |  \\| ", " |  O  /   _/ |    /    O  |  |/  | | | O",
-"| | | |O  / ", " |  | O   /   |   O   O |  |  \\  O| | | |",
-"| | |/  \\/  ", "/ __| | |/ \\  |   \\   | |__ \\  \\/  \\| | |",
-" \\| O   |  |", "_/    |\\|   \\ O    \\__|    \\_|  |   O |/ ",
-"  | |   |_/ ", "      | |    \\|    /  |       \\_|   | |  ",
-"   \\|   /   ", "       \\|     |   /  /          \\   |/   ",
-"    |  O    ", "        |     |  /  |            O  |    ",
-"  O |  |    ", "        |     |     |            |  | O  ",
-"  | |  |    ", "        /    / \\    \\            |  | |  ",
-"   \\|  |    ", "       /  O /   \\ O  \\           |  |/   ",
-"    \\  |    ", "      /  / |     | \\  \\          |  /    ",
-"     \\ \\JUMP", " O3R |  |  |     |  |  | R3O PMUJ/ /     ",
-"      \\||   ", " |   |  |  |     |  |  |   |    ||/      ",
-"       \\|   ", "  \\_ |  |  |     |  |  | _/     |/       ",
-"        \\   ", "    \\| /    \\   /    \\ |/       /        ",
-"         O  ", "     |/   O  | |  O   \\|       O         ",
-"         |  ", "     |    |  | |  |    |       |         ",
-"          \\J", "UMP3R|JUMP|3R| |R3|PMUJ|R3PMUJ/          "
-]
-
 let gMinPID;
 /** @param {NS} ns */
 /** @param {import("../../").NS} ns */
@@ -77,7 +49,7 @@ export async function main(ns) {
 	const hook1 = doc.getElementById('overview-extra-hook-1');
 	const ovv = doc.getElementsByClassName('MuiPaper-root')[0];
 	const ovvCont = ovv.childNodes[1].firstChild.firstChild.firstChild;
-	
+
 	//change styles of those document elements for the custom HUD
 	ovv.style.borderRadius = "0px 0px 10px 10px";
 	ovv.style.backgroundColor = "#181825";
@@ -109,12 +81,28 @@ export async function main(ns) {
 	let srvs = ns.args;
 
 	//create global styles and variables
-	let gVars = `const ovvMin = function(cls) {let els = document.getElementsByClassName(cls);for (let i=0; i < els.length; i++) {els[i].style.display = "hidden"} document.getElementById(cls).innerHTML = "";document.getElementById(cls).onclick = ` + "`ovvMax(${cls})`" + `}; const ovvMax = function(cls) {let els = document.getElementsByClassName(cls);for (let i=0; i < els.length; i++) {els[i].style.display = "inline"} document.getElementById(cls).innerHTML = "";document.getElementById(cls).onclick = ` + "`ovvMin('${cls}')`" + `}; let lvlMin = false;let crmMin = false;let monMin = false;let sklMin = false;let slvMin = true;let gngMin = false;let crpMin = false;let bldMin = false;let srvMin = false;let pltMin = false;let runMin = false;let mscMin = false;let bvsMin = false;let cusMin = false;let nsgRun = null;let toRun;let scriptContent = false;let scriptContentV0, scriptContentV1;let sleeveDo = {action: undefined, task: undefined};`
-	let sty = `.scrRun:hover {background-color: ${col.hak}; color: ${col.def}} .ovvMin:hover {color: ${col.hak}}`
+	let gVars = `let x = 0; let y = 0; const ovvMin = function(cls) {let els = document.getElementsByClassName(cls);for (let i=0; i < els.length; i++) {els[i].style.display = "hidden"} document.getElementById(cls).innerHTML = "";document.getElementById(cls).onclick = ` + "`ovvMax(${cls})`" + `}; const ovvMax = function(cls) {let els = document.getElementsByClassName(cls);for (let i=0; i < els.length; i++) {els[i].style.display = "inline"} document.getElementById(cls).innerHTML = "";document.getElementById(cls).onclick = ` + "`ovvMin('${cls}')`" + `}; let lvlMin = false;let crmMin = false;let monMin = false;let sklMin = false;let slvMin = true;let gngMin = false;let crpMin = false;let bldMin = false;let srvMin = false;let pltMin = false;let runMin = false;let mscMin = false;let bvsMin = false;let cusMin = false;let nsgRun = null;let toRun;let scriptContent = false;let scriptContentV0, scriptContentV1;let sleeveDo = {action: undefined, task: undefined};`
+	let sty = `.scrRun:hover {background-color: ${col.hak}; color: ${col.def}} .ovvMin:hover {color: ${col.hak}} ${hudHelper.tooltip.style}`
 	globalHelper.createGlobalStyle("hudSty", sty)
 	globalHelper.createGlobalScript("hudMins", gVars);
 	let buttonCSS = `transition: all 0.2s; display: inline; width: 90%; background-color: rgba(0,0,0,0); cursor: pointer;`
 	
+	//make bitverse
+	hudHelper.bitverse(hook0, hook1, col.hak);
+	hudHelper.tooltip.setElementTooltip("bn1", hudHelper.tooltip.createBNObject("Source Genesis", "The original BitNode"));
+	hudHelper.tooltip.setElementTooltip("bn2", hudHelper.tooltip.createBNObject("Rise of the Underworld", "From the shadows, they rose"));
+	hudHelper.tooltip.setElementTooltip("bn3", hudHelper.tooltip.createBNObject("Corporatocracy", "The Price of Civilization"));
+	hudHelper.tooltip.setElementTooltip("bn4", hudHelper.tooltip.createBNObject("The Singularity", "The Man and the Machine"));
+	hudHelper.tooltip.setElementTooltip("bn5", hudHelper.tooltip.createBNObject("Artificial Intelligence", "Posthuman"));
+	hudHelper.tooltip.setElementTooltip("bn6", hudHelper.tooltip.createBNObject("Bladeburners", "Like Tears in Rain"));
+	hudHelper.tooltip.setElementTooltip("bn7", hudHelper.tooltip.createBNObject("Bladeburners 2079", "More human than humans"));
+	hudHelper.tooltip.setElementTooltip("bn8", hudHelper.tooltip.createBNObject("Ghost of Wall Street", "Money never sleeps"));
+	hudHelper.tooltip.setElementTooltip("bn9", hudHelper.tooltip.createBNObject("Hacktocracy", "Hacknet Unleashed"));
+	hudHelper.tooltip.setElementTooltip("bn10", hudHelper.tooltip.createBNObject("Digital Carbon", "Your body is not who you are"));
+	hudHelper.tooltip.setElementTooltip("bn11", hudHelper.tooltip.createBNObject("The Big Crash", "Okay. Sell it all."));
+	hudHelper.tooltip.setElementTooltip("bn12", hudHelper.tooltip.createBNObject("The Recursion", "Repeat."));
+	hudHelper.tooltip.setElementTooltip("bn13", hudHelper.tooltip.createBNObject("They're lunatics", "1 step back, 2 steps forward"));
+
 	//exposes certian NS functions to a global context
 	gMinPID = ns.run("/src/nsg.js");
 
@@ -142,6 +130,15 @@ export async function main(ns) {
 	}
 	.MuiButton-textPrimary {
 		margin: 3px;
+	}
+	.bnSpan {
+		color: #FF0000;
+		font-weight: bold;
+		transition: all 0.2s;
+	}
+	.bnSpan:hover {
+		color: #FFFFFF;
+		cursor: pointer;
 	}`
 	Object.assign(style, { id: "glob-css" }), (style.type = "text/css"), (style.innerHTML = css), doc.head.appendChild(style);
 
@@ -150,6 +147,12 @@ export async function main(ns) {
 		doc.getElementById("glob-css").remove();
 		doc.getElementById("hudSty").remove();
 		doc.getElementById("hudMins").remove();
+		doc.getElementById("bitverseL").remove();
+		doc.getElementById("bitverseR").remove();
+
+		for (let i = 0; i < 13; i++) {
+			doc.getElementById("bn" + (i + 1) + "-tooltip").remove();
+		}
 
 		//set overview back to usual style
 		hook1.innerHTML = "";
@@ -165,7 +168,7 @@ export async function main(ns) {
 		for (let i = 0; i < 17; i++) {
 			let elm = ovvCont.firstChild.childNodes[i]
 			elm.style.display = "";
-		}	
+		}
 	});
 
 	//actual HUD
@@ -175,7 +178,7 @@ export async function main(ns) {
 			const hed = [];
 			const val = [];
 			hudHelper.startHud(hed ,val)
-			hudHelper.pushCont(hed, val, "In: " + ply.city, "At: " + ply.location, col.def);
+			hudHelper.pushCont(hed, val, "In: " + ply.city, "At: " + ply.location, col.def, "right", "location");
 			hudHelper.pushCont(hed, val, "Health: ", `${ns.nFormat(ply.hp.current, '0,0')} / ${ns.nFormat(ply.hp.max, '0,0')} | ${ns.nFormat(ply.hp.current/ply.hp.max, '0.000%')}`, col.hp)
 			/* --------------------------------
 			 ____  _    _ _ _
@@ -219,7 +222,7 @@ export async function main(ns) {
 			hudHelper.pushCont(hed, val, "Money: ", `$${ns.nFormat(ply.money, '0,0')}`, col.money);
 			if (ns.gang.inGang()) {
 				if (ns.gang.getGangInformation()['moneyGainRate'] > 0) {
-					hudHelper.pushCont(hed, val, "Gang Income: ", ns.nFormat((5 * ns.gang.getGangInformation()['moneyGainRate']), '$0,0') + ' /s', col.money);
+		hudHelper.pushCont(hed, val, "Gang Income: ", ns.nFormat((5 * ns.gang.getGangInformation()['moneyGainRate']), '$0,0') + ' /s', col.money);
 				}
 			}
 			hudHelper.pushCont(hed, val, 'Hack Income: ', ns.nFormat(ns.getTotalScriptIncome()[0], '$0,0') + ' /s', col.money);
@@ -449,21 +452,18 @@ export async function main(ns) {
 			hudHelper.pushCont(hed, val, "w0r1d_d43m0n", `Hack Req: ${wdl}`, col.hak);
 			hudHelper.pushCont(hed, val, "", `You need ${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', wdl, sf5), '0,0')} exp.`, col.hak);
 			hudHelper.endSec(hed, val);
-			hudHelper.pushBreak(hed, val, 'BITVERSE', '───────────────', bvsMin, "bvsMin", 'bitverse');
-			hudHelper.startSec(hed, val, 'bitverse', bvsMin ? "none" : "inline");
-			for (let i = 0; i < verse.length; i += 2) {
-				hudHelper.pushCont(hed, val, `<span style="white-space: break-spaces;">   ${verse[i]}</span>`, `<span style="white-space: break-spaces;">${verse[i + 1]}   </span>`, col.hak)
-			}
-			hudHelper.endSec(hed, val);
 			if (scriptContent) {
 				hudHelper.pushBreak(hed, val, 'SCRIPT CONTENT', '────────────', cusMin, "cusMin", 'scriptCont')
 				hudHelper.startSec(hed, val, 'scriptCont', cusMin ? "none" : "inline");
 				hudHelper.pushCont(hed, val, `<span id="scriptContent-hook-0">${scriptContentV0}</span>`, `<span id="scriptContent-hook-1">${scriptContentV1}</span>`, col.def);
 				hudHelper.endSec(hed, val);
 			}
-			hudHelper.endHud(hed ,val);
+			hudHelper.pushBreak(hed, val, 'BITVERSE', '───────────────', bvsMin, "bvsMin", 'bitverse');
 			hook0.innerHTML = hed.join(" \n");
 			hook1.innerHTML = val.join("\n");
+
+			//add tooltips, as they cannot be added until the DOM has been modified
+			hudHelper.tooltip.setElementTooltip("location", hudHelper.tooltip.createObject("your mom is gay"));
 		}
 		catch (err) {
 			ns.print("ERROR: Update Skipped: " + String(err));

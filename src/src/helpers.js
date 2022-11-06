@@ -101,10 +101,15 @@ export const hudHelper = {
 	 * @param {string} cont The value content.
 	 * @param {string} col The color of the content. can be any valid CSS color value
 	 * @param {string} allign Optional. The CSS text allignment of the content.
+	 * @param {string} id Optional. The HTML id of the value content. Used for tooltip creation.
 	 */
-	pushCont: function(hed, val, tp, cont, col, allign) {
+	pushCont: function(hed, val, tp, cont, col, allign, id) {
 		hed.push(`<span style="color: #ffffff">│</span><span style="color: ${col}">${tp}</span><br>`)
-		if (allign != undefined) {
+		if (allign !== undefined) {
+			if (id !== undefined) {
+				val.push(`<span class="tooltip" id="${id}" style="position: relative; color: ${col}; text-allign: ${allign}">${cont}</span><span style="color: #ffffff">│</span><br>`)
+				return;
+			}
 			val.push(`<span style="color: ${col}; text-allign: ${allign}">${cont}</span><span style="color: #ffffff">│</span><br>`)
 			return;
 		}
@@ -170,7 +175,7 @@ export const hudHelper = {
 	},
 
 	/**
-	 * 
+	 * Push subsection content.
 	 * @param {array} hed The array of hud header elements.
 	 * @param {array} val The array of hud value elements.
 	 * @param {string} tp The header content.
@@ -180,6 +185,155 @@ export const hudHelper = {
 	pushContSub: function(hed, val, tp, cont, col) {
 		hed.push(`<span style="color: #ffffff">││</span><span style="color: ${col}">${tp}</span><br>`)
 		val.push(`<span style="color: ${col}">${cont}</span><span style="color: #ffffff">││</span><br>`)
+	},
+
+	/**
+	 * Add a display of the bitverse. Meant to be called once during setup, and never again.
+	 * @param {hook0} the first ovv content hook.
+	 * @param {hook1} the second ovv content hook.
+	 */
+	bitverse: function(hook0, hook1, col) {
+		const style = `margin: 0px;font-family: 'FiraCode Nerd Font Mono', 'FiraCode NF Regular', 'Lucida Sans Unicode', monospace;font-weight: 400;font-size: 1rem;line-height: 1;` 
+		const verse = [
+			"            ", "              O                          ",
+			"            ", " |  O  O      |      O  O  |             ",
+			"        O   ", " |  | /     __|       \\ |  |    O        ",
+			"      O |   ", " O  | |  O /  |  O    | |  O    | O      ",
+			"    | | |   ", " |  |_/  |/   |   \\_  \\_|  |    | | |    ",
+			"  O | | | O ", " |  | O__/    |   / \\__ |  |  O | | | O  ",
+			"  | | | | | ", " |  |   /    /|  O  /  \\|  |  | | | | |  ",
+			"O | | |  \\| ", " |  O  /   _/ |    /    O  |  |/  | | | O",
+			"| | | |O  / ", " |  | O   /   |   O   O |  |  \\  O| | | |",
+			"| | |/  \\/  ", "/ __| | |/ \\  |   \\   | |__ \\  \\/  \\| | |",
+			" \\| O   |  |", `_/    |\\|   \\ <span class="bnSpan" id="bn13">O</span>    \\__|    \\_|  |   O |/ `,
+			"  | |   |_/ ", "      | |    \\|    /  |       \\_|   | |  ",
+			"   \\|   /   ", "       \\|     |   /  /          \\   |/   ",
+			`    |  <span class="bnSpan" id="bn10">O</span>    `, `        |     |  /  |            <span class="bnSpan" id="bn11">O</span>  |    `,
+			`  <span class="bnSpan" id="bn9">O</span> |  |    `, `        |     |     |            |  | <span class="bnSpan" id="bn12">O</span>  `,
+			"  | |  |    ", "        /    / \\    \\            |  | |  ",
+			"   \\|  |    ", `       /  <span class="bnSpan" id="bn7">O</span> /   \\ <span class="bnSpan" id="bn8">O</span>  \\           |  |/   `,
+			"    \\  |    ", "      /  / |     | \\  \\          |  /    ",
+			"     \\ \\JUMP", ` <span class="bnSpan" id="bn5">O</span>3R |  |  |     |  |  | R3<span class="bnSpan" id="bn6">O</span> PMUJ/ /     `,
+			"      \\||   ", " |   |  |  |     |  |  |   |    ||/      ",
+			"       \\|   ", "  \\_ |  |  |     |  |  | _/     |/       ",
+			"        \\   ", "    \\| /    \\   /    \\ |/       /        ",
+			`         <span class="bnSpan" id="bn1">O</span>  `, `     |/   <span class="bnSpan" id="bn2">O</span>  | |  <span class="bnSpan" id="bn3">O</span>   \\|       <span class="bnSpan" id="bn4">O</span>         `,
+			"         |  ", "     |    |  | |  |    |       |         ",
+			"          \\J", "UMP3R|JUMP|3R| |R3|PMUJ|R3PMUJ/          "
+		];
+		let ls = "";
+		let rs = "";
+		for (let i = 0; i < verse.length; i+=2) {
+			ls += `<span style="white-space: break-spaces;color: ${col};${style}"><span style="color: #FFFFFF;">│   </span>${verse[i]}</span><br>`;
+			rs += `<span style="white-space: break-spaces;color: ${col};${style}">${verse[i+1]}<span style="color: #FFFFFF;">   │</span></span><br>`;
+		}
+		ls += `<span style="${style} color: #FFFFFF;">╰───────────────</span>`;
+		rs += `<span style="${style} color: #FFFFFF;">────────────────────────────────────────────╯</span>`;
+		//put the bitverse *inside* of elements
+		const bvl = document.createElement("div");
+		const bvr = document.createElement("div");
+		bvl.innerHTML = ls;
+		bvr.innerHTML = rs;
+		bvl.id = "bitverseL";
+		bvr.id = "bitverseR";
+		//append the bitverse to the end of the hud.
+		hook0.parentNode.insertBefore(bvl, hook0.nextSibling);
+		hook1.parentNode.insertBefore(bvr, hook1.nextSibling);
+	},
+
+	/** 
+	 * Custom Tooltips. Credit for some code goes to @KarmicChaos#7777
+	 */
+	tooltip: {
+		style: `.tooltiptext{font-family: "Fira Code", monospace;
+			padding: 4px 8px;
+			margin: 2px;
+			overflow-wrap: normal;
+			white-space: pre;
+			font-weight: 500;
+			font-size: 1em;
+			border-radius: 0px;
+			border: 2px solid white;
+			max-width: 100vh;
+			position: absolute;
+			z-index: 9999999999;
+			inset: 0px auto auto 0px;
+			transform: translate3d(0px, 20px, 0px);
+			transition: all 0.2s;
+			color: #F5C2E7;
+			background-color: #181825
+		}`,
+
+		/**
+		 * Create a tooltip object, used for creating tooltips.
+		 * @param {string} tx The content of the tooltip.
+		 * @param {string} allign Optional: The tooltip's text allignment.
+		 */
+		createObject: function(tx, allign) {
+			return {
+				tooltiptext: tx,
+				textAlign: allign
+			}
+		},
+		
+		/**
+		 * Create a BitNode tooltip object.
+		 * @param {string} h The bitNode header.
+		 * @param {string} s The bitNode description.
+		 */
+		createBNObject: function(h, s) {
+			return {
+				tooltiptext: `<span style="font-weight: bold;">${h}</span><br>${s}`,
+				textAlign: "left"
+			}
+		},
+
+		/**
+		 * Heavily modified helper function from the game's source code for creating tooltips
+		 * @param {string} el The ID of the element to attatch the tooltip to.
+		 * @param {any} params - Dictionary of relevant tooltip parameters
+		 */
+		setElementTooltip: function (el, params) {
+			const d = eval('document');
+			d.onmousemove = function (e) {
+				//you NEED 2 global variables, x and y, for this to work.
+				let cx = e.clientX;
+				let cy = e.clientY;
+				for (let i = 0; i < 13; i++) {
+					d.getElementById(`bn${i + 1}-tooltip`).style.left = (cx - 10) + "px";
+					d.getElementById(`bn${i + 1}-tooltip`).style.top  = (cy + 50) + "px";
+				}
+			}
+			if (params.tooltiptext !== undefined && params.tooltiptext !== "") {
+				// If the tooltip does not exist, make a new one.
+				let curToolTip = d.getElementById(`${el}-tooltip`)
+				if (curToolTip === null) {
+					//create and append the element.
+					let tt = d.createElement("span");
+					tt.id = `${el}-tooltip`
+					tt.className = "tooltiptext"
+					tt.innerHTML = params.tooltiptext
+					d.body.appendChild(tt);
+					// Apply all additional parameters that were specifiedd. Add more checks here as needed
+					if (params.textAlign !== undefined) d.getElementById(`${el}-tooltip`).style.textAlign = params.textAlign;
+					// Add event listeners for mouseout/mouseover to hide/show the tooltip.
+					d.getElementById(`${el}-tooltip`).style.visibility = "hidden";
+					d.getElementById(`${el}-tooltip`).style.opacity = "0";
+					d.getElementById(el).addEventListener('mouseover', (e) => {
+						d.getElementById(`${el}-tooltip`).style.visibility = "visible";
+						d.getElementById(`${el}-tooltip`).style.opacity = "1";
+					});
+					d.getElementById(el).addEventListener('mouseout', (e) => {
+						d.getElementById(`${el}-tooltip`).style.visibility = "hidden";
+						d.getElementById(`${el}-tooltip`).style.opacity = "0";
+					});
+				}
+				// If the current tooltip exists but the text does not match what we want, replace it.
+				else if (curToolTip.innerHTML != params.tooltiptext) {
+					curToolTip.innerHTML = params.tooltiptext
+				}
+			}
+		}
 	}
 }
 
@@ -187,7 +341,7 @@ export const hudHelper = {
  * Miscelaneous helper functions that didn't fit anywhere else.
  */
 export const miscHelper = {
-	/** 
+	/**
 	 * Gets a route to the specified server.
 	 * @param {ns} s Reference to netscript.
 	 * @param {string} srv The server to get the route to.
