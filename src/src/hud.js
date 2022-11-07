@@ -25,6 +25,22 @@ import { ProgressBar, FiraBar } from "./glyph.js"
 //Boolean indicating wether or not you have SF5
 const sf5 = true
 
+const sfs = [
+	{n: 1,  lvl: 2},
+	{n: 2,  lvl: 1},
+	{n: 3,  lvl: 1},
+	{n: 4,  lvl: 0},
+	{n: 5,  lvl: 1},
+	{n: 6,  lvl: 0},
+	{n: 7,  lvl: 1},
+	{n: 8,  lvl: 0},
+	{n: 9,  lvl: 1},
+	{n: 10, lvl: 1},
+	{n: 11, lvl: 0},
+	{n: 12, lvl: 0},
+	{n: 13, lvl: 0},
+]
+
 //colors for the UI, defined how they would be in CSS
 const col = {
 	money: "#F9E2AF",
@@ -81,27 +97,27 @@ export async function main(ns) {
 	let srvs = ns.args;
 
 	//create global styles and variables
-	let gVars = `let x = 0; let y = 0; const ovvMin = function(cls) {let els = document.getElementsByClassName(cls);for (let i=0; i < els.length; i++) {els[i].style.display = "hidden"} document.getElementById(cls).innerHTML = "";document.getElementById(cls).onclick = ` + "`ovvMax(${cls})`" + `}; const ovvMax = function(cls) {let els = document.getElementsByClassName(cls);for (let i=0; i < els.length; i++) {els[i].style.display = "inline"} document.getElementById(cls).innerHTML = "";document.getElementById(cls).onclick = ` + "`ovvMin('${cls}')`" + `}; let lvlMin = false;let crmMin = false;let monMin = false;let sklMin = false;let slvMin = true;let gngMin = false;let crpMin = false;let bldMin = false;let srvMin = false;let pltMin = false;let runMin = false;let mscMin = false;let bvsMin = false;let cusMin = false;let nsgRun = null;let toRun;let scriptContent = false;let scriptContentV0, scriptContentV1;let sleeveDo = {action: undefined, task: undefined};`
+	let gVars = `let bna = 0; let x = 0; let y = 0; const ovvMin = function(cls) {let els = document.getElementsByClassName(cls);for (let i=0; i < els.length; i++) {els[i].style.display = "hidden"} document.getElementById(cls).innerHTML = "";document.getElementById(cls).onclick = ` + "`ovvMax(${cls})`" + `}; const ovvMax = function(cls) {let els = document.getElementsByClassName(cls);for (let i=0; i < els.length; i++) {els[i].style.display = "inline"} document.getElementById(cls).innerHTML = "";document.getElementById(cls).onclick = ` + "`ovvMin('${cls}')`" + `}; let lvlMin = false;let crmMin = false;let monMin = false;let sklMin = false;let slvMin = true;let gngMin = false;let crpMin = false;let bldMin = false;let srvMin = false;let pltMin = false;let runMin = false;let mscMin = false;let bvsMin = false;let cusMin = false;let nsgRun = null;let toRun;let scriptContent = false;let scriptContentV0, scriptContentV1;let sleeveDo = {action: undefined, task: undefined};`
 	let sty = `.scrRun:hover {background-color: ${col.hak}; color: ${col.def}} .ovvMin:hover {color: ${col.hak}} ${hudHelper.tooltip.style}`
 	globalHelper.createGlobalStyle("hudSty", sty)
 	globalHelper.createGlobalScript("hudMins", gVars);
 	let buttonCSS = `transition: all 0.2s; display: inline; width: 90%; background-color: rgba(0,0,0,0); cursor: pointer;`
 	
 	//make bitverse
-	hudHelper.bitverse(hook0, hook1, col.hak);
-	hudHelper.tooltip.setElementTooltip("bn1", hudHelper.tooltip.createBNObject("Source Genesis", "The original BitNode"));
-	hudHelper.tooltip.setElementTooltip("bn2", hudHelper.tooltip.createBNObject("Rise of the Underworld", "From the shadows, they rose"));
-	hudHelper.tooltip.setElementTooltip("bn3", hudHelper.tooltip.createBNObject("Corporatocracy", "The Price of Civilization"));
-	hudHelper.tooltip.setElementTooltip("bn4", hudHelper.tooltip.createBNObject("The Singularity", "The Man and the Machine"));
-	hudHelper.tooltip.setElementTooltip("bn5", hudHelper.tooltip.createBNObject("Artificial Intelligence", "Posthuman"));
-	hudHelper.tooltip.setElementTooltip("bn6", hudHelper.tooltip.createBNObject("Bladeburners", "Like Tears in Rain"));
-	hudHelper.tooltip.setElementTooltip("bn7", hudHelper.tooltip.createBNObject("Bladeburners 2079", "More human than humans"));
-	hudHelper.tooltip.setElementTooltip("bn8", hudHelper.tooltip.createBNObject("Ghost of Wall Street", "Money never sleeps"));
-	hudHelper.tooltip.setElementTooltip("bn9", hudHelper.tooltip.createBNObject("Hacktocracy", "Hacknet Unleashed"));
-	hudHelper.tooltip.setElementTooltip("bn10", hudHelper.tooltip.createBNObject("Digital Carbon", "Your body is not who you are"));
-	hudHelper.tooltip.setElementTooltip("bn11", hudHelper.tooltip.createBNObject("The Big Crash", "Okay. Sell it all."));
-	hudHelper.tooltip.setElementTooltip("bn12", hudHelper.tooltip.createBNObject("The Recursion", "Repeat."));
-	hudHelper.tooltip.setElementTooltip("bn13", hudHelper.tooltip.createBNObject("They're lunatics", "1 step back, 2 steps forward"));
+	hudHelper.bitverse(hook0, hook1, col.hak, sfs);
+	hudHelper.tooltip.setElementTooltip("bn1" , hudHelper.tooltip.createBNObject(sfs[0] , "Source Genesis", "The original BitNode"));
+	hudHelper.tooltip.setElementTooltip("bn2" , hudHelper.tooltip.createBNObject(sfs[1] , "Rise of the Underworld", "From the shadows, they rose"));
+	hudHelper.tooltip.setElementTooltip("bn3" , hudHelper.tooltip.createBNObject(sfs[2] , "Corporatocracy", "The Price of Civilization"));
+	hudHelper.tooltip.setElementTooltip("bn4" , hudHelper.tooltip.createBNObject(sfs[3] , "The Singularity", "The Man and the Machine"));
+	hudHelper.tooltip.setElementTooltip("bn5" , hudHelper.tooltip.createBNObject(sfs[4] , "Artificial Intelligence", "Posthuman"));
+	hudHelper.tooltip.setElementTooltip("bn6" , hudHelper.tooltip.createBNObject(sfs[5] , "Bladeburners", "Like Tears in Rain"));
+	hudHelper.tooltip.setElementTooltip("bn7" , hudHelper.tooltip.createBNObject(sfs[6] , "Bladeburners 2079", "More human than humans"));
+	hudHelper.tooltip.setElementTooltip("bn8" , hudHelper.tooltip.createBNObject(sfs[7] , "Ghost of Wall Street", "Money never sleeps"));
+	hudHelper.tooltip.setElementTooltip("bn9" , hudHelper.tooltip.createBNObject(sfs[8] , "Hacktocracy", "Hacknet Unleashed"));
+	hudHelper.tooltip.setElementTooltip("bn10", hudHelper.tooltip.createBNObject(sfs[9] , "Digital Carbon", "Your body is not who you are"));
+	hudHelper.tooltip.setElementTooltip("bn11", hudHelper.tooltip.createBNObject(sfs[10], "The Big Crash", "Okay. Sell it all."));
+	hudHelper.tooltip.setElementTooltip("bn12", hudHelper.tooltip.createBNObject(sfs[11], "The Recursion", "Repeat.", true));
+	hudHelper.tooltip.setElementTooltip("bn13", hudHelper.tooltip.createBNObject(sfs[12], "They're lunatics", "1 step back, 2 steps forward"));
 
 	//exposes certian NS functions to a global context
 	gMinPID = ns.run("/src/nsg.js");
@@ -109,7 +125,7 @@ export async function main(ns) {
 	//MISC global CSS
 	let style = doc.createElement('style');
 	const css = `
-	.MuiPaper-root {
+	/*.MuiPaper-root {
 		border-radius: 10px;
 	}
 	.MuiButtonBase-root {
@@ -130,15 +146,37 @@ export async function main(ns) {
 	}
 	.MuiButton-textPrimary {
 		margin: 3px;
-	}
+	}*/
 	.bnSpan {
-		color: #FF0000;
+		color: red;
 		font-weight: bold;
 		transition: all 0.2s;
 	}
-	.bnSpan:hover {
+	.bnSpan1 {
+		color: yellow;
+		font-weight: bold;
+		transition: all 0.2s;
+	}
+	.bnSpan2 {
+		color: #48D1CC;
+		font-weight: bold;
+		transition: all 0.2s;
+	}
+	.bnSpan3 {
+		color: blue;
+		font-weight: bold;
+		transition: all 0.2s;
+	}
+	.bnSpan:hover, .bnSpan1:hover, .bnSpan2:hover, .bnSpan3:hover {
 		color: #FFFFFF;
 		cursor: pointer;
+	}
+	.ovvCont {
+		margin: 0px;
+		font-family: 'FiraCode Nerd Font Mono', 'FiraCode NF Regular', 'Lucida Sans Unicode', monospace;
+		font-weight: 400;
+		font-size: 1rem;
+		line-height: 0;
 	}`
 	Object.assign(style, { id: "glob-css" }), (style.type = "text/css"), (style.innerHTML = css), doc.head.appendChild(style);
 

@@ -89,8 +89,8 @@ export const hudHelper = {
 	 * @param {string} cls The class name of the DIV the minimize button wil use.
 	 */
 	pushBreak: function(hed, val, sec, dv, min, minVar, cls) {
-		hed.push(`<span style="color: #FFFFFF">├───────────────</span><br>`)
-		val.push(`<span style="color: #FFFFFF">${dv} <span style="color: #98C379">${sec}</span> ${hudHelper.createMin(dv, min, minVar, cls)}┤</span><br>`)
+		hed.push(`<span style="cursor: default; color: #FFFFFF">├───────────────</span><br>`)
+		val.push(`<span style="cursor: default; color: #FFFFFF">${dv} <span style="cursor: default; color: #98C379">${sec}</span> ${hudHelper.createMin(dv, min, minVar, cls)}┤</span><br>`)
 	},
 
 	/**
@@ -104,24 +104,24 @@ export const hudHelper = {
 	 * @param {string} id Optional. The HTML id of the value content. Used for tooltip creation.
 	 */
 	pushCont: function(hed, val, tp, cont, col, allign, id) {
-		hed.push(`<span style="color: #ffffff">│</span><span style="color: ${col}">${tp}</span><br>`)
+		hed.push(`<span style="cursor: default; color: #ffffff">│</span><span style="cursor: default; color: ${col}">${tp}</span><br>`)
 		if (allign !== undefined) {
 			if (id !== undefined) {
-				val.push(`<span class="tooltip" id="${id}" style="position: relative; color: ${col}; text-allign: ${allign}">${cont}</span><span style="color: #ffffff">│</span><br>`)
+				val.push(`<span class="tooltip" id="${id}" style="cursor: default; position: relative; color: ${col}; text-allign: ${allign}">${cont}</span><span style="cursor: default; color: #ffffff">│</span><br>`)
 				return;
 			}
-			val.push(`<span style="color: ${col}; text-allign: ${allign}">${cont}</span><span style="color: #ffffff">│</span><br>`)
+			val.push(`<span style="cursor: default; color: ${col}; text-allign: ${allign}">${cont}</span><span style="cursor: default; color: #ffffff">│</span><br>`)
 			return;
 		}
-		val.push(`<span style="color: ${col}">${cont}</span><span style="color: #ffffff">│</span><br>`)
+		val.push(`<span style="cursor: default; color: ${col}">${cont}</span><span style="cursor: default; color: #ffffff">│</span><br>`)
 	},
 
 	/**
 	 * Internal Function.
 	 */
 	pushContE: function(hed, val, tp, cont, col) {
-		hed.push(`<span style="color: ${col}">${tp}</span><br>`)
-		val.push(`<span style="color: ${col}">${cont}</span><br>`)
+		hed.push(`<span style="cursor: default; color: ${col}">${tp}</span><br>`)
+		val.push(`<span style="cursor: default; color: ${col}">${cont}</span><br>`)
 	},
 
 	/**
@@ -183,17 +183,18 @@ export const hudHelper = {
 	 * @param {string} cont The value content.
 	 */
 	pushContSub: function(hed, val, tp, cont, col) {
-		hed.push(`<span style="color: #ffffff">││</span><span style="color: ${col}">${tp}</span><br>`)
-		val.push(`<span style="color: ${col}">${cont}</span><span style="color: #ffffff">││</span><br>`)
+		hed.push(`<span style="cursor: default; color: #ffffff">││</span><span style="cursor: default; color: ${col}">${tp}</span><br>`)
+		val.push(`<span style="cursor: default; color: ${col}">${cont}</span><span style="cursor: default; color: #ffffff">││</span><br>`)
 	},
 
 	/**
 	 * Add a display of the bitverse. Meant to be called once during setup, and never again.
-	 * @param {hook0} the first ovv content hook.
-	 * @param {hook1} the second ovv content hook.
+	 * @param {Element} hook0 the first ovv content hook.
+	 * @param {Element} hook1 the second ovv content hook.
+	 * @param {string} col The color of the text.
+	 * @param {array} sfs The source files, from `ns.singularity.getOwnedSourceFiles`, or a recreation of the array.
 	 */
-	bitverse: function(hook0, hook1, col) {
-		const style = `margin: 0px;font-family: 'FiraCode Nerd Font Mono', 'FiraCode NF Regular', 'Lucida Sans Unicode', monospace;font-weight: 400;font-size: 1rem;line-height: 1;` 
+	bitverse: function(hook0, hook1, col, sfs) {
 		const verse = [
 			"            ", "              O                          ",
 			"            ", " |  O  O      |      O  O  |             ",
@@ -205,30 +206,30 @@ export const hudHelper = {
 			"O | | |  \\| ", " |  O  /   _/ |    /    O  |  |/  | | | O",
 			"| | | |O  / ", " |  | O   /   |   O   O |  |  \\  O| | | |",
 			"| | |/  \\/  ", "/ __| | |/ \\  |   \\   | |__ \\  \\/  \\| | |",
-			" \\| O   |  |", `_/    |\\|   \\ <span class="bnSpan" id="bn13">O</span>    \\__|    \\_|  |   O |/ `,
+			" \\| O   |  |", `_/    |\\|   \\ <span onclick="bna = 13;" class="bnSpan" id="bn13">O</span>    \\__|    \\_|  |   O |/ `,
 			"  | |   |_/ ", "      | |    \\|    /  |       \\_|   | |  ",
 			"   \\|   /   ", "       \\|     |   /  /          \\   |/   ",
-			`    |  <span class="bnSpan" id="bn10">O</span>    `, `        |     |  /  |            <span class="bnSpan" id="bn11">O</span>  |    `,
-			`  <span class="bnSpan" id="bn9">O</span> |  |    `, `        |     |     |            |  | <span class="bnSpan" id="bn12">O</span>  `,
+			`    |  <span onclick="bna = 10;" class="bnSpan" id="bn10">O</span>    `, `        |     |  /  |            <span onclick="bna = 11;" class="bnSpan" id="bn11">O</span>  |    `,
+			`  <span onclick="bna = 9;" class="bnSpan" id="bn9">O</span> |  |    `, `        |     |     |            |  | <span onclick="bna = 12;" class="bnSpan" id="bn12">O</span>  `,
 			"  | |  |    ", "        /    / \\    \\            |  | |  ",
-			"   \\|  |    ", `       /  <span class="bnSpan" id="bn7">O</span> /   \\ <span class="bnSpan" id="bn8">O</span>  \\           |  |/   `,
+			"   \\|  |    ", `       /  <span onclick="bna = 7;" class="bnSpan" id="bn7">O</span> /   \\ <span onclick="bna = 8;" class="bnSpan" id="bn8">O</span>  \\           |  |/   `,
 			"    \\  |    ", "      /  / |     | \\  \\          |  /    ",
-			"     \\ \\JUMP", ` <span class="bnSpan" id="bn5">O</span>3R |  |  |     |  |  | R3<span class="bnSpan" id="bn6">O</span> PMUJ/ /     `,
+			"     \\ \\JUMP", ` <span onclick="bna = 5;" class="bnSpan" id="bn5">O</span>3R |  |  |     |  |  | R3<span onclick="bna = 6;" class="bnSpan" id="bn6">O</span> PMUJ/ /     `,
 			"      \\||   ", " |   |  |  |     |  |  |   |    ||/      ",
 			"       \\|   ", "  \\_ |  |  |     |  |  | _/     |/       ",
 			"        \\   ", "    \\| /    \\   /    \\ |/       /        ",
-			`         <span class="bnSpan" id="bn1">O</span>  `, `     |/   <span class="bnSpan" id="bn2">O</span>  | |  <span class="bnSpan" id="bn3">O</span>   \\|       <span class="bnSpan" id="bn4">O</span>         `,
+			`         <span onclick="bna = 1;" class="bnSpan" id="bn1">O</span>  `, `     |/   <span onclick="bna = 2;" class="bnSpan" id="bn2">O</span>  | |  <span onclick="bna = 3;" class="bnSpan" id="bn3">O</span>   \\|       <span onclick="bna = 4;" class="bnSpan" id="bn4">O</span>         `,
 			"         |  ", "     |    |  | |  |    |       |         ",
 			"          \\J", "UMP3R|JUMP|3R| |R3|PMUJ|R3PMUJ/          "
 		];
 		let ls = "";
 		let rs = "";
 		for (let i = 0; i < verse.length; i+=2) {
-			ls += `<span style="white-space: break-spaces;color: ${col};${style}"><span style="color: #FFFFFF;">│   </span>${verse[i]}</span><br>`;
-			rs += `<span style="white-space: break-spaces;color: ${col};${style}">${verse[i+1]}<span style="color: #FFFFFF;">   │</span></span><br>`;
+			ls += `<span class="ovvCont" style="cursor: default; white-space: break-spaces;color: ${col};"><span style="color: #FFFFFF;">│   </span>${verse[i]}</span><br>`;
+			rs += `<span class="ovvCont" style="cursor: default; white-space: break-spaces;color: ${col};">${verse[i+1]}<span style="color: #FFFFFF;">   │</span></span><br>`;
 		}
-		ls += `<span style="${style} color: #FFFFFF;">╰───────────────</span>`;
-		rs += `<span style="${style} color: #FFFFFF;">────────────────────────────────────────────╯</span>`;
+		ls += `<span class="ovvCont" style="cursor: default; color: #FFFFFF;">╰───────────────</span>`;
+		rs += `<span class="ovvCont" style="cursor: default; color: #FFFFFF;">────────────────────────────────────────────╯</span>`;
 		//put the bitverse *inside* of elements
 		const bvl = document.createElement("div");
 		const bvr = document.createElement("div");
@@ -239,6 +240,22 @@ export const hudHelper = {
 		//append the bitverse to the end of the hud.
 		hook0.parentNode.insertBefore(bvl, hook0.nextSibling);
 		hook1.parentNode.insertBefore(bvr, hook1.nextSibling);
+		//change the colors based on the owned source files
+		for (let i = 0; i < sfs.length; i++) {
+			const sf = sfs[i];
+			const lv = document.getElementById(`bn${sf.n}`);
+			switch (sf.lvl) {
+				case 1:
+					lv.className = "bnSpan1";
+					break;
+				case 2:
+					lv.className = "bnSpan2";
+					break;
+				case 3:
+					lv.className = "bnSpan3";
+					break;
+			}
+		}
 	},
 
 	/** 
@@ -255,7 +272,7 @@ export const hudHelper = {
 			border-radius: 0px;
 			border: 2px solid white;
 			max-width: 100vh;
-			position: absolute;
+			position: fixed;
 			z-index: 9999999999;
 			inset: 0px auto auto 0px;
 			transform: translate3d(0px, 20px, 0px);
@@ -278,13 +295,21 @@ export const hudHelper = {
 		
 		/**
 		 * Create a BitNode tooltip object.
+		 * @param {Object} sf The source file object.
 		 * @param {string} h The bitNode header.
 		 * @param {string} s The bitNode description.
+		 * @param {boolean} b12 Whether or not the bitNode is BitNode-12.
 		 */
-		createBNObject: function(h, s) {
-			return {
-				tooltiptext: `<span style="font-weight: bold;">${h}</span><br>${s}`,
-				textAlign: "left"
+		createBNObject: function(sf, h, s, b12) {
+			if (b12) {
+				return {
+					tooltiptext: `<span style="font-weight: bold;">${h}</span><br>${s}<br>SF: ${sf.lvl}`,
+				}
+			} else {
+				return {
+					tooltiptext: `<span style="font-weight: bold;">${h}</span><br>${s}<br>SF: ${sf.lvl} / 3`,
+					textAlign: "left"
+				}
 			}
 		},
 
@@ -301,7 +326,7 @@ export const hudHelper = {
 				let cy = e.clientY;
 				for (let i = 0; i < 13; i++) {
 					d.getElementById(`bn${i + 1}-tooltip`).style.left = (cx - 10) + "px";
-					d.getElementById(`bn${i + 1}-tooltip`).style.top  = (cy + 50) + "px";
+					d.getElementById(`bn${i + 1}-tooltip`).style.top  = (cy + 10) + "px";
 				}
 			}
 			if (params.tooltiptext !== undefined && params.tooltiptext !== "") {
