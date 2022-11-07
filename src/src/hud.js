@@ -21,7 +21,6 @@
 
 import { hudHelper, globalHelper, formulaHelper, hashnetHelper } from "./helpers.js"
 import { ProgressBar, FiraBar } from "./glyph.js"
-import { handleKeyInput } from "viteburner"
 
 //Boolean indicating wether or not you have SF5
 const sf5 = true
@@ -319,103 +318,17 @@ export async function main(ns) {
 		try {
 			const ply = ns.getPlayer();
 			// check minimize buttons
-			if (lvlMin) {
-				const es = doc.getElementsByClassName('levels')
-				for (let i = 0; i < es.length; i++) {
-					es[i].style.display = 'none';
-				}
-			} else {
-				const es = doc.getElementsByClassName('levels')
-				for (let i = 0; i < es.length; i++) {
-					es[i].style.display = 'inline';
-				}
-			}
-			if (crmMin) {
-				const es = doc.getElementsByClassName('crime')
-				for (let i = 0; i < es.length; i++) {
-					es[i].style.display = 'none';
-				}
-			} else {
-				const es = doc.getElementsByClassName('crime')
-				for (let i = 0; i < es.length; i++) {
-					es[i].style.display = 'inline';
-				}
-			}
-			if (monMin) {
-				const es = doc.getElementsByClassName('money')
-				for (let i = 0; i < es.length; i++) {
-					es[i].style.display = 'none';
-				}
-			} else {
-				const es = doc.getElementsByClassName('money')
-				for (let i = 0; i < es.length; i++) {
-					es[i].style.display = 'inline';
-				}
-			}
-			if (sklMin) {
-				const es = doc.getElementsByClassName('skill')
-				for (let i = 0; i < es.length; i++) {
-					es[i].style.display = 'none';
-				}
-			} else {
-				const es = doc.getElementsByClassName('skill')
-				for (let i = 0; i < es.length; i++) {
-					es[i].style.display = 'inline';
-				}
-			}
-			if (slvMin) {
-				const es = doc.getElementsByClassName('sleeve')
-				for (let i = 0; i < es.length; i++) {
-					es[i].style.display = 'none';
-				}
-			} else {
-				const es = doc.getElementsByClassName('sleeve')
-				for (let i = 0; i < es.length; i++) {
-					es[i].style.display = 'inline';
-				}
-			}
-			if (srvMin) {
-				const es = doc.getElementsByClassName('server')
-				for (let i = 0; i < es.length; i++) {
-					es[i].style.display = 'none';
-				}
-			} else {
-				const es = doc.getElementsByClassName('server')
-				for (let i = 0; i < es.length; i++) {
-					es[i].style.display = 'inline';
-				}
-			}
-			if (pltMin) {
-				const es = doc.getElementsByClassName('playt')
-				for (let i = 0; i < es.length; i++) {
-					es[i].style.display = 'none';
-				}
-			} else {
-				const es = doc.getElementsByClassName('playt')
-				for (let i = 0; i < es.length; i++) {
-					es[i].style.display = 'inline';
-				}
-			}
-			if (runMin) {
-				const es = doc.getElementsByClassName('srcr')
-				for (let i = 0; i < es.length; i++) {
-					es[i].style.display = 'none';
-				}
-			} else {
-				const es = doc.getElementsByClassName('srcr')
-				for (let i = 0; i < es.length; i++) {
-					es[i].style.display = 'inline';
-				}
-			}
-			if (mscMin) {
-				const es = doc.getElementsByClassName('misc')
-				for (let i = 0; i < es.length; i++) {
-					es[i].style.display = 'none';
-				}
-			} else {
-				const es = doc.getElementsByClassName('misc')
-				for (let i = 0; i < es.length; i++) {
-					es[i].style.display = 'inline';
+			const els = [[lvlMin, 'levels'], [crmMin, 'crime'], [monMin, 'money'], [sklMin, 'skill'], [slvMin, 'sleeve'], [srvMin, 'server'], [pltMin, 'playt'], [runMin, 'srcr'], [mscMin, 'misc']];
+			for (let i = 0; i < els.length; i++) {
+				const el = els[i];
+				if (el[0]) {
+					const es = doc.getElementsByClassName(el[1])
+					es[0].style.display = 'none';
+					es[1].style.display = 'none';
+				} else {
+					const es = doc.getElementsByClassName(el[1])
+					es[0].style.display = 'inline';
+					es[1].style.display = 'inline';
 				}
 			}
 
