@@ -318,6 +318,106 @@ export async function main(ns) {
 	while (true) {
 		try {
 			const ply = ns.getPlayer();
+			// check minimize buttons
+			if (lvlMin) {
+				const es = doc.getElementsByClassName('levels')
+				for (let i = 0; i < es.length; i++) {
+					es[i].style.display = 'none';
+				}
+			} else {
+				const es = doc.getElementsByClassName('levels')
+				for (let i = 0; i < es.length; i++) {
+					es[i].style.display = 'inline';
+				}
+			}
+			if (crmMin) {
+				const es = doc.getElementsByClassName('crime')
+				for (let i = 0; i < es.length; i++) {
+					es[i].style.display = 'none';
+				}
+			} else {
+				const es = doc.getElementsByClassName('crime')
+				for (let i = 0; i < es.length; i++) {
+					es[i].style.display = 'inline';
+				}
+			}
+			if (monMin) {
+				const es = doc.getElementsByClassName('money')
+				for (let i = 0; i < es.length; i++) {
+					es[i].style.display = 'none';
+				}
+			} else {
+				const es = doc.getElementsByClassName('money')
+				for (let i = 0; i < es.length; i++) {
+					es[i].style.display = 'inline';
+				}
+			}
+			if (sklMin) {
+				const es = doc.getElementsByClassName('skill')
+				for (let i = 0; i < es.length; i++) {
+					es[i].style.display = 'none';
+				}
+			} else {
+				const es = doc.getElementsByClassName('skill')
+				for (let i = 0; i < es.length; i++) {
+					es[i].style.display = 'inline';
+				}
+			}
+			if (slvMin) {
+				const es = doc.getElementsByClassName('sleeve')
+				for (let i = 0; i < es.length; i++) {
+					es[i].style.display = 'none';
+				}
+			} else {
+				const es = doc.getElementsByClassName('sleeve')
+				for (let i = 0; i < es.length; i++) {
+					es[i].style.display = 'inline';
+				}
+			}
+			if (srvMin) {
+				const es = doc.getElementsByClassName('server')
+				for (let i = 0; i < es.length; i++) {
+					es[i].style.display = 'none';
+				}
+			} else {
+				const es = doc.getElementsByClassName('server')
+				for (let i = 0; i < es.length; i++) {
+					es[i].style.display = 'inline';
+				}
+			}
+			if (pltMin) {
+				const es = doc.getElementsByClassName('playt')
+				for (let i = 0; i < es.length; i++) {
+					es[i].style.display = 'none';
+				}
+			} else {
+				const es = doc.getElementsByClassName('playt')
+				for (let i = 0; i < es.length; i++) {
+					es[i].style.display = 'inline';
+				}
+			}
+			if (runMin) {
+				const es = doc.getElementsByClassName('srcr')
+				for (let i = 0; i < es.length; i++) {
+					es[i].style.display = 'none';
+				}
+			} else {
+				const es = doc.getElementsByClassName('srcr')
+				for (let i = 0; i < es.length; i++) {
+					es[i].style.display = 'inline';
+				}
+			}
+			if (mscMin) {
+				const es = doc.getElementsByClassName('misc')
+				for (let i = 0; i < es.length; i++) {
+					es[i].style.display = 'none';
+				}
+			} else {
+				const es = doc.getElementsByClassName('misc')
+				for (let i = 0; i < es.length; i++) {
+					es[i].style.display = 'inline';
+				}
+			}
 
 			// Location & HP
 			hudHelper.updateVal("loc", `${ply.city}: ${ply.location}`);
