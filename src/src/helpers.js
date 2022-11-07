@@ -61,9 +61,9 @@ export const hudHelper = {
 	createMin: function(dv, isMin, cVar, id) {
 		dv.slice(0, -4);
 		if (isMin) {
-			dv += ` <a class="ovvMin" id="${id}" style="cursor: pointer; transition: all .2s;" onclick="${cVar} = !${cVar}; ovvMax('${id}')"></a> ─`;
+			dv += ` <a class="ovvMin" id="${id}" style="cursor: pointer; transition: all .2s;" onclick="${cVar} = !${cVar};"></a> ─`;
 		} else {
-			dv += ` <a class="ovvMin" id="${id}" style="cursor: pointer; transition: all .2s;" onclick="${cVar} = !${cVar}; ovvMin('${id}')"></a> ─`;
+			dv += ` <a class="ovvMin" id="${id}" style="cursor: pointer; transition: all .2s;" onclick="${cVar} = !${cVar};"></a> ─`;
 		}
 		return dv;
 	},
@@ -98,22 +98,17 @@ export const hudHelper = {
 	 * @param {array} hed The array of hud header elements.
 	 * @param {array} val The array of hud value elements.
 	 * @param {string} tp The header content.
-	 * @param {string} cont The value content.
 	 * @param {string} col The color of the content. can be any valid CSS color value
+	 * @param {string} id The HTML id of the value content.
 	 * @param {string} allign Optional. The CSS text allignment of the content.
-	 * @param {string} id Optional. The HTML id of the value content. Used for tooltip creation.
 	 */
-	pushCont: function(hed, val, tp, cont, col, allign, id) {
+	pushCont: function(hed, val, tp, /*cont,*/ col, id, allign) {
 		hed.push(`<span style="cursor: default; color: #ffffff">│</span><span style="cursor: default; color: ${col}">${tp}</span><br>`)
 		if (allign !== undefined) {
-			if (id !== undefined) {
-				val.push(`<span class="tooltip" id="${id}" style="cursor: default; position: relative; color: ${col}; text-allign: ${allign}">${cont}</span><span style="cursor: default; color: #ffffff">│</span><br>`)
-				return;
-			}
-			val.push(`<span style="cursor: default; color: ${col}; text-allign: ${allign}">${cont}</span><span style="cursor: default; color: #ffffff">│</span><br>`)
+			val.push(`<span class="tooltip" id="ovv-${id}" style="cursor: default; position: relative; color: ${col}; text-allign: ${allign}"></span><span style="cursor: default; color: #ffffff">│</span><br>`)
 			return;
 		}
-		val.push(`<span style="cursor: default; color: ${col}">${cont}</span><span style="cursor: default; color: #ffffff">│</span><br>`)
+		val.push(`<span class="tooltip" id="ovv-${id}" style="cursor: default; color: ${col};"></span><span style="cursor: default; color: #ffffff">│</span><br>`)
 	},
 
 	/**
@@ -180,11 +175,21 @@ export const hudHelper = {
 	 * @param {array} val The array of hud value elements.
 	 * @param {string} tp The header content.
 	 * @param {string} col The color of the content. can be any valid CSS color value
-	 * @param {string} cont The value content.
+	 * @param {string} id The HTML id of the value content `<span>`.
 	 */
-	pushContSub: function(hed, val, tp, cont, col) {
+	pushContSub: function(hed, val, tp, col, id) {
 		hed.push(`<span style="cursor: default; color: #ffffff">││</span><span style="cursor: default; color: ${col}">${tp}</span><br>`)
-		val.push(`<span style="cursor: default; color: ${col}">${cont}</span><span style="cursor: default; color: #ffffff">││</span><br>`)
+		val.push(`<span id="ovv-${id}" style="cursor: default; color: ${col}"></span><span style="cursor: default; color: #ffffff">││</span><br>`)
+	},
+
+	/**
+	 * Update the value of HUD content.
+	 * @param {string} id The HTML id of the value content `<span>`.
+	 * @param {string} val The HTML for the `<span>`.
+	 */
+	updateVal: function(id, val) {
+		let e = eval(`document.getElementById("ovv-${id}")`)
+		e.innerHTML = val
 	},
 
 	/**
