@@ -141,8 +141,10 @@ export async function main(ns) {
 		doc.getElementById("bitverseR").remove();
 
 		//remove the tooltips from the DOM
-		for (let i = 0; i < 13; i++) {
-			doc.getElementById("bn" + (i + 1) + "-tooltip").remove();
+		const tltels = doc.getElementsByClassName("tooltiptext")
+		for (let i = 0; i < tltels.length; i++) {
+			const tltelc = tltels[i]
+			tltelc.remove();
 		}
 
 		//set overview back to usual style
@@ -344,6 +346,18 @@ export async function main(ns) {
 			hudHelper.updateVal("skInt", ns.nFormat(ply.skills.intelligence, '0,0'))
 			
 			// EXP
+			const nhLvl = ply.skills.hacking + 1
+			const nsLvl = ply.skills.strength + 1
+			const ndeLvl = ply.skills.defense + 1
+			const ndxLvl = ply.skills.dexterity + 1
+			const naLvl = ply.skills.agility + 1
+			const ncLvl = ply.skills.charisma + 1
+			const niLvl = ply.skills.intelligence + 1
+			hudHelper.tooltip.setElementTooltip("ovv-xpHak",    hudHelper.tooltip.createObject(`<b>EXP required for next level</b><br>${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', nhLvl, sf5), '0,0')}`))
+			hudHelper.tooltip.setElementTooltip("ovv-xpStrDef", hudHelper.tooltip.createObject(`<b>EXP required for next level</b><br>${ns.nFormat(formulaHelper.getExpReq(ns, 'strength', nsLvl, sf5), '0,0')} | ${ns.nFormat(formulaHelper.getExpReq(ns, 'defense', ndeLvl, sf5), '0,0')}`))
+			hudHelper.tooltip.setElementTooltip("ovv-xpDexAgi", hudHelper.tooltip.createObject(`<b>EXP required for next level</b><br>${ns.nFormat(formulaHelper.getExpReq(ns, 'dexterity', ndxLvl, sf5), '0,0')} | ${ns.nFormat(formulaHelper.getExpReq(ns, 'agility', naLvl, sf5), '0,0')}`))
+			hudHelper.tooltip.setElementTooltip("ovv-xpCha",    hudHelper.tooltip.createObject(`<b>EXP required for next level</b><br>${ns.nFormat(formulaHelper.getExpReq(ns, 'charisma', ncLvl, sf5), '0,0')}`))
+			hudHelper.tooltip.setElementTooltip("ovv-xpInt",    hudHelper.tooltip.createObject(`<b>EXP required for next level</b><br>${ns.nFormat(formulaHelper.getExpReq(ns, 'intelligence', niLvl, false), '0,0')}`))
 			hudHelper.updateVal("xpHak", ns.nFormat(ply.exp.hacking, '0,0'))
 			hudHelper.updateVal("xpStrDef", `${ns.nFormat(ply.exp.strength, '0,0')} | ${ns.nFormat(ply.exp.defense, '0,0')}`)
 			hudHelper.updateVal("xpDexAgi", `${ns.nFormat(ply.exp.dexterity, '0,0')} | ${ns.nFormat(ply.exp.agility, '0,0')}`)
@@ -404,10 +418,17 @@ export async function main(ns) {
 			const pcRm = (usRm / mxRm) * 100;
 			const pdf = 2.27272727272727;
 			const dpb = Math.floor(pcRm / pdf);
-			hudHelper.updateVal("srvHome", `${ProgressBar(44, dpb, FiraBar)}`);
+			hudHelper.updateVal("srvHome", ProgressBar(44, dpb, FiraBar));
 			hudHelper.tooltip.setElementTooltip("ovv-srvHome", hudHelper.tooltip.createObject(`<b>Ram: ${ns.nFormat(ns.getServerUsedRam("home"), '0,0')} / ${ns.nFormat(ns.getServerMaxRam('home'), '0,0')}</b><br>Cores: ${ns.getServer('home').cpuCores}`))
 			for (let i = 0; i <= srvs.length - 1; i++) {
-				hudHelper.updateVal(`srv${i}`, "WIP");
+				const dspSrv = srvs[i].replace('hacknet-node', 'HKN');
+				const mxRm = ns.getServerMaxRam(srvs[i]);
+				const usRm = ns.getServerUsedRam(srvs[i]);
+				const pcRm = (usRm / mxRm) * 100;
+				const pdf = 2.27272727272727;
+				const dpb = Math.floor(pcRm / pdf);
+				hudHelper.updateVal(`srv${i}`, ProgressBar(44, dpb, FiraBar));
+				hudHelper.tooltip.setElementTooltip(`ovv-srv${i}`, hudHelper.tooltip.createObject(`<b>Ram: ${ns.nFormat(ns.getServerUsedRam(srvs[i]), '0,0')} / ${ns.nFormat(ns.getServerMaxRam(srvs[i]), '0,0')}</b><br>Cores: ${ns.getServer(srvs[i]).cpuCores}`))
 			}
 
 			// Playtime

@@ -108,7 +108,7 @@ export const hudHelper = {
 			val.push(`<span class="tooltip" id="ovv-${id}" style="cursor: default; position: relative; color: ${col}; text-allign: ${allign}"></span><span style="cursor: default; color: #ffffff">│</span><br>`)
 			return;
 		}
-		val.push(`<span class="tooltip" id="ovv-${id}" style="cursor: default; color: ${col};"></span><span style="cursor: default; color: #ffffff">│</span><br>`)
+		val.push(`<span class="tooltip" id="ovv-${id}" style="cursor: default; color: ${col}; width: 100%;"></span><span style="cursor: default; color: #ffffff">│</span><br>`)
 	},
 
 	/**
@@ -332,7 +332,12 @@ export const hudHelper = {
 				const els = d.getElementsByClassName("tooltiptext")
 				for (let i = 0; i < els.length; i++) {
 					const elc = els[i]
-					elc.style.left = (cx - 10) + "px";
+					let lpx = (cx - 10);
+					const wd = eval("window.innerWidth")
+					while (((lpx + elc.offsetWidth) + 8) > wd) {
+						lpx --;
+					}
+					elc.style.left = (lpx) + "px";
 					elc.style.top  = (cy + 10) + "px";
 				}
 			}
@@ -543,7 +548,14 @@ export const formulaHelper = {
 		const exp = s.getPlayer()['exp'][sk];
 		let multi
 		if (sf5) {
-			multi = s.getBitNodeMultipliers().HackingLevelMultiplier * s.getPlayer()['mults'][sk];
+			switch (sk) {
+				case 'hacking':   multi = s.getBitNodeMultipliers().HackingLevelMultiplier   * s.getPlayer()['mults'][sk]; break;
+				case 'strength':  multi = s.getBitNodeMultipliers().StrengthLevelMultiplier  * s.getPlayer()['mults'][sk]; break;
+				case 'defense':   multi = s.getBitNodeMultipliers().DefenseLevelMultiplier   * s.getPlayer()['mults'][sk]; break;
+				case 'dexterity': multi = s.getBitNodeMultipliers().DexterityLevelMultiplier * s.getPlayer()['mults'][sk]; break;
+				case 'agility':   multi = s.getBitNodeMultipliers().AgilityLevelMultiplier   * s.getPlayer()['mults'][sk]; break;
+				case 'charisma':  multi = s.getBitNodeMultipliers().CharismaLevelMultiplier  * s.getPlayer()['mults'][sk]; break;
+			}
 		} else {
 			multi = s.getPlayer()['mults'][sk];
 		}
