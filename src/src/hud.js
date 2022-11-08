@@ -69,6 +69,7 @@ export async function main(ns) {
 	const hook1 = doc.getElementById('overview-extra-hook-1');
 	const ovv = doc.getElementsByClassName('MuiPaper-root')[0];
 	const ovvCont = ovv.childNodes[1].firstChild.firstChild.firstChild;
+	let doneEL = false;
 
 	//change styles of those document elements for the custom HUD
 	ovv.style.borderRadius = "0px 0px 10px 10px";
@@ -109,19 +110,19 @@ export async function main(ns) {
 	
 	//make bitverse
 	hudHelper.bitverse(hook0, hook1, col.hak, sfs);
-	hudHelper.tooltip.setElementTooltip("bn1" , hudHelper.tooltip.createBNObject(sfs[0] , "Source Genesis", "The original BitNode"));
-	hudHelper.tooltip.setElementTooltip("bn2" , hudHelper.tooltip.createBNObject(sfs[1] , "Rise of the Underworld", "From the shadows, they rose"));
-	hudHelper.tooltip.setElementTooltip("bn3" , hudHelper.tooltip.createBNObject(sfs[2] , "Corporatocracy", "The Price of Civilization"));
-	hudHelper.tooltip.setElementTooltip("bn4" , hudHelper.tooltip.createBNObject(sfs[3] , "The Singularity", "The Man and the Machine"));
-	hudHelper.tooltip.setElementTooltip("bn5" , hudHelper.tooltip.createBNObject(sfs[4] , "Artificial Intelligence", "Posthuman"));
-	hudHelper.tooltip.setElementTooltip("bn6" , hudHelper.tooltip.createBNObject(sfs[5] , "Bladeburners", "Like Tears in Rain"));
-	hudHelper.tooltip.setElementTooltip("bn7" , hudHelper.tooltip.createBNObject(sfs[6] , "Bladeburners 2079", "More human than humans"));
-	hudHelper.tooltip.setElementTooltip("bn8" , hudHelper.tooltip.createBNObject(sfs[7] , "Ghost of Wall Street", "Money never sleeps"));
-	hudHelper.tooltip.setElementTooltip("bn9" , hudHelper.tooltip.createBNObject(sfs[8] , "Hacktocracy", "Hacknet Unleashed"));
-	hudHelper.tooltip.setElementTooltip("bn10", hudHelper.tooltip.createBNObject(sfs[9] , "Digital Carbon", "Your body is not who you are"));
-	hudHelper.tooltip.setElementTooltip("bn11", hudHelper.tooltip.createBNObject(sfs[10], "The Big Crash", "Okay. Sell it all."));
-	hudHelper.tooltip.setElementTooltip("bn12", hudHelper.tooltip.createBNObject(sfs[11], "The Recursion", "Repeat.", true));
-	hudHelper.tooltip.setElementTooltip("bn13", hudHelper.tooltip.createBNObject(sfs[12], "They're lunatics", "1 step back, 2 steps forward"));
+	hudHelper.tooltip.setElementTooltip("bn1" , hudHelper.tooltip.createBNObject(sfs[0] , "Source Genesis", "The original BitNode"), doneEL);
+	hudHelper.tooltip.setElementTooltip("bn2" , hudHelper.tooltip.createBNObject(sfs[1] , "Rise of the Underworld", "From the shadows, they rose"), doneEL);
+	hudHelper.tooltip.setElementTooltip("bn3" , hudHelper.tooltip.createBNObject(sfs[2] , "Corporatocracy", "The Price of Civilization"), doneEL);
+	hudHelper.tooltip.setElementTooltip("bn4" , hudHelper.tooltip.createBNObject(sfs[3] , "The Singularity", "The Man and the Machine"), doneEL);
+	hudHelper.tooltip.setElementTooltip("bn5" , hudHelper.tooltip.createBNObject(sfs[4] , "Artificial Intelligence", "Posthuman"), doneEL);
+	hudHelper.tooltip.setElementTooltip("bn6" , hudHelper.tooltip.createBNObject(sfs[5] , "Bladeburners", "Like Tears in Rain"), doneEL);
+	hudHelper.tooltip.setElementTooltip("bn7" , hudHelper.tooltip.createBNObject(sfs[6] , "Bladeburners 2079", "More human than humans"), doneEL);
+	hudHelper.tooltip.setElementTooltip("bn8" , hudHelper.tooltip.createBNObject(sfs[7] , "Ghost of Wall Street", "Money never sleeps"), doneEL);
+	hudHelper.tooltip.setElementTooltip("bn9" , hudHelper.tooltip.createBNObject(sfs[8] , "Hacktocracy", "Hacknet Unleashed"), doneEL);
+	hudHelper.tooltip.setElementTooltip("bn10", hudHelper.tooltip.createBNObject(sfs[9] , "Digital Carbon", "Your body is not who you are"), doneEL);
+	hudHelper.tooltip.setElementTooltip("bn11", hudHelper.tooltip.createBNObject(sfs[10], "The Big Crash", "Okay. Sell it all."), doneEL);
+	hudHelper.tooltip.setElementTooltip("bn12", hudHelper.tooltip.createBNObject(sfs[11], "The Recursion", "Repeat.", true), doneEL);
+	hudHelper.tooltip.setElementTooltip("bn13", hudHelper.tooltip.createBNObject(sfs[12], "They're lunatics", "1 step back, 2 steps forward"), doneEL);
 	const curTool = doc.getElementById(`bn${ns.getPlayer().bitNodeN}-tooltip`);
 	curTool.innerHTML += `<br><span style="color: ${col.hak};">You are in this BitNode.</span>`
 
@@ -148,6 +149,7 @@ export async function main(ns) {
 			const tltelc = tltels[i]
 			tltelc.remove();
 		}
+		doc.removeEventListener("mousemove", hudHelper.tooltip.updatePos, false)
 
 		//set overview back to usual style
 		hook1.innerHTML = "";
@@ -355,11 +357,11 @@ export async function main(ns) {
 			const naLvl = ply.skills.agility + 1
 			const ncLvl = ply.skills.charisma + 1
 			const niLvl = ply.skills.intelligence + 1
-			hudHelper.tooltip.setElementTooltip("ovv-xpHak",    hudHelper.tooltip.createObject(`<b>EXP required for next level</b><br>${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', nhLvl, sf5), '0,0')}`))
-			hudHelper.tooltip.setElementTooltip("ovv-xpStrDef", hudHelper.tooltip.createObject(`<b>EXP required for next level</b><br>${ns.nFormat(formulaHelper.getExpReq(ns, 'strength', nsLvl, sf5), '0,0')} | ${ns.nFormat(formulaHelper.getExpReq(ns, 'defense', ndeLvl, sf5), '0,0')}`))
-			hudHelper.tooltip.setElementTooltip("ovv-xpDexAgi", hudHelper.tooltip.createObject(`<b>EXP required for next level</b><br>${ns.nFormat(formulaHelper.getExpReq(ns, 'dexterity', ndxLvl, sf5), '0,0')} | ${ns.nFormat(formulaHelper.getExpReq(ns, 'agility', naLvl, sf5), '0,0')}`))
-			hudHelper.tooltip.setElementTooltip("ovv-xpCha",    hudHelper.tooltip.createObject(`<b>EXP required for next level</b><br>${ns.nFormat(formulaHelper.getExpReq(ns, 'charisma', ncLvl, sf5), '0,0')}`))
-			hudHelper.tooltip.setElementTooltip("ovv-xpInt",    hudHelper.tooltip.createObject(`<b>EXP required for next level</b><br>${ns.nFormat(formulaHelper.getExpReq(ns, 'intelligence', niLvl, false), '0,0')}`))
+			hudHelper.tooltip.setElementTooltip("ovv-xpHak",    hudHelper.tooltip.createObject(`<b>EXP required for next level</b><br>${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', nhLvl, sf5), '0,0')}`), doneEL)
+			hudHelper.tooltip.setElementTooltip("ovv-xpStrDef", hudHelper.tooltip.createObject(`<b>EXP required for next level</b><br>${ns.nFormat(formulaHelper.getExpReq(ns, 'strength', nsLvl, sf5), '0,0')} | ${ns.nFormat(formulaHelper.getExpReq(ns, 'defense', ndeLvl, sf5), '0,0')}`), doneEL)
+			hudHelper.tooltip.setElementTooltip("ovv-xpDexAgi", hudHelper.tooltip.createObject(`<b>EXP required for next level</b><br>${ns.nFormat(formulaHelper.getExpReq(ns, 'dexterity', ndxLvl, sf5), '0,0')} | ${ns.nFormat(formulaHelper.getExpReq(ns, 'agility', naLvl, sf5), '0,0')}`), doneEL)
+			hudHelper.tooltip.setElementTooltip("ovv-xpCha",    hudHelper.tooltip.createObject(`<b>EXP required for next level</b><br>${ns.nFormat(formulaHelper.getExpReq(ns, 'charisma', ncLvl, sf5), '0,0')}`), doneEL)
+			hudHelper.tooltip.setElementTooltip("ovv-xpInt",    hudHelper.tooltip.createObject(`<b>EXP required for next level</b><br>${ns.nFormat(formulaHelper.getExpReq(ns, 'intelligence', niLvl, false), '0,0')}`), doneEL)
 			hudHelper.updateVal("xpHak", ns.nFormat(ply.exp.hacking, '0,0'))
 			hudHelper.updateVal("xpStrDef", `${ns.nFormat(ply.exp.strength, '0,0')} | ${ns.nFormat(ply.exp.defense, '0,0')}`)
 			hudHelper.updateVal("xpDexAgi", `${ns.nFormat(ply.exp.dexterity, '0,0')} | ${ns.nFormat(ply.exp.agility, '0,0')}`)
@@ -421,7 +423,7 @@ export async function main(ns) {
 			const pdf = 2.27272727272727;
 			const dpb = Math.floor(pcRm / pdf);
 			hudHelper.updateVal("srvHome", ProgressBar(44, dpb, FiraBar));
-			hudHelper.tooltip.setElementTooltip("ovv-srvHome", hudHelper.tooltip.createObject(`<b>Ram: ${ns.nFormat(ns.getServerUsedRam("home"), '0,0')} / ${ns.nFormat(ns.getServerMaxRam('home'), '0,0')}</b><br>Cores: ${ns.getServer('home').cpuCores}`))
+			hudHelper.tooltip.setElementTooltip("ovv-srvHome", hudHelper.tooltip.createObject(`<b>Ram: ${ns.nFormat(ns.getServerUsedRam("home"), '0,0')} / ${ns.nFormat(ns.getServerMaxRam('home'), '0,0')}</b><br>Cores: ${ns.getServer('home').cpuCores}`), doneEL)
 			for (let i = 0; i <= srvs.length - 1; i++) {
 				const dspSrv = srvs[i].replace('hacknet-node', 'HKN');
 				const mxRm = ns.getServerMaxRam(srvs[i]);
@@ -430,7 +432,7 @@ export async function main(ns) {
 				const pdf = 2.27272727272727;
 				const dpb = Math.floor(pcRm / pdf);
 				hudHelper.updateVal(`srv${i}`, ProgressBar(44, dpb, FiraBar));
-				hudHelper.tooltip.setElementTooltip(`ovv-srv${i}`, hudHelper.tooltip.createObject(`<b>Ram: ${ns.nFormat(ns.getServerUsedRam(srvs[i]), '0,0')} / ${ns.nFormat(ns.getServerMaxRam(srvs[i]), '0,0')}</b><br>Cores: ${ns.getServer(srvs[i]).cpuCores}`))
+				hudHelper.tooltip.setElementTooltip(`ovv-srv${i}`, hudHelper.tooltip.createObject(`<b>Ram: ${ns.nFormat(ns.getServerUsedRam(srvs[i]), '0,0')} / ${ns.nFormat(ns.getServerMaxRam(srvs[i]), '0,0')}</b><br>Cores: ${ns.getServer(srvs[i]).cpuCores}`), doneEL)
 			}
 
 			// Playtime
@@ -444,7 +446,7 @@ export async function main(ns) {
 			hudHelper.updateVal("daedalusReqDef", `Defense Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'defense', 1500, sf5), '0,0')}`);
 			hudHelper.updateVal("daedalusReqDex", `Dexterity Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'dexterity', 1500, sf5), '0,0')}`);
 			hudHelper.updateVal("daedalusReqAgi", `Agility Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'agility', 1500, sf5), '0,0')}`);
-			hudHelper.tooltip.setElementTooltip("worldDaemonRq", hudHelper.tooltip.createObject(`Hack Req: ${wdl}`));
+			hudHelper.tooltip.setElementTooltip("worldDaemonRq", hudHelper.tooltip.createObject(`Hack Req: ${wdl}`), doneEL);
 			hudHelper.updateVal("worldDaemonRq", `You need ${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', wdl, sf5), '0,0')} exp.`);
 		}
 		catch (err) {

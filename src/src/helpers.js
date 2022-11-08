@@ -267,6 +267,23 @@ export const hudHelper = {
 	 * Custom Tooltips. Credit for some code goes to @KarmicChaos#7777
 	 */
 	tooltip: {
+		updatePos: function(e) {
+			const d = eval("document");
+			let cx = e.clientX;
+			let cy = e.clientY;
+			const els = d.getElementsByClassName("tooltiptext")
+			for (let i = 0; i < els.length; i++) {
+				const elc = els[i]
+				let lpx = (cx - 10);
+				const wd = eval("window.innerWidth")
+				while (((lpx + elc.offsetWidth) + 8) > wd) {
+					lpx --;
+				}
+				elc.style.left = (lpx) + "px";
+				elc.style.top  = (cy + 10) + "px";
+			}
+		},
+
 		style: `.tooltiptext{font-family: "Fira Code", monospace;
 			padding: 4px 8px;
 			margin: 2px;
@@ -322,25 +339,11 @@ export const hudHelper = {
 		 * Heavily modified helper function from the game's source code for creating tooltips
 		 * @param {string} el The ID of the element to attatch the tooltip to.
 		 * @param {any} params - Dictionary of relevant tooltip parameters
+		 * @param {boolean} doneEL Boolean stating if the document handler has been created.
 		 */
-		setElementTooltip: function (el, params) {
+		setElementTooltip: function (el, params, doneEL) {
 			const d = eval('document');
-			d.onmousemove = function (e) {
-				//you NEED 2 global variables, x and y, for this to work.
-				let cx = e.clientX;
-				let cy = e.clientY;
-				const els = d.getElementsByClassName("tooltiptext")
-				for (let i = 0; i < els.length; i++) {
-					const elc = els[i]
-					let lpx = (cx - 10);
-					const wd = eval("window.innerWidth")
-					while (((lpx + elc.offsetWidth) + 8) > wd) {
-						lpx --;
-					}
-					elc.style.left = (lpx) + "px";
-					elc.style.top  = (cy + 10) + "px";
-				}
-			}
+			if (!doneEL) {d.addEventListener("mousemove", this.updatePos, false); doneEL = true;}
 			if (params.tooltiptext !== undefined && params.tooltiptext !== "") {
 				// If the tooltip does not exist, make a new one.
 				let curToolTip = d.getElementById(`${el}-tooltip`)
