@@ -399,7 +399,13 @@ export async function main(ns) {
 			}
 
 			// Server(s)
-			hudHelper.updateVal("srvHome", "WIP");
+			const mxRm = ns.getServerMaxRam('home');
+			const usRm = ns.getServerUsedRam('home');
+			const pcRm = (usRm / mxRm) * 100;
+			const pdf = 2.27272727272727;
+			const dpb = Math.floor(pcRm / pdf);
+			hudHelper.updateVal("srvHome", `${ProgressBar(44, dpb, FiraBar)}`);
+			hudHelper.tooltip.setElementTooltip("ovv-srvHome", hudHelper.tooltip.createObject(`<b>Ram: ${ns.nFormat(ns.getServerUsedRam("home"), '0,0')} / ${ns.nFormat(ns.getServerMaxRam('home'), '0,0')}</b><br>Cores: ${ns.getServer('home').cpuCores}`))
 			for (let i = 0; i <= srvs.length - 1; i++) {
 				hudHelper.updateVal(`srv${i}`, "WIP");
 			}

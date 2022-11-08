@@ -329,9 +329,11 @@ export const hudHelper = {
 				//you NEED 2 global variables, x and y, for this to work.
 				let cx = e.clientX;
 				let cy = e.clientY;
-				for (let i = 0; i < 13; i++) {
-					d.getElementById(`bn${i + 1}-tooltip`).style.left = (cx - 10) + "px";
-					d.getElementById(`bn${i + 1}-tooltip`).style.top  = (cy + 10) + "px";
+				const els = d.getElementsByClassName("tooltiptext")
+				for (let i = 0; i < els.length; i++) {
+					const elc = els[i]
+					elc.style.left = (cx - 10) + "px";
+					elc.style.top  = (cy + 10) + "px";
 				}
 			}
 			if (params.tooltiptext !== undefined && params.tooltiptext !== "") {
