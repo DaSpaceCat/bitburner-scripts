@@ -122,6 +122,8 @@ export async function main(ns) {
 	hudHelper.tooltip.setElementTooltip("bn11", hudHelper.tooltip.createBNObject(sfs[10], "The Big Crash", "Okay. Sell it all."));
 	hudHelper.tooltip.setElementTooltip("bn12", hudHelper.tooltip.createBNObject(sfs[11], "The Recursion", "Repeat.", true));
 	hudHelper.tooltip.setElementTooltip("bn13", hudHelper.tooltip.createBNObject(sfs[12], "They're lunatics", "1 step back, 2 steps forward"));
+	const curTool = doc.getElementById(`bn${ns.getPlayer().bitNodeN}-tooltip`);
+	curTool.innerHTML += `<br><span style="color: ${col.hak};">You are in this BitNode.</span>`
 
 	//exposes certian NS functions to a global context
 	gMinPID = ns.run("/src/nsg.js");
@@ -289,7 +291,7 @@ export async function main(ns) {
 	hudHelper.pushCont(hed, val, " │ ", col.sta, "daedalusReqAgi");
 	hudHelper.pushCont(hed, val, ` ╰─────────────`, col.def, "daedalusReqEnd");
 	hudHelper.pushCont(hed, val, "w0r1d_d43m0n", col.hak, "worldDaemonRq");
-	hudHelper.pushCont(hed, val, "", col.hak, "worldDaemonHak");
+	//hudHelper.pushCont(hed, val, "", col.hak, "worldDaemonHak");
 	hudHelper.endSec(hed, val);
 	// --------------------------------
 	hudHelper.pushBreak(hed, val, 'BITVERSE', '───────────────', bvsMin, "bvsMin", 'bitverse');
@@ -442,8 +444,8 @@ export async function main(ns) {
 			hudHelper.updateVal("daedalusReqDef", `Defense Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'defense', 1500, sf5), '0,0')}`);
 			hudHelper.updateVal("daedalusReqDex", `Dexterity Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'dexterity', 1500, sf5), '0,0')}`);
 			hudHelper.updateVal("daedalusReqAgi", `Agility Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'agility', 1500, sf5), '0,0')}`);
-			hudHelper.updateVal("worldDaemonRq",  `Hack Req: ${wdl}`);
-			hudHelper.updateVal("worldDaemonHak", `You need ${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', wdl, sf5), '0,0')} exp.`);
+			hudHelper.tooltip.setElementTooltip("worldDaemonRq", hudHelper.tooltip.createObject(`Hack Req: ${wdl}`));
+			hudHelper.updateVal("worldDaemonRq", `You need ${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', wdl, sf5), '0,0')} exp.`);
 		}
 		catch (err) {
 			ns.print("ERROR: Update Skipped: " + String(err));
