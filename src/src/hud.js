@@ -2,6 +2,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-constant-condition */
 /* eslint-disable no-unused-vars */
+// noinspection JSUnusedLocalSymbols,InfiniteLoopJS,CommaExpressionJS
 
 /*
  _               _    _
@@ -22,7 +23,7 @@
 import { hudHelper, globalHelper, formulaHelper, hashnetHelper } from "./helpers.js"
 import { ProgressBar, FiraBar } from "./glyph.js"
 
-//Boolean indicating wether or not you have SF5
+//Boolean indicating whether or not you have SF5
 const sf5 = true
 
 const sfs = [
