@@ -424,18 +424,28 @@ export async function main(ns) {
 			hudHelper.updateVal("hackIncome", ns.nFormat(ns.getTotalScriptIncome()[0], '$0,0') + ' /s');
 
 			// Hashnet
-			let hashGain = 0;
-			for (let i = 0; i < ns.hacknet.numNodes(); i++) {
-				hashGain += ns.hacknet.getNodeStats(i).production;
+			if (ns.hacknet.numNodes() > 0) {
+				let hashGain = 0;
+				for (let i = 0; i < ns.hacknet.numNodes(); i++) {
+					hashGain += ns.hacknet.getNodeStats(i).production;
+				}
+				const posCorp = hashnetHelper.canGet(ns, "Sell for Corporation Funds")
+				hudHelper.updateVal("hashes", `${ns.nFormat(ns.hacknet.numHashes(), '0,0.000')} / ${ns.nFormat(ns.hacknet.hashCapacity(), '0,0')}`);
+				hudHelper.updateVal("nodes", ns.nFormat(ns.hacknet.numNodes(), '0,0'));
+				hudHelper.updateVal("hashMoney", `${ns.nFormat(Math.floor(ns.hacknet.numHashes() / 4) * 1000000, '$0,0')} / ${ns.nFormat((ns.hacknet.hashCapacity() / 4) * 1000000, '$0,0')}`);
+				hudHelper.updateVal("hashCorp", ns.nFormat(posCorp * 1000000000, '$0,0'));
+				hudHelper.updateVal("hashGain", ns.nFormat(hashGain, '0,0.000') + ' h/s');
+				hudHelper.updateVal("hashMoneyGain", ns.nFormat((hashGain / 4) * 1000000, '$0,0'));
+				hudHelper.updateVal("hashCorpGain", ns.nFormat((hashGain / ns.hacknet.hashCost("Sell for Corporation Funds")) * 1000000000, '$0,0'));
+			} else {
+				hudHelper.updateVal("hashes", "You don't have a hashnet node!")
+				hudHelper.updateVal("nodes", "N/A")
+				hudHelper.updateVal("hashMoney", "N/A")
+				hudHelper.updateVal("hashCorp", "N/A")
+				hudHelper.updateVal("hashGain", "N/A")
+				hudHelper.updateVal("hashMoneyGain", "N/A")
+				hudHelper.updateVal("hashCorpGain", "N/A")
 			}
-			const posCorp = hashnetHelper.canGet(ns, "Sell for Corporation Funds")
-			hudHelper.updateVal("hashes", `${ns.nFormat(ns.hacknet.numHashes(), '0,0.000')} / ${ns.nFormat(ns.hacknet.hashCapacity(), '0,0')}`);
-			hudHelper.updateVal("nodes",  ns.nFormat(ns.hacknet.numNodes(), '0,0'));
-			hudHelper.updateVal("hashMoney", `${ns.nFormat(Math.floor(ns.hacknet.numHashes() / 4) * 1000000, '$0,0')} / ${ns.nFormat((ns.hacknet.hashCapacity() / 4) * 1000000, '$0,0')}`);
-			hudHelper.updateVal("hashCorp", ns.nFormat(posCorp * 1000000000, '$0,0'));
-			hudHelper.updateVal("hashGain", ns.nFormat(hashGain, '0,0.000') + ' h/s');
-			hudHelper.updateVal("hashMoneyGain", ns.nFormat((hashGain / 4) * 1000000, '$0,0'));
-			hudHelper.updateVal("hashCorpGain", ns.nFormat((hashGain / ns.hacknet.hashCost("Sell for Corporation Funds")) * 1000000000, '$0,0'));
 
 			// Sleeve
 			for (let i = 0; i < ns.sleeve.getNumSleeves(); i++) {
