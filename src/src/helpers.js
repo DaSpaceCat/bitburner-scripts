@@ -105,7 +105,7 @@ export const hudHelper = {
 	pushCont: function(hed, val, tp, /*cont,*/ col, id, allign) {
 		hed.push(`<span style="cursor: default; color: #ffffff">│</span><span style="cursor: default; color: ${col}">${tp}</span><br>`)
 		if (allign !== undefined) {
-			val.push(`<span class="tooltip" id="ovv-${id}" style="cursor: default; position: relative; color: ${col}; text-allign: ${allign}"></span><span style="cursor: default; color: #ffffff">│</span><br>`)
+			val.push(`<span class="tooltip" id="ovv-${id}" style="cursor: default; position: relative; color: ${col}; text-align: ${allign}"></span><span style="cursor: default; color: #ffffff">│</span><br>`)
 			return;
 		}
 		val.push(`<span class="tooltip" id="ovv-${id}" style="cursor: default; color: ${col}; width: 100%;"></span><span style="cursor: default; color: #ffffff">│</span><br>`)
@@ -320,7 +320,7 @@ export const hudHelper = {
 		 * @param {Object} sf The source file object.
 		 * @param {string} h The bitNode header.
 		 * @param {string} s The bitNode description.
-		 * @param {boolean} b12 Whether or not the bitNode is BitNode-12.
+		 * @param {boolean} b12 Optional. Whether or not the bitNode is BitNode-12.
 		 */
 		createBNObject: function(sf, h, s, b12) {
 			if (b12) {
@@ -337,7 +337,7 @@ export const hudHelper = {
 
 		/**
 		 * Heavily modified helper function from the game's source code for creating tooltips
-		 * @param {string} el The ID of the element to attatch the tooltip to.
+		 * @param {string} el The ID of the element to attach the tooltip to.
 		 * @param {any} params - Dictionary of relevant tooltip parameters
 		 * @param {boolean} doneEL Boolean stating if the document handler has been created.
 		 */
@@ -354,7 +354,7 @@ export const hudHelper = {
 					tt.className = "tooltiptext"
 					tt.innerHTML = params.tooltiptext
 					d.body.appendChild(tt);
-					// Apply all additional parameters that were specifiedd. Add more checks here as needed
+					// Apply all additional parameters that were specified. Add more checks here as needed
 					if (params.textAlign !== undefined) d.getElementById(`${el}-tooltip`).style.textAlign = params.textAlign;
 					// Add event listeners for mouseout/mouseover to hide/show the tooltip.
 					d.getElementById(`${el}-tooltip`).style.visibility = "hidden";
@@ -378,7 +378,7 @@ export const hudHelper = {
 }
 
 /**
- * Miscelaneous helper functions that didn't fit anywhere else.
+ * Miscellaneous helper functions that didn't fit anywhere else.
  */
 export const miscHelper = {
 	/**

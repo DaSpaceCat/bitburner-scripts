@@ -127,7 +127,7 @@ export async function main(ns) {
 	const curTool = doc.getElementById(`bn${ns.getPlayer().bitNodeN}-tooltip`);
 	curTool.innerHTML += `<br><span style="color: ${col.hak};">You are in this BitNode.</span>`
 
-	//exposes certian NS functions to a global context
+	//exposes certain NS functions to a global context
 	gMinPID = ns.run("/src/nsg.js");
 
 	//MISC global CSS
@@ -251,6 +251,24 @@ export async function main(ns) {
 	hudHelper.pushCont(hed, val, "quikMurder:", col.hp, "slvHom")
 	hudHelper.endSec(hed, val);
 	/* --------------------------------
+	  ____
+	 / ___| __ _ _ __   __ _
+	| |  _ / _` | '_ \ / _` |
+	| |_| | (_| | | | | (_| |
+	 \____|\__,_|_| |_|\__, |
+	                   |___/
+	-------------------------------- */
+	hudHelper.pushBreak(hed, val, 'GANG', '─────────────────', gngMin, "gngMin", 'gang');
+	hudHelper.startSec(hed, val, "gang", gngMin ? "none" : "inline");
+	hudHelper.pushCont(hed, val, "Bonus Time:", col.int, "gangBonusTime");
+	hudHelper.pushCont(hed, val, "Faction:", col.cha, "gangFaction")
+	hudHelper.pushCont(hed, val, "Respect:", col.cha, "gangRespect")
+	hudHelper.pushCont(hed, val, "Power:", col.hp, "gangPower");
+	hudHelper.pushCont(hed, val, "Territory:", col.hp, "gangTerritory");
+	hudHelper.pushCont(hed, val, "Wanted Level:", col.cha, "gangWanted")
+	hudHelper.pushCont(hed, val, "Clash Chance:", col.hp, "gangClashChance")
+	hudHelper.endSec(hed, val)
+	/* --------------------------------
 	 ____
 	/ ___|  ___ _ ____   _____ _ __ ___
 	\___ \ / _ \ '__\ \ / / _ \ '__/ __|
@@ -332,10 +350,12 @@ export async function main(ns) {
 					const es = doc.getElementsByClassName(el[1])
 					es[0].style.display = 'none';
 					es[1].style.display = 'none';
+					doc.getElementById(el[1]).innerHTML = ""
 				} else {
 					const es = doc.getElementsByClassName(el[1])
 					es[0].style.display = 'inline';
 					es[1].style.display = 'inline';
+					doc.getElementById(el[1]).innerHTML = ""
 				}
 			}
 
@@ -417,6 +437,21 @@ export async function main(ns) {
 				hudHelper.updateVal(`sleeve${i}Cha`, `${ns.nFormat(stat.charisma, '0,0')}`);
 			}
 
+			// Gang
+			if (ns.gang.inGang()) {
+				let info = ns.gang.getGangInformation()
+				let gangType = (info.isHacking) ? "Hacking" : "Combat";
+				hudHelper.updateVal("gangBonusTime", ns.tFormat(ns.gang.getBonusTime()));
+				hudHelper.updateVal("gangFaction", `${info.faction}, ${gangType}`);
+				hudHelper.updateVal("gangRespect", ns.nFormat(info.respect, 0,0));
+				hudHelper.updateVal("gangPower", ns.nFormat(info.power, '0,0.00'));
+				hudHelper.updateVal("gangTerritory", ns.nFormat(info.territory, '0.000%'));
+				hudHelper.updateVal("gangWanted", ns.nFormat(info.wantedLevel, '0,0.00'));
+				hudHelper.updateVal("gangClashChance", `${ns.nFormat(info.territoryClashChance, '0.0%')} / ${info.territoryWarfareEngaged ? "" : ""}`);
+			} else {
+				gngMin = true;
+			}
+
 			// Server(s)
 			const mxRm = ns.getServerMaxRam('home');
 			const usRm = ns.getServerUsedRam('home');
@@ -451,7 +486,7 @@ export async function main(ns) {
 			hudHelper.updateVal("worldDaemonRq", `You need ${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', wdl, sf5), '0,0')} exp.`);
 		}
 		catch (err) {
-			ns.print("ERROR: Update Skipped: " + String(err));
+			ns.print("ERROR: " + String(err));
 		}
 		await ns.sleep(100);
 	}

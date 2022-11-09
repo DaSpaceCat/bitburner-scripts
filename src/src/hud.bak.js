@@ -284,7 +284,7 @@ export async function main(ns) {
 			| |_| | (_| | | | | (_| |
 			 \____|\__,_|_| |_|\__, |
 			                   |___/
-			--------------------------------
+			-------------------------------- */
 			if (ns.gang.inGang()) {
 				hudHelper.pushBreak(hed, val, 'GANG', '─────────────────', gngMin, "gngMin", 'gang');
 				hudHelper.startSec(hed, val, "gang", gngMin ? "none" : "inline");
@@ -306,7 +306,7 @@ export async function main(ns) {
 				}
 				hudHelper.endSec(hed, val);
 			}
-			--------------------------------
+			/* --------------------------------
 			  ____                                 _   _
 			 / ___|___  _ __ _ __   ___  _ __ __ _| |_(_) ___  _ __
 			| |   / _ \| '__| '_ \ / _ \| '__/ _` | __| |/ _ \| '_ \
