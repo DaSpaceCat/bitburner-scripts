@@ -539,6 +539,8 @@ export async function main(ns) {
 						hudHelper.updateVal("bladeChance", `${ns.nFormat(chance[0], '0.00%')}`)
 					}
 				}
+			} else {
+				bldMin = false;
 			}
 
 			// Server(s)

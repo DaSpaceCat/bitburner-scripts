@@ -100,7 +100,7 @@ export const hudHelper = {
 	 * @param {string} tp The header content.
 	 * @param {string} col The color of the content. can be any valid CSS color value
 	 * @param {string} id The HTML id of the value content.
-	 * @param {string} allign Optional. The CSS text allignment of the content.
+	 * @param {string} allign Optional. The CSS text alignment of the content.
 	 */
 	pushCont: function(hed, val, tp, /*cont,*/ col, id, allign) {
 		hed.push(`<span style="cursor: default; color: #ffffff">│</span><span style="cursor: default; color: ${col}">${tp}</span><br>`)
@@ -306,7 +306,7 @@ export const hudHelper = {
 		/**
 		 * Create a tooltip object, used for creating tooltips.
 		 * @param {string} tx The content of the tooltip.
-		 * @param {string} allign Optional: The tooltip's text allignment.
+		 * @param {string} allign Optional: The tooltip's text alignment.
 		 */
 		createObject: function(tx, allign) {
 			return {
@@ -369,7 +369,7 @@ export const hudHelper = {
 					});
 				}
 				// If the current tooltip exists but the text does not match what we want, replace it.
-				else if (curToolTip.innerHTML != params.tooltiptext) {
+				else if (curToolTip.innerHTML !== params.tooltiptext) {
 					curToolTip.innerHTML = params.tooltiptext
 				}
 			}
@@ -389,7 +389,7 @@ export const miscHelper = {
 	 */
 	findRoute: function (s, srv) {
 		let route = [srv]
-		while (route[0] != "home") {
+		while (route[0] !== "home") {
 			let temp = s.scan(route[0])
 			route.unshift(temp[0])
 		}
@@ -397,6 +397,7 @@ export const miscHelper = {
 	}
 }
 
+// noinspection LoopStatementThatDoesntLoopJS
 /**
  * Sleeve API helpers.
  */
@@ -414,7 +415,7 @@ export const sleeveHelper = {
 		let i = n;
 		let sleeves = 1
 		if (a) { i = 0; sleeves = s.sleeve.getNumSleeves(); }
-		for (i = i; i < sleeves; i++) {
+		for (i; i < sleeves; i++) {
 			switch (t) {
 				case "recovery":
 					s.sleeve.setToShockRecovery(i)
@@ -423,46 +424,46 @@ export const sleeveHelper = {
 					eval("s.sleeve.setToSynchronize(i)");
 					break;
 				case "crime":
-					if (o1 != undefined) {
+					if (o1 !== undefined) {
 						eval("s.sleeve.setToCommitCrime(i, o1)");
 					} else { s.print("ERROR: no crime provided") }
 					break;
 				case "wFaction":
-					if (o1 != undefined) {
-						if (o2 != undefined) {
+					if (o1 !== undefined) {
+						if (o2 !== undefined) {
 							eval("s.sleeve.setToFactionWork(i, o1, o2)");
 						} else { s.print("ERROR: no work type provided") }
 					} else { s.print("ERROR: no faction provided") }
 					break;
 				case "wCompany":
-					if (o1 != undefined) {
+					if (o1 !== undefined) {
 						eval("s.sleeve.setToCompanyWork(i, o1)");
 					} else { s.print("ERROR: no company defined") }
 					break;
 				case "gym":
-					if (o1 != undefined) {
-						if (o2 != undefined) {
+					if (o1 !== undefined) {
+						if (o2 !== undefined) {
 							eval("s.sleeve.setToGymWorkout(i, o1, o2)");
 						} else { s.print("ERROR: no gym provided") }
 					} else { s.print("ERROR: no stat provided") }
 					break;
 				case "uni":
-					if (o1 != undefined) {
-						if (o2 != undefined) {
+					if (o1 !== undefined) {
+						if (o2 !== undefined) {
 							eval("s.sleeve.setToUniversityCourse(i, o1, o2)");
 						} else { s.print("ERROR: no university provided") }
 					} else { s.print("ERROR: no course provided") }
 					break;
 				case "blade":
-					if (o1 != undefined) {
-						if (o2 != undefined) {
+					if (o1 !== undefined) {
+						if (o2 !== undefined) {
 							eval("s.sleeve.setToBladeburnerAction(i, o1, o2)");
 						} else { s.print("ERROR: no category provided") }
 					} else { s.print("ERROR: no contract provided") }
 					break;
 				case undefined:
 					s.print("you, didn't define a work type. what are you even doing?");
-					("check the script log");
+					s.tprint("you, didn't define a work type. what are you even doing?");
 					break;
 				//end
 			}
@@ -474,6 +475,7 @@ export const sleeveHelper = {
 	 * @param {ns} s Netscript reference.
 	 */
 	buyAllAugs: function (s) {
+		// noinspection LoopStatementThatDoesntLoopJS
 		for (let i = 0; i < s.sleeve.getNumSleeves(); i++) {
 			const augs = eval("s.sleeve.getSleevePurchasableAugs(i)");
 			let totalCost;
@@ -502,11 +504,12 @@ export const gangHelper = {
 	 * @returns a random name from the list, excluding names in the passed list.
 	 */
 	randomName: function (members) {
+		// noinspection SpellCheckingInspection
 		const names = ["Boe Jiden","Beff Jesos","Darcetine","Gill Bates","Zarco","Lilly","Doc. Brown","Marty McFly","Roxy","Natalie","Rem","Tai","Luther","Sean","Celso","Paul","Kit","Anna","Todd","Chozo","Kai","Tucker","John Doe","undefined","Nezomi","Avery","Phillip","Amtrak","Avelican","You","Hydroflame","xsinx","Zoe","Zelow","nightElf","Jeoshua","Lyra","Dashi","ElJay","Quacksouls","_NAME_PLACEHOLDER_","Neo","Trinity","Morpheus","Agent Smith","Keanu Reeves","John Matrix","Mughur","Khan","James T. Kirk","Spock","Leonard McCoy","Jean-Luc Picard","William Riker","Data","Kathryn Janeway","Chakotay","Tom Paris","Harry Kim","Neelix","The Borg Queen","Seven of Nine","Q","Mariah Carey","Rafi","Rios","Grant","Alex","Robert","Ace"]
 		//remove names already in use
 		for (let i = 0; i < members; i++) {
 			for (let j = 0; j < names.length; j++) {
-				if (names[j] == members[i]) {
+				if (names[j] === members[i]) {
 					names.splice(j, 1);
 				}
 			}
@@ -578,8 +581,7 @@ export const formulaHelper = {
 		const cexp = s.getPlayer()['exp'][sk] + exp;
 		const clvl = s.getPlayer()['skills'][sk];
 		const lvlExp = s.formulas.skills.calculateSkill(cexp, multi);
-		const extLvls = lvlExp - clvl;
-		return extLvls;
+		return lvlExp - clvl;
 	}
 }
 
@@ -591,7 +593,7 @@ export const hashnetHelper = {
 	/**
 	 * Check if you have the hashes to purchase `num` of `upgrade`.
 	 * @param {ns} s Netscript object.
-	 * @param {string} upgrade The name of the upgrade. What's shown ingame.
+	 * @param {string} upgrade The name of the upgrade. What's shown in-game.
 	 * @returns The number of `upgrade` you can buy with your current hashes.
 	 */
 	canGet: function (s, upgrade) {
