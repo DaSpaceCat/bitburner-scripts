@@ -15,8 +15,5 @@ export async function main(ns) {
 	});
 	ns.tprint(types);*/
 	
-	ns.tprint("Player OBJ hacking multi: " + ns.getPlayer().mults.hacking);
-	ns.tprint("Player OBJ hacking multi * BitNode Hack Level Multi: " + ns.getPlayer().mults.hacking * ns.getBitNodeMultipliers().HackingLevelMultiplier);
-	ns.tprint(`Hacking Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', 2500, false), '0,0')}`);
-	ns.tprint(`Hacking Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', 2500, true), '0,0')}`);
+	console.log(ns.getBitNodeMultipliers());
 }

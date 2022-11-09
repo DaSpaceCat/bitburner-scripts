@@ -540,7 +540,7 @@ export async function main(ns) {
 					}
 				}
 			} else {
-				bldMin = false;
+				bldMin = true;
 			}
 
 			// Server(s)
@@ -564,7 +564,9 @@ export async function main(ns) {
 
 			// Playtime
 			hudHelper.updateVal("playTimeBN", ns.tFormat(ply.playtimeSinceLastBitnode));
+			hudHelper.tooltip.setElementTooltip("ovv-playTimeBN", hudHelper.tooltip.createObject(`<b>In ms:</b><br>${ply.playtimeSinceLastBitnode}`), doneEL)
 			hudHelper.updateVal("playTimeTotal", ns.tFormat(ply.totalPlaytime));
+			hudHelper.tooltip.setElementTooltip("ovv-playTimeTotal", hudHelper.tooltip.createObject(`<b>In ms:</b><br>${ply.totalPlaytime}`), doneEL)
 
 			// MISC
 			const wdl = ns.getBitNodeMultipliers().WorldDaemonDifficulty * 3000
@@ -573,7 +575,7 @@ export async function main(ns) {
 			hudHelper.updateVal("daedalusReqDef", `Defense Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'defense', 1500, sf5), '0,0')}`);
 			hudHelper.updateVal("daedalusReqDex", `Dexterity Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'dexterity', 1500, sf5), '0,0')}`);
 			hudHelper.updateVal("daedalusReqAgi", `Agility Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'agility', 1500, sf5), '0,0')}`);
-			hudHelper.tooltip.setElementTooltip("worldDaemonRq", hudHelper.tooltip.createObject(`Hack Req: ${wdl}`), doneEL);
+			hudHelper.tooltip.setElementTooltip("ovv-worldDaemonRq", hudHelper.tooltip.createObject(`Hack Req: ${wdl}`), doneEL);
 			hudHelper.updateVal("worldDaemonRq", `You need ${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', wdl, sf5), '0,0')} exp.`);
 
 			// check minimize buttons

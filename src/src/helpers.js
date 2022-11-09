@@ -394,6 +394,78 @@ export const miscHelper = {
 			route.unshift(temp[0])
 		}
 		return route;
+	},
+
+	/**
+	 * Returns neatly formatted BitNode Multipliers.
+	 * @param {NS} s Netscript reference.
+	 * @param {number} bn The BitNode number.
+	 * @param {number} l The level of the BitNode. Only applicable to BitNode 12.
+	 */
+	bitNodeMultis: function (s, bn, l) {
+		/*
+		example obj
+		AgilityLevelMultiplier: 0.4
+		AugmentationMoneyCost: 5
+		AugmentationRepCost: 2
+		BladeburnerRank: 0.8
+		BladeburnerSkillCost: 1
+		CharismaLevelMultiplier: 0.4
+		ClassGymExpGain: 1
+		CodingContractMoney: 0.5
+		CompanyWorkExpGain: 1
+		CompanyWorkMoney: 0.5
+		CorporationSoftcap: 0.9
+		CorporationValuation: 0.5
+		CrimeExpGain: 1
+		CrimeMoney: 0.5
+		DaedalusAugsRequirement: 30
+		DefenseLevelMultiplier: 0.4
+		DexterityLevelMultiplier: 0.4
+		FactionPassiveRepGain: 1
+		FactionWorkExpGain: 1
+		FactionWorkRepGain: 1
+		FourSigmaMarketDataApiCost: 1
+		FourSigmaMarketDataCost: 1
+		GangSoftcap: 0.9
+		GangUniqueAugs: 0.25
+		HackExpGain: 1
+		HackingLevelMultiplier: 0.35
+		HacknetNodeMoney: 0.5
+		HomeComputerRamCost: 1.5
+		InfiltrationMoney: 0.5
+		InfiltrationRep: 1
+		ManualHackMoney: 0.5
+		PurchasedServerCost: 5
+		PurchasedServerLimit: 0.6
+		PurchasedServerMaxRam: 0.5
+		PurchasedServerSoftcap: 1.1
+		RepToDonateToFaction: 1
+		ScriptHackMoney: 0.5
+		ScriptHackMoneyGain: 1
+		ServerGrowthRate: 1
+		ServerMaxMoney: 1
+		ServerStartingMoney: 1
+		ServerStartingSecurity: 1
+		ServerWeakenRate: 1
+		StaneksGiftExtraSize: -3
+		StaneksGiftPowerMultiplier: 0.75
+		StrengthLevelMultiplier: 0.4
+		WorldDaemonDifficulty: 2
+		*/
+		let m;
+		if (bn !== undefined) {
+			if (bn === 12) {
+				if (l === undefined) {l = 1}
+				m = s.getBitNodeMultipliers(bn, l)
+			} else {
+				m = s.getBitNodeMultipliers(bn)
+			}
+		} else {
+			bn = s.getPlayer().bitNodeN;
+			m = s.getBitNodeMultipliers()
+		}
+		`<h2><b>BitNode-${bn} Multipliers:</b></h2><h4>Experience & Skills:</h4><br>Hacking: Level: ${s.nFormat(m.HackingLevelMultiplier * 100, '0%')} Experience: ${m.HackExpGain}`
 	}
 }
 
