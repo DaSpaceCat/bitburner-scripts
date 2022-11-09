@@ -269,6 +269,35 @@ export async function main(ns) {
 	hudHelper.pushCont(hed, val, "Clash Chance:", col.hp, "gangClashChance")
 	hudHelper.endSec(hed, val)
 	/* --------------------------------
+	  ____                                 _   _
+	 / ___|___  _ __ _ __   ___  _ __ __ _| |_(_) ___  _ __
+	| |   / _ \| '__| '_ \ / _ \| '__/ _` | __| |/ _ \| '_ \
+	| |__| (_) | |  | |_) | (_) | | | (_| | |_| | (_) | | | |
+	 \____\___/|_|  | .__/ \___/|_|  \__,_|\__|_|\___/|_| |_|
+	                |_|
+	-------------------------------- */
+	hudHelper.pushBreak(hed, val, 'CORP', '─────────────────', crpMin, "crpMin", 'corp');
+	hudHelper.startSec(hed, val, "corp", crpMin ? "none" : "inline");
+	hudHelper.pushCont(hed, val, "Bonus Time:", col.int, "corpBonusTime")
+	hudHelper.pushCont(hed, val, "Name:", col.cha, "corpName")
+	hudHelper.pushCont(hed, val, "Funds:", col.money, "corpFunds")
+	hudHelper.pushCont(hed, val, "Revenue:", col.money, "corpRevenue")
+	hudHelper.pushCont(hed, val, "Expenses:", col.money, "corpExpenses")
+	hudHelper.pushCont(hed, val, "Profit:", col.money, "corpProfit")
+	hudHelper.pushCont(hed, val, "Shares:", col.hak, "corpShares")
+	hudHelper.endSec(hed, val)
+	/* --------------------------------
+	 ____  _           _      _
+	| __ )| | __ _  __| | ___| |__  _   _ _ __ _ __   ___ _ __
+	|  _ \| |/ _` |/ _` |/ _ \ '_ \| | | | '__| '_ \ / _ \ '__|
+	| |_) | | (_| | (_| |  __/ |_) | |_| | |  | | | |  __/ |
+	|____/|_|\__,_|\__,_|\___|_.__/ \__,_|_|  |_| |_|\___|_|
+	-------------------------------- */;
+	/*hudHelper.pushBreak(hed, val, 'BLADEBURNERS', '─────────────', bldMin, "bldMin", 'blade');
+	hudHelper.startSec(hed, val, "blade", bldMin ? "none" : "inline");
+
+	hudHelper.endSec(hed, val)*/
+	/* --------------------------------
 	 ____
 	/ ___|  ___ _ ____   _____ _ __ ___
 	\___ \ / _ \ '__\ \ / / _ \ '__/ __|
@@ -343,7 +372,7 @@ export async function main(ns) {
 		try {
 			const ply = ns.getPlayer();
 			// check minimize buttons
-			const els = [[lvlMin, 'levels'], [crmMin, 'crime'], [monMin, 'money'], [sklMin, 'skill'], [slvMin, 'sleeve'], [srvMin, 'server'], [pltMin, 'playt'], [runMin, 'srcr'], [mscMin, 'misc']];
+			const els = [/*[bldMin, 'blade'],*/ [gngMin, 'gang'], [crpMin, 'corp'], [lvlMin, 'levels'], [crmMin, 'crime'], [monMin, 'money'], [sklMin, 'skill'], [slvMin, 'sleeve'], [srvMin, 'server'], [pltMin, 'playt'], [runMin, 'srcr'], [mscMin, 'misc']];
 			for (let i = 0; i < els.length; i++) {
 				const el = els[i];
 				if (el[0]) {
@@ -450,7 +479,41 @@ export async function main(ns) {
 				hudHelper.updateVal("gangClashChance", `${ns.nFormat(info.territoryClashChance, '0.0%')} / ${info.territoryWarfareEngaged ? "" : ""}`);
 			} else {
 				gngMin = true;
+				hudHelper.updateVal("gangBonusTime", "N/A")
+				hudHelper.updateVal("gangFaction", "N/A")
+				hudHelper.updateVal("gangRespect", "N/A")
+				hudHelper.updateVal("gangPower", "N/A")
+				hudHelper.updateVal("gangTerritory", "N/A")
+				hudHelper.updateVal("gangWanted",  "N/A")
+				hudHelper.updateVal("gangClashChance", "N/A")
 			}
+
+			// Corp
+			if (ply.hasCorporation) {
+				let corp = eval("ns.corporation.getCorporation()");
+				let bTime = eval("ns.corporation.getBonusTime()");
+				hudHelper.updateVal("corpBonusTime", `${ns.tFormat(bTime)}`);
+				hudHelper.updateVal("corpName", corp.name);
+				hudHelper.updateVal("corpFunds", `$${ns.nFormat(corp.funds, '0,0')}`);
+				hudHelper.updateVal("corpRevenue", `$${ns.nFormat(corp.revenue, '$0,0')}/s`);
+				hudHelper.updateVal("corpExpenses", `$${ns.nFormat(corp.expenses, '$0,0')}/s`);
+				hudHelper.updateVal("corpProfit", `$${ns.nFormat(corp.revenue - corp.expenses, '0,0')}/s`);
+				hudHelper.updateVal("corpShares", `${ns.nFormat(corp.numShares, '0,0')} / ${ns.nFormat(corp.totalShares, '0,0')}`);
+			} else {
+				crpMin = true;
+				hudHelper.updateVal("corpBonusTime", "N/A");
+				hudHelper.updateVal("corpName", "N/A");
+				hudHelper.updateVal("corpFunds", "N/A");
+				hudHelper.updateVal("corpRevenue", "N/A");
+				hudHelper.updateVal("corpExpenses", "N/A");
+				hudHelper.updateVal("corpProfit", "N/A");
+				hudHelper.updateVal("corpShares", "N/A");
+			}
+
+			// Bladeburners
+			/*if (ply.inBladeburner) {
+
+			}*/
 
 			// Server(s)
 			const mxRm = ns.getServerMaxRam('home');

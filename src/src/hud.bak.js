@@ -313,7 +313,7 @@ export async function main(ns) {
 			| |__| (_) | |  | |_) | (_) | | | (_| | |_| | (_) | | | |
 			 \____\___/|_|  | .__/ \___/|_|  \__,_|\__|_|\___/|_| |_|
 			                |_|
-			-------------------------------- 
+			-------------------------------- */
 			if (ply.hasCorporation) {
 				let corp = eval("ns.corporation.getCorporation()");
 				let bTime = eval("ns.corporation.getBonusTime()")
