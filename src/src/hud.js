@@ -293,10 +293,18 @@ export async function main(ns) {
 	| |_) | | (_| | (_| |  __/ |_) | |_| | |  | | | |  __/ |
 	|____/|_|\__,_|\__,_|\___|_.__/ \__,_|_|  |_| |_|\___|_|
 	-------------------------------- */;
-	/*hudHelper.pushBreak(hed, val, 'BLADEBURNERS', '─────────────', bldMin, "bldMin", 'blade');
+	hudHelper.pushBreak(hed, val, 'BLADEBURNERS', '─────────────', bldMin, "bldMin", 'blade');
 	hudHelper.startSec(hed, val, "blade", bldMin ? "none" : "inline");
-
-	hudHelper.endSec(hed, val)*/
+	hudHelper.pushCont(hed, val, "Bonus Time:", col.int, "bladeBonus");
+	hudHelper.pushCont(hed, val, "Rank:", col.int, "bladeRank");
+	hudHelper.pushCont(hed, val, "Stamina:", col.hp, "bladeStamina");
+	hudHelper.pushCont(hed, val, "Action:", col.hak, "bladeAction");
+	hudHelper.pushCont(hed, val, "Time:", col.hak, "bladeTime");
+	hudHelper.pushCont(hed, val, "Level:", col.hak, "bladeLevel")
+	hudHelper.pushCont(hed, val, "Est. Chance:", col.hak, "bladeChance");
+	hudHelper.pushCont(hed, val, "Skill Points:", col.int, "bladeSkill");
+	hudHelper.pushCont(hed, val, "City:", col.def, "bladeCity");
+	hudHelper.endSec(hed, val)
 	/* --------------------------------
 	 ____
 	/ ___|  ___ _ ____   _____ _ __ ___
@@ -371,34 +379,18 @@ export async function main(ns) {
 	while (true) {
 		try {
 			const ply = ns.getPlayer();
-			// check minimize buttons
-			const els = [/*[bldMin, 'blade'],*/ [gngMin, 'gang'], [crpMin, 'corp'], [lvlMin, 'levels'], [crmMin, 'crime'], [monMin, 'money'], [sklMin, 'skill'], [slvMin, 'sleeve'], [srvMin, 'server'], [pltMin, 'playt'], [runMin, 'srcr'], [mscMin, 'misc']];
-			for (let i = 0; i < els.length; i++) {
-				const el = els[i];
-				if (el[0]) {
-					const es = doc.getElementsByClassName(el[1])
-					es[0].style.display = 'none';
-					es[1].style.display = 'none';
-					doc.getElementById(el[1]).innerHTML = ""
-				} else {
-					const es = doc.getElementsByClassName(el[1])
-					es[0].style.display = 'inline';
-					es[1].style.display = 'inline';
-					doc.getElementById(el[1]).innerHTML = ""
-				}
-			}
 
 			// Location & HP
 			hudHelper.updateVal("loc", `${ply.city}: ${ply.location}`);
 			hudHelper.updateVal("hp", `${ns.nFormat(ply.hp.current, '0,0')} / ${ns.nFormat(ply.hp.max, '0,0')} | ${ns.nFormat(ply.hp.current/ply.hp.max, '0.000%')}`);
-			
+
 			// Levels
 			hudHelper.updateVal("skHak", ns.nFormat(ply.skills.hacking, '0,0'))
 			hudHelper.updateVal("skStrDef", `${ns.nFormat(ply.skills.strength, '0,0')} | ${ns.nFormat(ply.skills.defense, '0,0')}`)
 			hudHelper.updateVal("skDexAgi", `${ns.nFormat(ply.skills.dexterity, '0,0')} | ${ns.nFormat(ply.skills.agility, '0,0')}`)
 			hudHelper.updateVal("skCha", ns.nFormat(ply.skills.charisma, '0,0'))
 			hudHelper.updateVal("skInt", ns.nFormat(ply.skills.intelligence, '0,0'))
-			
+
 			// EXP
 			const nhLvl = ply.skills.hacking + 1
 			const nsLvl = ply.skills.strength + 1
@@ -417,11 +409,11 @@ export async function main(ns) {
 			hudHelper.updateVal("xpDexAgi", `${ns.nFormat(ply.exp.dexterity, '0,0')} | ${ns.nFormat(ply.exp.agility, '0,0')}`)
 			hudHelper.updateVal("xpCha", ns.nFormat(ply.exp.charisma, '0,0'))
 			hudHelper.updateVal("xpInt", ns.nFormat(ply.exp.intelligence, '0,0'))
-			
+
 			// Crime
 			hudHelper.updateVal("karma", ns.nFormat(ns.heart.break(), '0,0'));
 			hudHelper.updateVal("kills", ns.nFormat(ply.numPeopleKilled, '0,0'));
-			
+
 			// Profit
 			hudHelper.updateVal("money", `$${ns.nFormat(ply.money, '0,0')}`)
 			if (ns.gang.inGang()) {
@@ -472,20 +464,13 @@ export async function main(ns) {
 				let gangType = (info.isHacking) ? "Hacking" : "Combat";
 				hudHelper.updateVal("gangBonusTime", ns.tFormat(ns.gang.getBonusTime()));
 				hudHelper.updateVal("gangFaction", `${info.faction}, ${gangType}`);
-				hudHelper.updateVal("gangRespect", ns.nFormat(info.respect, 0,0));
+				hudHelper.updateVal("gangRespect", ns.nFormat(info.respect, '0,0'));
 				hudHelper.updateVal("gangPower", ns.nFormat(info.power, '0,0.00'));
 				hudHelper.updateVal("gangTerritory", ns.nFormat(info.territory, '0.000%'));
 				hudHelper.updateVal("gangWanted", ns.nFormat(info.wantedLevel, '0,0.00'));
 				hudHelper.updateVal("gangClashChance", `${ns.nFormat(info.territoryClashChance, '0.0%')} / ${info.territoryWarfareEngaged ? "" : ""}`);
 			} else {
 				gngMin = true;
-				hudHelper.updateVal("gangBonusTime", "N/A")
-				hudHelper.updateVal("gangFaction", "N/A")
-				hudHelper.updateVal("gangRespect", "N/A")
-				hudHelper.updateVal("gangPower", "N/A")
-				hudHelper.updateVal("gangTerritory", "N/A")
-				hudHelper.updateVal("gangWanted",  "N/A")
-				hudHelper.updateVal("gangClashChance", "N/A")
 			}
 
 			// Corp
@@ -501,19 +486,50 @@ export async function main(ns) {
 				hudHelper.updateVal("corpShares", `${ns.nFormat(corp.numShares, '0,0')} / ${ns.nFormat(corp.totalShares, '0,0')}`);
 			} else {
 				crpMin = true;
-				hudHelper.updateVal("corpBonusTime", "N/A");
-				hudHelper.updateVal("corpName", "N/A");
-				hudHelper.updateVal("corpFunds", "N/A");
-				hudHelper.updateVal("corpRevenue", "N/A");
-				hudHelper.updateVal("corpExpenses", "N/A");
-				hudHelper.updateVal("corpProfit", "N/A");
-				hudHelper.updateVal("corpShares", "N/A");
 			}
 
 			// Bladeburners
-			/*if (ply.inBladeburner) {
-
-			}*/
+			if (ply.inBladeburner) {
+				let stm = ns.bladeburner.getStamina();
+				hudHelper.updateVal("bladeBonus", `${ns.tFormat(ns.bladeburner.getBonusTime())}`)
+				hudHelper.updateVal("bladeRank", ns.nFormat(ns.bladeburner.getRank(), '0,0'))
+				hudHelper.updateVal("bladeStamina", `${ns.nFormat(stm[0], '0,0.00')}/${ns.nFormat(stm[1], '0,0.00')} | ${ns.nFormat(stm[0] / stm[1], '0.000%')}`)
+				hudHelper.updateVal("bladeSkill", ns.nFormat(ns.bladeburner.getSkillPoints(), '0,0'))
+				hudHelper.updateVal("bladeCity", ns.bladeburner.getCity())
+				if (ns.bladeburner.getCurrentAction().type === "Idle") {
+					hudHelper.updateVal("bladeAction", `Idle`)
+					hudHelper.updateVal("bladeTime", `N/A`)
+					hudHelper.updateVal("bladeLevel", `N/A`)
+					hudHelper.updateVal("bladeChance", `N/A`)
+				} else {
+					let action  = ns.bladeburner.getCurrentAction()
+					let chance  = ns.bladeburner.getActionEstimatedSuccessChance(action.type, action.name);
+					let curTime = ns.bladeburner.getActionCurrentTime()
+					let takTime = ns.bladeburner.getActionTime(action.type, action.name)
+					let cbbLvl  = ns.bladeburner.getActionCurrentLevel(action.type, action.name);
+					let mbbLvl  = ns.bladeburner.getActionMaxLevel(action.type, action.name);
+					//mess with bb time display because the hud isn't big enough for "seconds" and "minutes"
+					let dspCurTime = ns.tFormat(curTime)
+					let dspTakTime = ns.tFormat(takTime)
+					dspCurTime = dspCurTime.replace(' minutes', 'm');
+					dspCurTime = dspCurTime.replace(' seconds', 's');
+					dspCurTime = dspCurTime.replace(' minute' , 'm');
+					dspCurTime = dspCurTime.replace(' second' , 's');
+					dspTakTime = dspTakTime.replace(' minutes', 'm');
+					dspTakTime = dspTakTime.replace(' seconds', 's');
+					dspTakTime = dspTakTime.replace(' minute' , 'm');
+					dspTakTime = dspTakTime.replace(' second' , 's');
+					//actual adding
+					hudHelper.updateVal("bladeAction", `${action.type}: ${action.name}`);
+					hudHelper.updateVal("bladeTime", `${dspCurTime} / ${dspTakTime} : ${ns.nFormat(curTime / takTime, "0.00%")}`)
+					hudHelper.updateVal("bladeLevel", `${ns.nFormat(cbbLvl, '0,0')} / ${ns.nFormat(mbbLvl, '0,0')}`);
+					if (chance[0] !== chance[1]) {
+						hudHelper.updateVal("bladeChance", `${ns.nFormat(chance[0], '0.00%')} ~ ${ns.nFormat(chance[1], '0.00%')}`)
+					} else {
+						hudHelper.updateVal("bladeChance", `${ns.nFormat(chance[0], '0.00%')}`)
+					}
+				}
+			}
 
 			// Server(s)
 			const mxRm = ns.getServerMaxRam('home');
@@ -547,6 +563,23 @@ export async function main(ns) {
 			hudHelper.updateVal("daedalusReqAgi", `Agility Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'agility', 1500, sf5), '0,0')}`);
 			hudHelper.tooltip.setElementTooltip("worldDaemonRq", hudHelper.tooltip.createObject(`Hack Req: ${wdl}`), doneEL);
 			hudHelper.updateVal("worldDaemonRq", `You need ${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', wdl, sf5), '0,0')} exp.`);
+
+			// check minimize buttons
+			const els = [[bldMin, 'blade'], [gngMin, 'gang'], [crpMin, 'corp'], [lvlMin, 'levels'], [crmMin, 'crime'], [monMin, 'money'], [sklMin, 'skill'], [slvMin, 'sleeve'], [srvMin, 'server'], [pltMin, 'playt'], [runMin, 'srcr'], [mscMin, 'misc']];
+			for (let i = 0; i < els.length; i++) {
+				const el = els[i];
+				if (el[0]) {
+					const es = doc.getElementsByClassName(el[1])
+					es[0].style.display = 'none';
+					es[1].style.display = 'none';
+					doc.getElementById(el[1]).innerHTML = ""
+				} else {
+					const es = doc.getElementsByClassName(el[1])
+					es[0].style.display = 'inline';
+					es[1].style.display = 'inline';
+					doc.getElementById(el[1]).innerHTML = ""
+				}
+			}
 		}
 		catch (err) {
 			ns.print("ERROR: " + String(err));
