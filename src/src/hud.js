@@ -544,14 +544,31 @@ export async function main(ns) {
 			}
 
 			// Server(s)
+			// Ram calcs and prog bar
 			const mxRm = ns.getServerMaxRam('home');
 			const usRm = ns.getServerUsedRam('home');
 			const pcRm = (usRm / mxRm) * 100;
 			const pdf = 2.27272727272727;
 			const dpb = Math.floor(pcRm / pdf);
 			hudHelper.updateVal("srvHome", ProgressBar(44, dpb, FiraBar));
-			hudHelper.tooltip.setElementTooltip("ovv-srvHome", hudHelper.tooltip.createObject(`<b>Ram: ${ns.nFormat(ns.getServerUsedRam("home"), '0,0')} / ${ns.nFormat(ns.getServerMaxRam('home'), '0,0')}</b><br>Cores: ${ns.getServer('home').cpuCores}`), doneEL)
+			// Running Scripts
+			let rS = ns.ps("home");
+			hudHelper.updateVal("srvRunning", `Running: ${rS.length} scripts`);
+			let scripts = `<b>Ram: ${ns.nFormat(ns.getServerUsedRam("home"), '0,0')} / ${ns.nFormat(ns.getServerMaxRam('home'), '0,0')} Cores: ${ns.getServer('home').cpuCores}</b><h3 style='margin: 0;'>Running Scripts:</h3>`;
+			// {filename: '/src/gang.js', threads: 1, args: Array(0), pid: 1}
+			for (let i = 0; i < rS.length; i++) {
+				if (i < 20) {
+					scripts += `<b>${i + 1}: ${rS[i].filename}</b>: ${rS[i].threads} threads, PID ${rS[i].pid}<br>`;
+				} else {
+					break;
+				}
+			}
+			hudHelper.tooltip.setElementTooltip("ovv-srvHome", hudHelper.tooltip.createObject(scripts), doneEL)
+
+			// Passed servers
 			for (let i = 0; i <= srvs.length - 1; i++) {
+				// Ram calcs and prog bar
+				let cS = ns.ps(srvs[i]);
 				const dspSrv = srvs[i].replace('hacknet-node', 'HKN');
 				const mxRm = ns.getServerMaxRam(srvs[i]);
 				const usRm = ns.getServerUsedRam(srvs[i]);
@@ -559,7 +576,16 @@ export async function main(ns) {
 				const pdf = 2.27272727272727;
 				const dpb = Math.floor(pcRm / pdf);
 				hudHelper.updateVal(`srv${i}`, ProgressBar(44, dpb, FiraBar));
-				hudHelper.tooltip.setElementTooltip(`ovv-srv${i}`, hudHelper.tooltip.createObject(`<b>Ram: ${ns.nFormat(ns.getServerUsedRam(srvs[i]), '0,0')} / ${ns.nFormat(ns.getServerMaxRam(srvs[i]), '0,0')}</b><br>Cores: ${ns.getServer(srvs[i]).cpuCores}`), doneEL)
+				// Running Scripts
+				let cScripts = `<b>Ram: ${ns.nFormat(ns.getServerUsedRam(srvs[i]), '0,0')} / ${ns.nFormat(ns.getServerMaxRam(srvs[i]), '0,0')} Cores: ${ns.getServer(srvs[i]).cpuCores}</b><h3 style='margin: 0;'>Running Scripts:</h3>`;
+				for (let i = 0; i < cS.length; i++) {
+					if (i < 5) {
+						cScripts += `<b>${i + 1}: ${cS[i].filename}</b>: ${cS[i].threads} threads, PID ${cS[i].pid}<br>`;
+					} else {
+						break;
+					}
+				}
+				hudHelper.tooltip.setElementTooltip(`ovv-srv${i}`, hudHelper.tooltip.createObject(cScripts), doneEL)
 			}
 
 			// Playtime

@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { initRhiUI } from "/ui/ui.js";
+import { initRhiUI } from "./ui.js";
 /** @param {import(".").NS} ns */
 export async function main(ns) {
     initRhiUI();

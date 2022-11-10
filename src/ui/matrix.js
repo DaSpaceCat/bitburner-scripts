@@ -1,5 +1,5 @@
 var running;
-import getopts from "/ui/geopts.js";
+import getopts from "./geopts.js";
 export async function main(ns) {
     ns.disableLog("ALL"), !0 !== running && (running = !1);
     let opts = getopts(ns.args, matrixOpts(ns));

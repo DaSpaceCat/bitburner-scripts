@@ -15,5 +15,5 @@ export async function main(ns) {
 	});
 	ns.tprint(types);*/
 	
-	console.log(ns.getBitNodeMultipliers());
+	console.log(ns.ps('home'));
 }
