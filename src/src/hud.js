@@ -379,6 +379,9 @@ export async function main(ns) {
 		try {
 			const ply = ns.getPlayer();
 
+			// Formulae
+			hudHelper.tooltip.setElementTooltip("ovv-hashMoney", hudHelper.tooltip.createObject("(<i>numHashes</i> / 4) * 1e6"))
+
 			// Location & HP
 			hudHelper.updateVal("loc", `${ply.city}: ${ply.location}`);
 			hudHelper.updateVal("hp", `${ns.nFormat(ply.hp.current, '0,0')} / ${ns.nFormat(ply.hp.max, '0,0')} | ${ns.nFormat(ply.hp.current/ply.hp.max, '0.000%')}`);
@@ -552,7 +555,6 @@ export async function main(ns) {
 			hudHelper.updateVal("srvHome", ProgressBar(44, dpb, FiraBar));
 			// Running Scripts
 			let rS = ns.ps("home");
-			//hudHelper.updateVal("srvRunning", `Running: ${rS.length} scripts`);
 			let scripts = `<b>Ram: ${ns.nFormat(ns.getServerUsedRam("home"), '0,0')} / ${ns.nFormat(ns.getServerMaxRam('home'), '0,0')} Cores: ${ns.getServer('home').cpuCores}</b><h3 style='margin: 0;'>Running Scripts:</h3>`;
 			// {filename: '/src/gang.js', threads: 1, args: Array(0), pid: 1}
 			for (let i = 0; i < rS.length; i++) {
