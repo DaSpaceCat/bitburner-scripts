@@ -317,7 +317,7 @@ export async function main(ns) {
 	hudHelper.pushCont(hed, val, "Home: ", col.hak, "srvHome");
 	for (let i = 0; i <= srvs.length - 1; i++) {
 		const dspSrv = srvs[i].replace('hacknet-node', 'HKN');
-		hudHelper.pushCont(hed, val, dspSrv, col.hak, `srv${i}`);
+		hudHelper.pushCont(hed, val, `${dspSrv}:`, col.hak, `srv${i}`);
 	}
 	hudHelper.endSec(hed, val);
 	/* --------------------------------
@@ -553,7 +553,7 @@ export async function main(ns) {
 			hudHelper.updateVal("srvHome", ProgressBar(44, dpb, FiraBar));
 			// Running Scripts
 			let rS = ns.ps("home");
-			hudHelper.updateVal("srvRunning", `Running: ${rS.length} scripts`);
+			//hudHelper.updateVal("srvRunning", `Running: ${rS.length} scripts`);
 			let scripts = `<b>Ram: ${ns.nFormat(ns.getServerUsedRam("home"), '0,0')} / ${ns.nFormat(ns.getServerMaxRam('home'), '0,0')} Cores: ${ns.getServer('home').cpuCores}</b><h3 style='margin: 0;'>Running Scripts:</h3>`;
 			// {filename: '/src/gang.js', threads: 1, args: Array(0), pid: 1}
 			for (let i = 0; i < rS.length; i++) {
