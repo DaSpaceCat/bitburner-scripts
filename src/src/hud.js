@@ -147,8 +147,7 @@ export async function main(ns) {
 		//remove the tooltips from the DOM
 		const tltels = doc.getElementsByClassName("tooltiptext")
 		for (let i = 0; i < tltels.length; i++) {
-			const tltelc = tltels[i]
-			tltelc.remove();
+			tltels[0].remove();
 		}
 		doc.removeEventListener("mousemove", hudHelper.tooltip.updatePos, false)
 
