@@ -80,6 +80,7 @@ export async function main(ns) {
 	ovv.style.margin = "0px";
 	ovv.style.boxShadow = "5px 5px 10px rgba(0,0,0,0.5)"
 	ovv.style.zIndex = "99999999";
+	ovv.style.opacity = "0.8"
 	ovv.style.transiton = "all .2s";
 	ovvCont.addEventListener('mouseover', (e) => {
 		ovvCont.style.maxHeight = "600px";
@@ -555,7 +556,7 @@ export async function main(ns) {
 			hudHelper.updateVal("srvHome", ProgressBar(44, dpb, FiraBar));
 			// Running Scripts
 			let rS = ns.ps("home");
-			let scripts = `<b>Ram: ${ns.nFormat(ns.getServerUsedRam("home"), '0,0')} / ${ns.nFormat(ns.getServerMaxRam('home'), '0,0')} Cores: ${ns.getServer('home').cpuCores}</b><h3 style='margin: 0;'>Running Scripts:</h3>`;
+			let scripts = `<b>Ram: ${ns.nFormat(ns.getServerUsedRam("home"), '0,0')} / ${ns.nFormat(ns.getServerMaxRam('home'), '0,0')} Cores: ${ns.getServer('home').cpuCores}</b><h3 style='margin: 0;'>Running Scripts: ${rS.length}</h3>`;
 			// {filename: '/src/gang.js', threads: 1, args: Array(0), pid: 1}
 			for (let i = 0; i < rS.length; i++) {
 				if (i < 20) {
@@ -578,7 +579,7 @@ export async function main(ns) {
 				const dpb = Math.floor(pcRm / pdf);
 				hudHelper.updateVal(`srv${i}`, ProgressBar(44, dpb, FiraBar));
 				// Running Scripts
-				let cScripts = `<b>Ram: ${ns.nFormat(ns.getServerUsedRam(srvs[i]), '0,0')} / ${ns.nFormat(ns.getServerMaxRam(srvs[i]), '0,0')} Cores: ${ns.getServer(srvs[i]).cpuCores}</b><h3 style='margin: 0;'>Running Scripts:</h3>`;
+				let cScripts = `<b>Ram: ${ns.nFormat(ns.getServerUsedRam(srvs[i]), '0,0')} / ${ns.nFormat(ns.getServerMaxRam(srvs[i]), '0,0')} Cores: ${ns.getServer(srvs[i]).cpuCores}</b><h3 style='margin: 0;'>Running Scripts: ${cS.length}</h3>`;
 				for (let i = 0; i < cS.length; i++) {
 					if (i < 5) {
 						cScripts += `<b>${i + 1}: ${cS[i].filename}</b>: ${cS[i].threads} threads, PID ${cS[i].pid}<br>`;
