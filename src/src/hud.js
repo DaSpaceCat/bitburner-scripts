@@ -59,7 +59,7 @@ let gMinPID;
 export async function main(ns) {
 	//disable netscript def logs
 	ns.disableLog("ALL");
-	
+
 	//the extra servers are args passed to the script
 	let srvs = ns.args;
 
@@ -91,11 +91,11 @@ export async function main(ns) {
 		hoverOvvCont = false;
 	});
 	ovvCont.style.transition = "all .2s";
-	
+
 	if (!hoverOvvCont) ovvCont.style.maxHeight = "400px";
-	
+
 	ovvCont.style.overflow = "scroll";
-	
+
 	//hide default stats
 	//                  VV should be 15 if you don't have int unlocked
 	for (let i = 0; i < 17; i++) {
@@ -109,7 +109,7 @@ export async function main(ns) {
 	globalHelper.createGlobalStyle("hudSty", sty)
 	globalHelper.createGlobalScript("hudMins", gVars);
 	let buttonCSS = `transition: all 0.2s; display: inline; width: 90%; background-color: rgba(0,0,0,0); cursor: pointer;`
-	
+
 	//make bitverse
 	hudHelper.bitverse(hook0, hook1, col.hak, sfs);
 	hudHelper.tooltip.setElementTooltip("bn1" , hudHelper.tooltip.createBNObject(sfs[0] , "Source Genesis", "The original BitNode"), doneEL);
@@ -147,7 +147,8 @@ export async function main(ns) {
 
 		//remove the tooltips from the DOM
 		const tltels = doc.getElementsByClassName("tooltiptext")
-		for (let i = 0; i < tltels.length; i++) {
+		tooltips = parseInt(tltels.length, 10)
+		for (let i = 0; i < tooltips; i++) {
 			tltels[0].remove();
 		}
 		doc.removeEventListener("mousemove", hudHelper.tooltip.updatePos, false)
