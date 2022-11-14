@@ -20,8 +20,8 @@
                                                           |_|
 */
 
-import { hudHelper, globalHelper, formulaHelper } from "/helpers.e.js"
-import { ProgressBar, AsciiBar as FiraBar } from "/glyph.js"
+import { hudHelper, globalHelper, formulaHelper } from "helpers.e.js"
+import { ProgressBar, AsciiBar as FiraBar } from "glyph.js"
 
 //don't edit this
 const sf5 = false
