@@ -2,7 +2,7 @@ import { sleeveHelper } from "./helpers.js";
 
 export async function main(ns) {
 	async function run() {
-		if (toRun != undefined) {
+		if (toRun !== undefined) {
 			ns.run(toRun[0]);
 			if (toRun[1]) {
 				ns.tail(toRun[0]);
@@ -12,13 +12,13 @@ export async function main(ns) {
 		}
 	}
 	async function sleeve() {
-		if (sleeveDo.action != undefined) {
+		if (sleeveDo.action !== undefined) {
 			sleeveHelper.setTask(ns, true, undefined, sleeveDo.action, sleeveDo.task)
 			sleeveDo.action = undefined;
 		}
 	}
 	async function bnalert() {
-		if (bna != 0) {
+		if (bna !== 0) {
 			switch (bna) {
 				case 1:  ns.alert(`The first BitNode created by the Enders to imprison the minds of humans. It became the prototype and testing-grounds for all of the BitNodes that followed.<br><br>This is the first BitNode that you play through. It has no special modifications or mechanics.<br><br>Destroying this BitNode will give you Source-File 1, or if you already have this Source-File it will upgrade its level up to a maximum of 3. This Source-File lets the player start with 32GB of RAM on his/her home computer when entering a new BitNode, and also increases all of the player's multipliers by:<br><br>16% / 24% / 28%`); break;
 				case 2:  ns.alert(`From the shadows, they rose.<br><br>Organized crime groups quickly filled the void of power left behind from the collapse of Western government in the 2050s. As society and civilization broke down, people quickly succumbed to the innate human impulse of evil and savagery. The organized crime factions quickly rose to the top of the modern world.<br><br>Certain Factions (Slum Snakes, Tetrads, The Syndicate, The Dark Army, Speakers For The Dead, NiteSec, The Black Hand) give the player the ability to form and manage their own gangs. These gangs will earn the player money and reputation with the corresponding Faction.<br>Every Augmentation in the game will be available through the Factions listed above.<br><br>Destroying this BitNode will give you Source-File 2, or if you already have this Source-File it will upgrade its level up to a maximum of 3. This Source-File allows you to form gangs in other BitNodes once your karma decreases to a certain value. It also increases the player's crime success rate, crime money, and charisma multipliers by:<br><br>24% / 36% / 42%`); break;
