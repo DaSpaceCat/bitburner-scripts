@@ -236,8 +236,8 @@ export const hudHelper = {
 		ls += `<span class="ovvCont" style="cursor: default; color: #FFFFFF;">╰───────────────</span>`;
 		rs += `<span class="ovvCont" style="cursor: default; color: #FFFFFF;">────────────────────────────────────────────╯</span>`;
 		//put the bitverse *inside* of elements
-		const bvl = document.createElement("div");
-		const bvr = document.createElement("div");
+		const bvl = eval('document.createElement("div")');
+		const bvr = eval('document.createElement("div")');
 		bvl.innerHTML = ls;
 		bvr.innerHTML = rs;
 		bvl.id = "bitverseL";
@@ -248,7 +248,7 @@ export const hudHelper = {
 		//change the colors based on the owned source files
 		for (let i = 0; i < sfs.length; i++) {
 			const sf = sfs[i];
-			const lv = document.getElementById(`bn${sf.n}`);
+			const lv = eval(`document.getElementById('bn${sf.n}')`);
 			switch (sf.lvl) {
 				case 1:
 					lv.className = "bnSpan1";
