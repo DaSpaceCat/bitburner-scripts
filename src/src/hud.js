@@ -147,7 +147,7 @@ export async function main(ns) {
 
 		//remove the tooltips from the DOM
 		const tltels = doc.getElementsByClassName("tooltiptext")
-		tooltips = parseInt(tltels.length, 10)
+		let tooltips = parseInt(tltels.length, 10)
 		for (let i = 0; i < tooltips; i++) {
 			tltels[0].remove();
 		}
