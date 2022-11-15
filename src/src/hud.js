@@ -36,7 +36,7 @@ const sfs = [
 	{n: 7,  lvl: 1},
 	{n: 8,  lvl: 0},
 	{n: 9,  lvl: 1},
-	{n: 10, lvl: 1},
+	{n: 10, lvl: 2},
 	{n: 11, lvl: 0},
 	{n: 12, lvl: 0},
 	{n: 13, lvl: 0},
@@ -608,7 +608,7 @@ export async function main(ns) {
 			hudHelper.updateVal("worldDaemonRq", `You need ${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', wdl, sf5), '0,0')} exp.`);
 
 			// check minimize buttons
-			const els = [[bldMin, 'blade'], [gngMin, 'gang'], [crpMin, 'corp'], [lvlMin, 'levels'], [crmMin, 'crime'], [monMin, 'money'], [sklMin, 'skill'], [slvMin, 'sleeve'], [srvMin, 'server'], [pltMin, 'playt'], [runMin, 'srcr'], [mscMin, 'misc']];
+			const els = [[bvsMin, 'bitverse'], [bldMin, 'blade'], [gngMin, 'gang'], [crpMin, 'corp'], [lvlMin, 'levels'], [crmMin, 'crime'], [monMin, 'money'], [sklMin, 'skill'], [slvMin, 'sleeve'], [srvMin, 'server'], [pltMin, 'playt'], [runMin, 'srcr'], [mscMin, 'misc']];
 			for (let i = 0; i < els.length; i++) {
 				const el = els[i];
 				if (el[0]) {

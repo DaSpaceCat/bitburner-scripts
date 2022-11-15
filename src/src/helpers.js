@@ -233,8 +233,6 @@ export const hudHelper = {
 			ls += `<span class="ovvCont" style="cursor: default; white-space: break-spaces;color: ${col};"><span style="color: #FFFFFF;">│   </span>${verse[i]}</span><br>`;
 			rs += `<span class="ovvCont" style="cursor: default; white-space: break-spaces;color: ${col};">${verse[i+1]}<span style="color: #FFFFFF;">   │</span></span><br>`;
 		}
-		ls += `<span class="ovvCont" style="cursor: default; color: #FFFFFF;">╰───────────────</span>`;
-		rs += `<span class="ovvCont" style="cursor: default; color: #FFFFFF;">────────────────────────────────────────────╯</span>`;
 		//put the bitverse *inside* of elements
 		const bvl = eval('document.createElement("div")');
 		const bvr = eval('document.createElement("div")');
@@ -242,9 +240,18 @@ export const hudHelper = {
 		bvr.innerHTML = rs;
 		bvl.id = "bitverseL";
 		bvr.id = "bitverseR";
+		bvl.className = "bitverse";
+		bvr.className = "bitverse";
 		//append the bitverse to the end of the hud.
 		hook0.parentNode.insertBefore(bvl, hook0.nextSibling);
 		hook1.parentNode.insertBefore(bvr, hook1.nextSibling);
+		const end = eval('document.createElement("div")');
+		const endr = eval('document.createElement("div")');
+		end.innerHTML = `<span class="ovvCont" style="cursor: default; color: #FFFFFF;">╰───────────────</span>`;
+		endr.innerHTML = `<span class="ovvCont" style="cursor: default; color: #FFFFFF;">────────────────────────────────────────────╯</span>`;
+		hook0.parentNode.insertBefore(end, hook0.nextSibling.nextSibling);
+		hook1.parentNode.insertBefore(endr, hook1.nextSibling.nextSibling);
+
 		//change the colors based on the owned source files
 		for (let i = 0; i < sfs.length; i++) {
 			const sf = sfs[i];
