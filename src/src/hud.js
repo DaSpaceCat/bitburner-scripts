@@ -142,9 +142,12 @@ export async function main(ns) {
 		doc.getElementById("glob-css").remove();
 		doc.getElementById("hudSty").remove();
 		doc.getElementById("hudMins").remove();
-		doc.getElementById("bitverseL").remove();
-		doc.getElementById("bitverseR").remove();
 
+		const bvels = doc.getElementsByClassName("bitverse")
+		let bv = parseInt(bvels.length, 10)
+		for (let i = 0; i < bv; i++) {
+			bvels[0].remove();
+		}
 		//remove the tooltips from the DOM
 		const tltels = doc.getElementsByClassName("tooltiptext")
 		let tooltips = parseInt(tltels.length, 10)
@@ -561,7 +564,9 @@ export async function main(ns) {
 			// {filename: '/src/gang.js', threads: 1, args: Array(0), pid: 1}
 			for (let i = 0; i < rS.length; i++) {
 				if (i < 20) {
-					scripts += `<b>${i + 1}: ${rS[i].filename}</b>: ${rS[i].threads} threads, PID ${rS[i].pid}<br>`;
+					const inc = ns.getScriptIncome(rS[i].pid);
+					const ram = ns.getScriptRam(rS[i].filename) * rS[i].threads;
+					scripts += `<b>${i + 1}: ${rS[i].filename}</b>: ${rS[i].threads} threads, PID ${rS[i].pid}, RAM: ${ns.nFormat(ram, 0,0.0)}, Income: $${ns.nFormat(inc, 0,0)}<br>`;
 				} else {
 					break;
 				}

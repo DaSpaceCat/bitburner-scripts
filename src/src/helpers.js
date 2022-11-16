@@ -249,6 +249,8 @@ export const hudHelper = {
 		const endr = eval('document.createElement("div")');
 		end.innerHTML = `<span class="ovvCont" style="cursor: default; color: #FFFFFF;">╰───────────────</span>`;
 		endr.innerHTML = `<span class="ovvCont" style="cursor: default; color: #FFFFFF;">────────────────────────────────────────────╯</span>`;
+		end.className = "bitverse";
+		endr.className = "bitverse";
 		hook0.parentNode.insertBefore(end, hook0.nextSibling.nextSibling);
 		hook1.parentNode.insertBefore(endr, hook1.nextSibling.nextSibling);
 
