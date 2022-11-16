@@ -224,11 +224,11 @@ export async function main(ns) {
 	hudHelper.startSubsec(hed, val, 'HASHNET', '─────────────────');
 	hudHelper.pushContSub(hed, val, "Hashes: ", col.money, "hashes")
 	hudHelper.pushContSub(hed, val, "Nodes: ", col.hak, "nodes")
-	hudHelper.pushContSub(hed, val, '"Money"', col.money, "hashMoney")
-	hudHelper.pushContSub(hed, val, 'Corp Fund', col.money, "hashCorp")
-	hudHelper.pushContSub(hed, val, 'Hash Gain', col.hak, "hashGain")
-	hudHelper.pushContSub(hed, val, '"Money" Gain', col.money, "hashMoneyGain")
-	hudHelper.pushContSub(hed, val, 'Corp FGain', col.money, "hashCorpGain")
+	hudHelper.pushContSub(hed, val, '"Money":', col.money, "hashMoney")
+	hudHelper.pushContSub(hed, val, 'Corp Fund:', col.money, "hashCorp")
+	hudHelper.pushContSub(hed, val, 'Hash Gain:', col.hak, "hashGain")
+	hudHelper.pushContSub(hed, val, '"Money" Gain:', col.money, "hashMoneyGain")
+	hudHelper.pushContSub(hed, val, 'Corp FGain:', col.money, "hashCorpGain")
 	hudHelper.pushContSub(hed, val, "Exchange: ", col.money, "hashExchangeMoney")
 	hudHelper.pushContSub(hed, val, "Exchange: ", col.money, "hashExchangeCorp")
 	hudHelper.endSubsec(hed, val);
@@ -442,8 +442,8 @@ export async function main(ns) {
 				hudHelper.updateVal("hashMoney", `${ns.nFormat(Math.floor(ns.hacknet.numHashes() / 4) * 1000000, '$0,0')} / ${ns.nFormat((ns.hacknet.hashCapacity() / 4) * 1000000, '$0,0')}`);
 				hudHelper.updateVal("hashCorp", ns.nFormat(posCorp * 1000000000, '$0,0'));
 				hudHelper.updateVal("hashGain", ns.nFormat(hashGain, '0,0.000') + ' h/s');
-				hudHelper.updateVal("hashMoneyGain", ns.nFormat((hashGain / 4) * 1000000, '$0,0'));
-				hudHelper.updateVal("hashCorpGain", ns.nFormat((hashGain / ns.hacknet.hashCost("Sell for Corporation Funds")) * 1000000000, '$0,0'));
+				hudHelper.updateVal("hashMoneyGain", `${ns.nFormat((hashGain / 4) * 1000000, '$0,0')}/s`);
+				hudHelper.updateVal("hashCorpGain", `${ns.nFormat((hashGain / ns.hacknet.hashCost("Sell for Corporation Funds")) * 1000000000, '$0,0')}/s`);
 			} else {
 				hudHelper.updateVal("hashes", "You don't have a hashnet node!")
 				hudHelper.updateVal("nodes", "N/A")
@@ -566,7 +566,7 @@ export async function main(ns) {
 				if (i < 20) {
 					const inc = ns.getScriptIncome(rS[i].pid);
 					const ram = ns.getScriptRam(rS[i].filename) * rS[i].threads;
-					scripts += `<b>${i + 1}: ${rS[i].filename}</b>: ${rS[i].threads} threads, PID ${rS[i].pid}, RAM: ${ns.nFormat(ram, 0,0.0)}, Income: $${ns.nFormat(inc, 0,0)}<br>`;
+					scripts += `<b>${i + 1}: ${rS[i].filename}</b>: ${rS[i].threads} threads, PID ${rS[i].pid}, RAM: ${ns.nFormat(ram, '0,0.0')}, Income: $${ns.nFormat(inc, '0,0')}<br>`;
 				} else {
 					break;
 				}
