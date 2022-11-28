@@ -6,26 +6,25 @@ import { gangHelper } from "./helpers.js";
 export async function main(ns) {
 	const lvlThres = 20000
 	const ascThres = 8000
-    let m30t = 1;
-    let first = true;
+	let m30t = 1;
+	let first = true;
 	while (true) {
 		if (ns.gang.inGang()) {
 			//send a notification if we've exceeded 30 mins of script runtime
-            const runtimeS = ns.getRunningScript().onlineRunningTime;
-            if (runtimeS >= m30t * 1800 || first) {
-                const gangInfo = ns.gang.getGangInformation()
-                fetch('https://ntfy.sh/yourntfyhere', {
-                    method: 'POST',
-                    body: `Income: $${ns.nFormat(gangInfo.moneyGainRate, '0,0')}/t\nRespect Gain: ${ns.nFormat(gangInfo.respectGainRate, '0,0')}/t\nRespect: ${ns.nFormat(gangInfo.respect, '0,0')}\nPower: ${ns.nFormat(gangInfo.power, '0,0')}\nWanted Level: ${ns.nFormat(gangInfo.wantedLevel, '0,0')}\nMembers: ${ns.gang.getMemberNames().length}: ${ns.gang.getMemberNames().join(', ')}`,
-                    headers: {
-                        'Title': 'Bitburner: Gang Status Update:',
-                        'Tags': 'fire,detective'
-                    }
-                });
-                first = false;
-            }
-
-            //do member recruting if we can
+			const runtimeS = ns.getRunningScript().onlineRunningTime;
+			if (runtimeS >= m30t * 1800 || first) {
+				const gangInfo = ns.gang.getGangInformation()
+				fetch('https://ntfy.sh/rhi_rand_cmFuZE5vdGlmCg', {
+					method: 'POST',
+					body: `Income: $${ns.nFormat(gangInfo.moneyGainRate, '0,0')}/t\nRespect Gain: ${ns.nFormat(gangInfo.respectGainRate, '0,0')}/t\nRespect: ${ns.nFormat(gangInfo.respect, '0,0')}\nPower: ${ns.nFormat(gangInfo.power, '0,0')}\nWanted Level: ${ns.nFormat(gangInfo.wantedLevel, '0,0')}\nMembers: ${ns.gang.getMemberNames().length}: ${ns.gang.getMemberNames().join(', ')}`,
+					headers: {
+						'Title': 'Bitburner: Gang Status Update:',
+						'Tags': 'fire,detective'
+					}
+				});
+				first = false;
+			}
+			//do member recruting if we can
 			if (ns.gang.canRecruitMember()) {
 				let done = ns.gang.recruitMember(gangHelper.randomName());
 				//one pass just in case we get the same name
@@ -67,14 +66,14 @@ export async function main(ns) {
 					const expGoalHck = member.hack_asc_mult * ascThres;
 					if (member.hack_exp >= expGoalHck) {
 						ns.gang.ascendMember(members[i]);
-                        fetch('https://ntfy.sh/yourntfyhere', {
-                            method: 'POST',
-                            body: `${members[i]} has been ascended!`,
-                            headers: {
-                                'Title': 'Bitburner: Gang:',
-                                'tags': 'fire,ninja'
-                            }
-                        });
+						fetch('https://ntfy.sh/rhi_rand_cmFuZE5vdGlmCg', {
+							method: 'POST',
+							body: `${members[i]} has been ascended!`,
+							headers: {
+								'Title': 'Bitburner: Gang:',
+								'tags': 'fire,ninja'
+							}
+						});
 						const n = new Notification("Gang", { body: `${members[i]} has been ascended!` });
 					}
 				} else {
@@ -85,15 +84,15 @@ export async function main(ns) {
 					const expGoalStr = member.str_asc_mult * ascThres;
 					if ((member.agi_exp >= expGoalAgi || member.agi >= lvlThres) && member.def_exp >= expGoalDef && member.dex_exp >= expGoalDex && member.str_exp >= expGoalStr) {
 						ns.gang.ascendMember(members[i]);
-                        fetch('https://ntfy.sh/yourntfyhere', {
-                            method: 'POST',
-                            body: `${members[i]} has been ascended!`,
-                            headers: {
-                                'Title': 'Bitburner: Gang:',
-                                'tags': 'fire,ninja'
-                            }
-                        });
-                        const n = new Notification("Gang", {body: `${members[i]} has been ascended!`});
+						fetch('https://ntfy.sh/rhi_rand_cmFuZE5vdGlmCg', {
+							method: 'POST',
+							body: `${members[i]} has been ascended!`,
+							headers: {
+								'Title': 'Bitburner: Gang:',
+								'tags': 'fire,ninja'
+							}
+						});
+						const n = new Notification("Gang", {body: `${members[i]} has been ascended!`});
 					}
 				}
 			}
