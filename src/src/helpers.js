@@ -478,6 +478,38 @@ export const miscHelper = {
 	}
 }
 
+export const ntfyHelper = {
+	/**
+	 * Creates an object for an NTFY notification
+	 * @param {string} title The title of the notification.
+	 * @param {string} body The body of the notification.
+	 * @param {string} tags The tags (emoji) of the notification.
+	 * @param {string} priority Optional. The priority of the notification.
+	 * @returns {object} The NTFY notification object.
+	 */
+	createNtfyObject: function(title, body, tags, priority) {
+		return {
+			method: 'POST',
+			body: body,
+			headers: {
+				'Title': title,
+				'Priority': priority,
+				'Tags': tags,
+			}
+		}
+	},
+
+	/**
+	 * Sends an NTFY notification.
+	 * @param {string} u The name of the NTFY 'server'.
+	 * @param {Object} n The NTFY notification object.
+	 * @returns {Promise<void>}
+	 */
+	sendNtfyNotification: async function(u, n) {
+		await fetch(`https://ntfy.sh/${u}`, n)
+	}
+}
+
 // noinspection LoopStatementThatDoesntLoopJS
 /**
  * Sleeve API helpers.
@@ -599,7 +631,7 @@ export const gangHelper = {
 	},
 
 	/**
-	 * Get the current equipment discount for a gang.
+	 * Get the current equipment price multiplier.
 	 * @param {number} pwr the gang's power
 	 * @param {number} rep the gang's reputation
 	 * @returns {number} The discount percentage
@@ -608,8 +640,21 @@ export const gangHelper = {
 		const rlf = 5e6;
 		const plf = 1e6;
 		const d = Math.pow(rep, 0.01) + rep / rlf + Math.pow(pwr, 0.01) + pwr / plf - 1;
-		return Math.max(1, d);
+		return 1 / Math.max(1, d);
 	}
+	/*
+	this = gang object
+	getDiscount(): number {
+		const power = this.getPower();
+		const respect = this.respect;
+
+		const respectLinearFac = 5e6;
+		const powerLinearFac = 1e6;
+		const discount =
+			Math.pow(respect, 0.01) + respect / respectLinearFac + Math.pow(power, 0.01) + power / powerLinearFac - 1;
+		return Math.max(1, discount);
+	}
+	*/
 }
 
 /**

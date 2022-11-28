@@ -20,7 +20,7 @@
                                                           |_|
 */
 
-import { hudHelper, globalHelper, formulaHelper, hashnetHelper } from "./helpers.js"
+import {hudHelper, globalHelper, formulaHelper, hashnetHelper, gangHelper} from "./helpers.js"
 import { ProgressBar, FiraBar } from "./glyph.js"
 
 //Boolean indicating whether or not you have SF5
@@ -74,13 +74,12 @@ export async function main(ns) {
 
 	//change styles of those document elements for the custom HUD
 	ovv.style.borderRadius = "0px 0px 10px 10px";
-	ovv.style.backgroundColor = "#181825";
+	ovv.style.backgroundColor = "rgba(24,24,37,0.8)";
 	ovv.style.backdropFilter = "blur(1px)";
 	ovv.style.borderWidth = "2px";
 	ovv.style.margin = "0px";
 	ovv.style.boxShadow = "5px 5px 10px rgba(0,0,0,0.5)"
 	ovv.style.zIndex = "99999999";
-	ovv.style.opacity = "0.8"
 	ovv.style.transiton = "all .2s";
 	ovvCont.addEventListener('mouseover', (e) => {
 		ovvCont.style.maxHeight = "600px";
@@ -271,6 +270,7 @@ export async function main(ns) {
 	hudHelper.pushCont(hed, val, "Territory:", col.hp, "gangTerritory");
 	hudHelper.pushCont(hed, val, "Wanted Level:", col.cha, "gangWanted")
 	hudHelper.pushCont(hed, val, "Clash Chance:", col.hp, "gangClashChance")
+	hudHelper.pushCont(hed, val, "Equip Price *:", col.hp, "gangEquipDiscount")
 	hudHelper.endSec(hed, val)
 	/* --------------------------------
 	  ____                                 _   _
@@ -486,6 +486,7 @@ export async function main(ns) {
 				hudHelper.updateVal("gangTerritory", ns.nFormat(info.territory, '0.000%'));
 				hudHelper.updateVal("gangWanted", ns.nFormat(info.wantedLevel, '0,0.00'));
 				hudHelper.updateVal("gangClashChance", `${ns.nFormat(info.territoryClashChance, '0.0%')} / ${info.territoryWarfareEngaged ? "" : ""}`);
+				hudHelper.updateVal("gangEquipDiscount", gangHelper.getUpgradeDiscount(info.power, info.respect));
 			} else {
 				gngMin = true;
 			}
