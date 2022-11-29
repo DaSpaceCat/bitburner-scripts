@@ -18,7 +18,8 @@ export async function main(ns) {
 				const notif = ntfyHelper.createNtfyObject(
 					'Bitburner: Gang Status Update:',
 					`Income: $${ns.nFormat(gangInfo.moneyGainRate, '0,0')}/t\nRespect Gain: ${ns.nFormat(gangInfo.respectGainRate, '0,0')}/t\nRespect: ${ns.nFormat(gangInfo.respect, '0,0')}\nPower: ${ns.nFormat(gangInfo.power, '0,0')}\nWanted Level: ${ns.nFormat(gangInfo.wantedLevel, '0,0')}\nMembers: ${ns.gang.getMemberNames().length}: ${ns.gang.getMemberNames().join(', ')}`,
-					'fire,detective'
+					'fire,detective',
+                    'default'
 				)
 				ntfyHelper.sendNtfyNotification(ntfServer, notif);
 				first = false;
@@ -68,7 +69,8 @@ export async function main(ns) {
 						const notif = ntfyHelper.createNtfyObject(
 							'Bitburner: Gang:',
 							`${members[i]} has been ascended!`,
-							'fire,ninja'
+							'fire,ninja',
+                            'default'
 						);
 						await ntfyHelper.sendNtfyNotification(ntfServer, notif);
 						const n = new Notification("Gang", { body: `${members[i]} has been ascended!` });
@@ -84,7 +86,8 @@ export async function main(ns) {
 						const notif = ntfyHelper.createNtfyObject(
 							'Bitburner: Gang:',
 							`${members[i]} has been ascended!`,
-							'fire,ninja'
+							'fire,ninja',
+                            'default'
 						);
 						ntfyHelper.sendNtfyNotification(ntfServer, notif);
 						const n = new Notification("Gang", {body: `${members[i]} has been ascended!`});
@@ -113,7 +116,8 @@ export async function main(ns) {
 					const notif = ntfyHelper.createNtfyObject(
 						'Bitburner: Gang:',
 						`Purchased all Augments for every gang member! it cost you $${ns.nFormat(totalPrice, '0,0')}.`,
-						'fire,ninja'
+						'fire,ninja',
+                        'default'
 					);
 					ntfyHelper.sendNtfyNotification(ntfServer, notif);
 					const n = new Notification("Gang", {body: `Purchased all Augments for every gang member! it cost you $${ns.nFormat(totalPrice, '0,0')}.`});
@@ -141,7 +145,8 @@ export async function main(ns) {
 						const notif = ntfyHelper.createNtfyObject(
 							'Bitburner: Gang:',
 							`Purchased all Rootkits for every gang member! it cost you $${ns.nFormat(eqp, '0,0')}.`,
-							'fire,ninja'
+							'fire,ninja',
+                            'default'
 						);
 						ntfyHelper.sendNtfyNotification(ntfServer, notif);
 						const n = new Notification("Gang", {body: `Purchased all Rootkits for every gang member! it cost you $${ns.nFormat(eqp, '0,0')}.`});
@@ -168,7 +173,8 @@ export async function main(ns) {
 						const notif = ntfyHelper.createNtfyObject(
 							'Bitburner: Gang:',
 							`Purchased all Weapons, Armor, and Vehicles for every gang member! it cost you $${ns.nFormat(eqp, '0,0')}.`,
-							'fire,ninja'
+							'fire,ninja',
+                            'default'
 						);
 						ntfyHelper.sendNtfyNotification(ntfServer, notif);
 						const n = new Notification("Gang", {body: `Purchased all Armor, Weapons, and Vehicles for every gang member! it cost you $${ns.nFormat(eqp, '0,0')}.`});
