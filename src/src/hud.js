@@ -346,13 +346,31 @@ export async function main(ns) {
 	// --------------------------------
 	hudHelper.pushBreak(hed, val, 'MISC', '─────────────────', mscMin, "mscMin", 'misc');
 	hudHelper.startSec(hed, val, "misc", "inline");
-	hudHelper.pushCont(hed, val, "Share Bonus:", col.int, "shareBonus")
-    hudHelper.pushCont(hed, val, "Daedalus Req:", col.hak, "daedalusReqHak");
-	hudHelper.pushCont(hed, val, " │ ", col.sta, "daedalusReqStr");
-	hudHelper.pushCont(hed, val, " │ ", col.sta, "daedalusReqDef");
-	hudHelper.pushCont(hed, val, " │ ", col.sta, "daedalusReqDex");
-	hudHelper.pushCont(hed, val, " │ ", col.sta, "daedalusReqAgi");
-	hudHelper.pushCont(hed, val, ` ╰─────────────`, col.def, "daedalusReqEnd");
+	hudHelper.pushCont(hed, val, "Share Bonus:", col.int, "shareBonus");
+	hudHelper.startSubsec(hed, val, 'DAEDALUS REQS', '──────────────');
+	hudHelper.pushContSub(hed, val, "Money:", col.money, "daedalusReqMoney");
+	hudHelper.pushContSub(hed, val, "Hacking Exp:", col.hak, "daedalusReqHak");
+	hudHelper.pushContSub(hed, val, "Strength Exp:", col.sta, "daedalusReqStr");
+	hudHelper.pushContSub(hed, val, "Defense Exp:", col.sta, "daedalusReqDef");
+	hudHelper.pushContSub(hed, val, "Dexterity Exp:", col.sta, "daedalusReqDex");
+	hudHelper.pushContSub(hed, val, "Agility Exp:", col.sta, "daedalusReqAgi");
+	hudHelper.endSubsec(hed, val);
+	hudHelper.startSubsec(hed, val, 'COVENANT REQS', '──────────────');
+	hudHelper.pushContSub(hed, val, "Money:", col.money, "covenantReqMoney");
+	hudHelper.pushContSub(hed, val, "Hacking Exp:", col.hak, "covenantReqHak");
+	hudHelper.pushContSub(hed, val, "Strength Exp:", col.sta, "covenantReqStr");
+	hudHelper.pushContSub(hed, val, "Defense Exp:", col.sta, "covenantReqDef");
+	hudHelper.pushContSub(hed, val, "Dexterity Exp:", col.sta, "covenantReqDex");
+	hudHelper.pushContSub(hed, val, "Agility Exp:", col.sta, "covenantReqAgi");
+	hudHelper.endSubsec(hed, val);
+	hudHelper.startSubsec(hed, val, 'ILLUMINATI REQS', '─────────────');
+	hudHelper.pushContSub(hed, val, "Money:", col.money, "illuminatiReqMoney");
+	hudHelper.pushContSub(hed, val, "Hacking Exp:", col.hak, "illuminatiReqHak");
+	hudHelper.pushContSub(hed, val, "Strength Exp:", col.sta, "illuminatiReqStr");
+	hudHelper.pushContSub(hed, val, "Defense Exp:", col.sta, "illuminatiReqDef");
+	hudHelper.pushContSub(hed, val, "Dexterity Exp:", col.sta, "illuminatiReqDex");
+	hudHelper.pushContSub(hed, val, "Agility Exp:", col.sta, "illuminatiReqAgi");
+	hudHelper.endSubsec(hed, val);
 	hudHelper.pushCont(hed, val, "w0r1d_d43m0n", col.hak, "worldDaemonRq");
 	//hudHelper.pushCont(hed, val, "", col.hak, "worldDaemonHak");
 	hudHelper.endSec(hed, val);
@@ -376,9 +394,6 @@ export async function main(ns) {
 	hudHelper.updateVal("runBreach", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/breach.js', false]">Root every server you can.</button>`);
 	hudHelper.updateVal("runMatrix", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/ui/matrix.js', false]">Create a Matrix background.</button>`);
 	hudHelper.updateVal("runMap", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/mapt.js', true]">Show a map of all servers.</button>`);
-
-	// misc
-	hudHelper.updateVal("daedalusReqEnd", "────────────────────────────────────────────");
 
 	//actual HUD
 	while (true) {
@@ -605,13 +620,30 @@ export async function main(ns) {
 			hudHelper.tooltip.setElementTooltip("ovv-playTimeTotal", hudHelper.tooltip.createObject(`<b>In ms:</b><br>${ply.totalPlaytime}`), doneEL)
 
 			// MISC
-            hudHelper.updateVal("shareBonus", ns.nFormat(ns.getSharePower(), '0.000'));
+			hudHelper.updateVal("shareBonus", ns.nFormat(ns.getSharePower(), '0.000'));
+			//DAEDALUS
+			hudHelper.updateVal("daedalusReqMoney", `$${ns.nFormat(ply.money, '0,0')} / $100,000,000,000`);
+			hudHelper.updateVal("daedalusReqHak", ns.nFormat(formulaHelper.getExpReq(ns, 'hacking',   2500, sf5), '0,0'));
+			hudHelper.updateVal("daedalusReqStr", ns.nFormat(formulaHelper.getExpReq(ns, 'strength',  1500, sf5), '0,0'));
+			hudHelper.updateVal("daedalusReqDef", ns.nFormat(formulaHelper.getExpReq(ns, 'defense',   1500, sf5), '0,0'));
+			hudHelper.updateVal("daedalusReqDex", ns.nFormat(formulaHelper.getExpReq(ns, 'dexterity', 1500, sf5), '0,0'));
+			hudHelper.updateVal("daedalusReqAgi", ns.nFormat(formulaHelper.getExpReq(ns, 'agility',   1500, sf5), '0,0'));
+			//COVENANT
+			hudHelper.updateVal("covenantReqMoney", `$${ns.nFormat(ply.money, '0,0')} / $75,000,000,000`);
+			hudHelper.updateVal("covenantReqHak", ns.nFormat(formulaHelper.getExpReq(ns, 'hacking',   850, sf5), '0,0'));
+			hudHelper.updateVal("covenantReqStr", ns.nFormat(formulaHelper.getExpReq(ns, 'strength',  850, sf5), '0,0'));
+			hudHelper.updateVal("covenantReqDef", ns.nFormat(formulaHelper.getExpReq(ns, 'defense',   850, sf5), '0,0'));
+			hudHelper.updateVal("covenantReqDex", ns.nFormat(formulaHelper.getExpReq(ns, 'dexterity', 850, sf5), '0,0'));
+			hudHelper.updateVal("covenantReqAgi", ns.nFormat(formulaHelper.getExpReq(ns, 'agility',   850, sf5), '0,0'));
+			//ILLUMINATI
+			hudHelper.updateVal("illuminatiReqMoney", `$${ns.nFormat(ply.money, '0,0')} / $150,000,000,000`);
+			hudHelper.updateVal("illuminatiReqHak", ns.nFormat(formulaHelper.getExpReq(ns, 'hacking',   1500, sf5), '0,0'));
+			hudHelper.updateVal("illuminatiReqStr", ns.nFormat(formulaHelper.getExpReq(ns, 'strength',  1200, sf5), '0,0'));
+			hudHelper.updateVal("illuminatiReqDef", ns.nFormat(formulaHelper.getExpReq(ns, 'defense',   1200, sf5), '0,0'));
+			hudHelper.updateVal("illuminatiReqDex", ns.nFormat(formulaHelper.getExpReq(ns, 'dexterity', 1200, sf5), '0,0'));
+			hudHelper.updateVal("illuminatiReqAgi", ns.nFormat(formulaHelper.getExpReq(ns, 'agility',   1200, sf5), '0,0'));
+			// world daemon
 			const wdl = ns.getBitNodeMultipliers().WorldDaemonDifficulty * 3000
-			hudHelper.updateVal("daedalusReqHak", `Hacking Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', 2500, sf5), '0,0')}`);
-			hudHelper.updateVal("daedalusReqStr", `Strength Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'strength', 1500, sf5), '0,0')}`);
-			hudHelper.updateVal("daedalusReqDef", `Defense Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'defense', 1500, sf5), '0,0')}`);
-			hudHelper.updateVal("daedalusReqDex", `Dexterity Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'dexterity', 1500, sf5), '0,0')}`);
-			hudHelper.updateVal("daedalusReqAgi", `Agility Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'agility', 1500, sf5), '0,0')}`);
 			hudHelper.tooltip.setElementTooltip("ovv-worldDaemonRq", hudHelper.tooltip.createObject(`Hack Req: ${wdl}`), doneEL);
 			hudHelper.updateVal("worldDaemonRq", `You need ${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', wdl, sf5), '0,0')} exp.`);
 
