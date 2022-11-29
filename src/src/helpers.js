@@ -503,10 +503,9 @@ export const ntfyHelper = {
 	 * Sends an NTFY notification.
 	 * @param {string} u The name of the NTFY 'server'.
 	 * @param {Object} n The NTFY notification object.
-	 * @returns {Promise<void>}
 	 */
-	sendNtfyNotification: async function(u, n) {
-		await fetch(`https://ntfy.sh/${u}`, n)
+	sendNtfyNotification: function(u, n) {
+		fetch(`https://ntfy.sh/${u}`, n)
 	}
 }
 

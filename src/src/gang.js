@@ -20,7 +20,7 @@ export async function main(ns) {
 					`Income: $${ns.nFormat(gangInfo.moneyGainRate, '0,0')}/t\nRespect Gain: ${ns.nFormat(gangInfo.respectGainRate, '0,0')}/t\nRespect: ${ns.nFormat(gangInfo.respect, '0,0')}\nPower: ${ns.nFormat(gangInfo.power, '0,0')}\nWanted Level: ${ns.nFormat(gangInfo.wantedLevel, '0,0')}\nMembers: ${ns.gang.getMemberNames().length}: ${ns.gang.getMemberNames().join(', ')}`,
 					'fire,detective'
 				)
-				await ntfyHelper.sendNtfyNotification(ntfServer, notif);
+				ntfyHelper.sendNtfyNotification(ntfServer, notif);
 				first = false;
 			}
 			//do member recruiting if we can
@@ -86,7 +86,7 @@ export async function main(ns) {
 							`${members[i]} has been ascended!`,
 							'fire,ninja'
 						);
-						await ntfyHelper.sendNtfyNotification(ntfServer, notif);
+						ntfyHelper.sendNtfyNotification(ntfServer, notif);
 						const n = new Notification("Gang", {body: `${members[i]} has been ascended!`});
 					}
 				}
@@ -115,7 +115,7 @@ export async function main(ns) {
 						`Purchased all Augments for every gang member! it cost you $${ns.nFormat(totalPrice, '0,0')}.`,
 						'fire,ninja'
 					);
-					await ntfyHelper.sendNtfyNotification(ntfServer, notif);
+					ntfyHelper.sendNtfyNotification(ntfServer, notif);
 					const n = new Notification("Gang", {body: `Purchased all Augments for every gang member! it cost you $${ns.nFormat(totalPrice, '0,0')}.`});
 				}
 				//also, check for other equipment depending on gang type
@@ -143,7 +143,7 @@ export async function main(ns) {
 							`Purchased all Rootkits for every gang member! it cost you $${ns.nFormat(eqp, '0,0')}.`,
 							'fire,ninja'
 						);
-						await ntfyHelper.sendNtfyNotification(ntfServer, notif);
+						ntfyHelper.sendNtfyNotification(ntfServer, notif);
 						const n = new Notification("Gang", {body: `Purchased all Rootkits for every gang member! it cost you $${ns.nFormat(eqp, '0,0')}.`});
 					}
 				} else {
@@ -170,7 +170,7 @@ export async function main(ns) {
 							`Purchased all Weapons, Armor, and Vehicles for every gang member! it cost you $${ns.nFormat(eqp, '0,0')}.`,
 							'fire,ninja'
 						);
-						await ntfyHelper.sendNtfyNotification(ntfServer, notif);
+						ntfyHelper.sendNtfyNotification(ntfServer, notif);
 						const n = new Notification("Gang", {body: `Purchased all Armor, Weapons, and Vehicles for every gang member! it cost you $${ns.nFormat(eqp, '0,0')}.`});
 					}
 				}
