@@ -346,7 +346,8 @@ export async function main(ns) {
 	// --------------------------------
 	hudHelper.pushBreak(hed, val, 'MISC', '─────────────────', mscMin, "mscMin", 'misc');
 	hudHelper.startSec(hed, val, "misc", "inline");
-	hudHelper.pushCont(hed, val, "Daedalus Req:", col.hak, "daedalusReqHak");
+	hudHelper.pushCont(hed, val, "Share Bonus:", col.int, "shareBonus")
+    hudHelper.pushCont(hed, val, "Daedalus Req:", col.hak, "daedalusReqHak");
 	hudHelper.pushCont(hed, val, " │ ", col.sta, "daedalusReqStr");
 	hudHelper.pushCont(hed, val, " │ ", col.sta, "daedalusReqDef");
 	hudHelper.pushCont(hed, val, " │ ", col.sta, "daedalusReqDex");
@@ -604,6 +605,7 @@ export async function main(ns) {
 			hudHelper.tooltip.setElementTooltip("ovv-playTimeTotal", hudHelper.tooltip.createObject(`<b>In ms:</b><br>${ply.totalPlaytime}`), doneEL)
 
 			// MISC
+            hudHelper.updateVal("shareBonus", ns.nFormat(ns.getSharePower(), '0.000'));
 			const wdl = ns.getBitNodeMultipliers().WorldDaemonDifficulty * 3000
 			hudHelper.updateVal("daedalusReqHak", `Hacking Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', 2500, sf5), '0,0')}`);
 			hudHelper.updateVal("daedalusReqStr", `Strength Exp: ${ns.nFormat(formulaHelper.getExpReq(ns, 'strength', 1500, sf5), '0,0')}`);

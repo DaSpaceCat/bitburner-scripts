@@ -23,6 +23,7 @@ export async function main(ns) {
 				)
 				ntfyHelper.sendNtfyNotification(ntfServer, notif);
 				first = false;
+                m30t++;
 			}
 			//do member recruiting if we can
 			if (ns.gang.canRecruitMember()) {
