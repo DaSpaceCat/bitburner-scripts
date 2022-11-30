@@ -1,24 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-undef */
-/* eslint-disable no-constant-condition */
-/* eslint-disable no-unused-vars */
-// noinspection JSUnusedLocalSymbols,InfiniteLoopJS,CommaExpressionJS
-
-/*
- _               _    _
-| |__  _   _  __| |  (_)___
-| '_ \| | | |/ _` |  | / __|
-| | | | |_| | (_| |_ | \__ \
-|_| |_|\__,_|\__,_(_)/ |___/
-                   |__/
-
- ____  _     _ _       _   _ _   _ ____                  _       _
+/*___  _     _ _       _   _ _   _ ____                  _       _
 |  _ \| |__ (_| )___  | | | | | | |  _ \   ___  ___ _ __(_)_ __ | |_
 | |_) | '_ \| |// __| | |_| | | | | | | | / __|/ __| '__| | '_ \| __|
 |  _ <| | | | | \__ \ |  _  | |_| | |_| | \__ \ (__| |  | | |_) | |_
 |_| \_\_| |_|_| |___/ |_| |_|\___/|____/  |___/\___|_|  |_| .__/ \__|
-                                                          |_|
-*/
+                                                          |_|      */
 
 import {hudHelper, globalHelper, formulaHelper, hashnetHelper, gangHelper} from "./helpers.js"
 import { ProgressBar, FiraBar } from "./glyph.js"
@@ -133,6 +118,7 @@ export async function main(ns) {
 	//MISC global CSS
 	let style = doc.createElement('style');
 	const css = `.bnSpan {color: red;font-weight: bold;transition: all 0.2s;} .bnSpan1 {color: yellow;font-weight: bold;transition: all 0.2s;} .bnSpan2 {color: #48D1CC;font-weight: bold;transition: all 0.2s;} .bnSpan3 {color: blue;font-weight: bold;transition: all 0.2s;} .bnSpan:hover, .bnSpan1:hover, .bnSpan2:hover, .bnSpan3:hover {color: #FFFFFF;cursor: pointer;} .ovvCont {margin: 0px;font-family: 'FiraCode Nerd Font Mono', 'FiraCode NF Regular', 'Lucida Sans Unicode', monospace;font-weight: 400;font-size: 1rem;line-height: 0;}`
+	// noinspection CommaExpressionJS
 	Object.assign(style, { id: "glob-css" }), (style.type = "text/css"), (style.innerHTML = css), doc.head.appendChild(style);
 
 	//cleanup
