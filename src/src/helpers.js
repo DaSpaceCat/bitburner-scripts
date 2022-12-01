@@ -193,6 +193,52 @@ export const hudHelper = {
 	},
 
 	/**
+	 * Hud HTML helpers, for custom HUDs with HTML instead of Unicode.
+	 */
+	htm: {
+		/**
+		 * Push the beginning of the HUD to the HUD array.
+		 * @param {Array} hud The HUD array.
+		 */
+		startHud: function(hud) { hud.push(`<div id="customHud">`) },
+
+		/**
+		 * Push the end of the HUD to the HUD array.
+		 * @param {Array} hud The HUD array.
+		 */
+		endHud: function(hud) { hud.push(`</div>`) },
+
+		/**
+		 * Push a subsection to the HUD array.
+		 * @param {Array} hud the HUD array.
+		 * @param {string} title the title of the subsection.
+		 * @param {Array} content An array of subsection elements, constructed by `addContent`.
+		 * @param {string} mVar The name of the subsection's visibility variable.
+		 */
+		addSection: function(hud, title, content, mVar) {
+			hud.push(
+				`<div class="hudSection">
+					<div class="hudSectionTitle">
+						<span style="text-align: center">${title}</span>
+						<a id="${title}-min" style="cursor: pointer; transition: all .2s;" onclick="${mVar} = !${mVar};"></a>
+					</div>
+					<div class="hudSectionContent" id="${title}-content">${content.join('')}</div>
+				</div>`)
+		},
+
+		/**
+		 * Push some headers and values to a content array.
+		 * @param {Array} arrContent The content array.
+		 * @param {string} head The header text.
+		 * @param {string} col The color of both the header and value.
+		 * @param {string} valId
+		 */
+		addContent: function(arrContent, head, col, valId) {
+			arrContent.push(`<span class="hudContent" style="color: ${col}">${head}</span><span id="${valId}" class="hudContent" style="color: ${col}"></span>`)
+		}
+	},
+
+	/**
 	 * Add a display of the bitverse. Meant to be called once during setup, and never again.
 	 * @param {Element} hook0 the first ovv content hook.
 	 * @param {Element} hook1 the second ovv content hook.
