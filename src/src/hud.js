@@ -21,7 +21,7 @@ const sfs = [
 	{n: 7,  lvl: 1},
 	{n: 8,  lvl: 0},
 	{n: 9,  lvl: 1},
-	{n: 10, lvl: 2},
+	{n: 10, lvl: 3},
 	{n: 11, lvl: 0},
 	{n: 12, lvl: 0},
 	{n: 13, lvl: 0},
@@ -75,10 +75,9 @@ export async function main(ns) {
 		hoverOvvCont = false;
 	});
 	ovvCont.style.transition = "all .2s";
-
 	if (!hoverOvvCont) ovvCont.style.maxHeight = "400px";
-
 	ovvCont.style.overflow = "scroll";
+	ovvCont.style.margin = "0px";
 
 	//hide default stats
 	//                  VV should be 15 if you don't have int unlocked
@@ -152,6 +151,7 @@ export async function main(ns) {
 		ovv.style.boxShadow = ""
 		ovv.style.zIndex = "";
 		ovv.style.transiton = "";
+		ovvCont.style.margin = "";
 		for (let i = 0; i < 17; i++) {
 			let elm = ovvCont.firstChild.childNodes[i]
 			elm.style.display = "";
@@ -171,7 +171,7 @@ export async function main(ns) {
 	 ___) |   <| | | \__ \
 	|____/|_|\_\_|_|_|___/
 	-------------------------------- */
-	hudHelper.pushBreak(hed, val, 'LEVELS', '────────────────', lvlMin, "lvlMin", 'levels');
+	hudHelper.pushBreak(hed, val, ' LEVELS ', '──────────────', lvlMin, "lvlMin", 'levels');
 	hudHelper.startSec(hed, val, 'levels', "inline");
 	hudHelper.pushCont(hed, val, "Hacking: ", col.hak, "skHak");
 	hudHelper.pushCont(hed, val, "Str | Def: ", col.sta, "skStrDef");
@@ -180,7 +180,7 @@ export async function main(ns) {
 	hudHelper.pushCont(hed, val, "Intelligence: ", col.int, "skInt");
 	hudHelper.endSec(hed, val);
 	// --------------------------------
-	hudHelper.pushBreak(hed, val, 'SKILL EXPERIENCE', '───────────', sklMin, "sklMin", 'skill');
+	hudHelper.pushBreak(hed, val, ' SKILL EXPERIENCE ', '─────────', sklMin, "sklMin", 'skill');
 	hudHelper.startSec(hed, val, 'skill', "inline");
 	hudHelper.pushCont(hed, val, "Hacking: ", col.hak, "xpHak");
 	hudHelper.pushCont(hed, val, "Str | Def: ", col.sta, "xpStrDef");
@@ -189,7 +189,7 @@ export async function main(ns) {
 	hudHelper.pushCont(hed, val, "Intelligence: ", col.int, "xpInt");
 	hudHelper.endSec(hed, val);
 	// --------------------------------
-	hudHelper.pushBreak(hed, val, 'CRIMES', '────────────────', crmMin, "crmMin", 'crime');
+	hudHelper.pushBreak(hed, val, '理 CRIMES 理', '──────────────', crmMin, "crmMin", 'crime');
 	hudHelper.startSec(hed, val, 'crime', "inline");
 	hudHelper.pushCont(hed, val, "Karma: ", col.hp, "karma");
 	hudHelper.pushCont(hed, val, "People Killed: ", col.hp, "kills");
@@ -201,7 +201,7 @@ export async function main(ns) {
 	|  __/| | | (_) |  _| | |_\__ \
 	|_|   |_|  \___/|_| |_|\__|___/
 	-------------------------------- */
-	hudHelper.pushBreak(hed, val, 'MONEY & PROFIT', '────────────', monMin, "monMin", 'money');
+	hudHelper.pushBreak(hed, val, ' MONEY & PROFIT ', '──────────', monMin, "monMin", 'money');
 	hudHelper.startSec(hed, val, 'money', "inline");
 	hudHelper.pushCont(hed, val, "Money: ", col.money, "money")
 	hudHelper.pushCont(hed, val, "Gang Income: ", col.money, "gangIncome")
@@ -225,18 +225,20 @@ export async function main(ns) {
 	 ___) | |  __/  __/\ V /  __/\__ \
 	|____/|_|\___|\___| \_/ \___||___/
 	-------------------------------- */
-	hudHelper.pushBreak(hed, val, 'SLEEVE', '────────────────', slvMin, "slvMin", 'sleeve')
+	hudHelper.pushBreak(hed, val, ' SLEEVE ', '──────────────', slvMin, "slvMin", 'sleeve')
 	hudHelper.startSec(hed, val, 'sleeve', "hidden");
 	for (let i = 0; i < ns.sleeve.getNumSleeves(); i++) {
-		hudHelper.pushCont(hed, val, `Sleeve ${i}:`, col.int, `sleeve${i}`)
-		hudHelper.pushCont(hed, val, ` <span style="color: ${col.def};">│</span> Action: `, col.hak, `sleeve${i}Act`)
-		hudHelper.pushCont(hed, val, ` <span style="color: ${col.def};">│</span> Health: `, col.hp, `sleeve${i}Hp`)
-		hudHelper.pushCont(hed, val, ` <span style="color: ${col.def};">│</span> Hack: `, col.hak, `sleeve${i}Hak`)
-		hudHelper.pushCont(hed, val, ` <span style="color: ${col.def};">│</span> Str/Def: `, col.sta, `sleeve${i}StrDef`)
-		hudHelper.pushCont(hed, val, ` <span style="color: ${col.def};">│</span> Dex/Agi: `, col.sta, `sleeve${i}DexAgi`)
-		hudHelper.pushCont(hed, val, ` <span style="color: ${col.def};">│</span> Cha: `, col.cha, `sleeve${i}Cha`)
-		hudHelper.pushCont(hed, val, ` ╰─────────────`, col.def, `sleeve${i}End`)
+		hudHelper.startSubsec(hed, val, `SLEEVE 0${i+1}`, '────────────────');
+		hudHelper.pushContSub(hed, val, `General:`, col.int, `sleeve${i}`)
+		hudHelper.pushContSub(hed, val, `Action: `, col.hak, `sleeve${i}Act`)
+		hudHelper.pushContSub(hed, val, `Health: `, col.hp, `sleeve${i}Hp`)
+		hudHelper.pushContSub(hed, val, `Hack: `, col.hak, `sleeve${i}Hak`)
+		hudHelper.pushContSub(hed, val, `Str/Def: `, col.sta, `sleeve${i}StrDef`)
+		hudHelper.pushContSub(hed, val, `Dex/Agi: `, col.sta, `sleeve${i}DexAgi`)
+		hudHelper.pushContSub(hed, val, `Cha: `, col.cha, `sleeve${i}Cha`)
+		hudHelper.endSubsec(hed, val)
 	}
+	hudHelper.pushCont(hed, val, "quikMug", col.hp, "slvMug")
 	hudHelper.pushCont(hed, val, "quikMurder:", col.hp, "slvHom")
 	hudHelper.endSec(hed, val);
 	/* --------------------------------
@@ -247,7 +249,7 @@ export async function main(ns) {
 	 \____|\__,_|_| |_|\__, |
 	                   |___/
 	-------------------------------- */
-	hudHelper.pushBreak(hed, val, 'GANG', '─────────────────', gngMin, "gngMin", 'gang');
+	hudHelper.pushBreak(hed, val, ' GANG ', '───────────────', gngMin, "gngMin", 'gang');
 	hudHelper.startSec(hed, val, "gang", gngMin ? "none" : "inline");
 	hudHelper.pushCont(hed, val, "Bonus Time:", col.int, "gangBonusTime");
 	hudHelper.pushCont(hed, val, "Faction:", col.cha, "gangFaction")
@@ -266,7 +268,7 @@ export async function main(ns) {
 	 \____\___/|_|  | .__/ \___/|_|  \__,_|\__|_|\___/|_| |_|
 	                |_|
 	-------------------------------- */
-	hudHelper.pushBreak(hed, val, 'CORP', '─────────────────', crpMin, "crpMin", 'corp');
+	hudHelper.pushBreak(hed, val, ' CORP ', '───────────────', crpMin, "crpMin", 'corp');
 	hudHelper.startSec(hed, val, "corp", crpMin ? "none" : "inline");
 	hudHelper.pushCont(hed, val, "Bonus Time:", col.int, "corpBonusTime")
 	hudHelper.pushCont(hed, val, "Name:", col.cha, "corpName")
@@ -283,7 +285,7 @@ export async function main(ns) {
 	| |_) | | (_| | (_| |  __/ |_) | |_| | |  | | | |  __/ |
 	|____/|_|\__,_|\__,_|\___|_.__/ \__,_|_|  |_| |_|\___|_|
 	-------------------------------- */;
-	hudHelper.pushBreak(hed, val, 'BLADEBURNERS', '─────────────', bldMin, "bldMin", 'blade');
+	hudHelper.pushBreak(hed, val, ' BLADEBURNERS ', '───────────', bldMin, "bldMin", 'blade');
 	hudHelper.startSec(hed, val, "blade", bldMin ? "none" : "inline");
 	hudHelper.pushCont(hed, val, "Bonus Time:", col.int, "bladeBonus");
 	hudHelper.pushCont(hed, val, "Rank:", col.int, "bladeRank");
@@ -302,7 +304,7 @@ export async function main(ns) {
 	 ___) |  __/ |   \ V /  __/ |  \__ \
 	|____/ \___|_|    \_/ \___|_|  |___/
 	-------------------------------- */
-	hudHelper.pushBreak(hed, val, 'SERVER', '────────────────', srvMin, "srvMin", 'server');
+	hudHelper.pushBreak(hed, val, ' SERVER ', '──────────────', srvMin, "srvMin", 'server');
 	hudHelper.startSec(hed, val, 'server', "inline");
 	hudHelper.pushCont(hed, val, "Home: ", col.hak, "srvHome");
 	for (let i = 0; i <= srvs.length - 1; i++) {
@@ -317,20 +319,21 @@ export async function main(ns) {
 	| |  | || | ___) | |___
 	|_|  |_|___|____/ \____|
 	-------------------------------- */
-	hudHelper.pushBreak(hed, val, 'PLAYTIME', '───────────────', pltMin, "pltMin", 'playt');
+	hudHelper.pushBreak(hed, val, '祥 PLAYTIME 祥', '─────────────', pltMin, "pltMin", 'playt');
 	hudHelper.startSec(hed, val, "playt", "inline");
 	hudHelper.pushCont(hed, val, `BN${ns.getPlayer().bitNodeN}: `, col.time, "playTimeBN");
 	hudHelper.pushCont(hed, val, "Total: ", col.time, "playTimeTotal");
 	hudHelper.endSec(hed, val);
 	// --------------------------------
-	hudHelper.pushBreak(hed, val, 'SCRIPT RUNNERS', '────────────', runMin, "runMin", 'srcr');
+	hudHelper.pushBreak(hed, val, ' SCRIPT RUNNERS ', '──────────', runMin, "runMin", 'srcr');
 	hudHelper.startSec(hed, val, "srcr", "inline");
 	hudHelper.pushCont(hed, val, "Breach: ", col.hak, "runBreach");
 	hudHelper.pushCont(hed, val, "Matrix: ", col.hak, "runMatrix");
 	hudHelper.pushCont(hed, val, "Map: ", col.hak, "runMap");
+	hudHelper.pushCont(hed, val, "Programs: ", col.int, "runPrograms");
 	hudHelper.endSec(hed, val);
 	// --------------------------------
-	hudHelper.pushBreak(hed, val, 'MISC', '─────────────────', mscMin, "mscMin", 'misc');
+	hudHelper.pushBreak(hed, val, ' MISC ', '───────────────', mscMin, "mscMin", 'misc');
 	hudHelper.startSec(hed, val, "misc", "inline");
 	hudHelper.pushCont(hed, val, "Share Bonus:", col.int, "shareBonus");
 	hudHelper.startSubsec(hed, val, 'DAEDALUS REQS', '──────────────');
@@ -361,7 +364,7 @@ export async function main(ns) {
 	//hudHelper.pushCont(hed, val, "", col.hak, "worldDaemonHak");
 	hudHelper.endSec(hed, val);
 	// --------------------------------
-	hudHelper.pushBreak(hed, val, 'BITVERSE', '───────────────', bvsMin, "bvsMin", 'bitverse');
+	hudHelper.pushBreak(hed, val, ' BITVERSE ', '─────────────', bvsMin, "bvsMin", 'bitverseDSP');
 	hook0.innerHTML = hed.join(" \n");
 	hook1.innerHTML = val.join("\n");
 
@@ -370,16 +373,15 @@ export async function main(ns) {
 	hudHelper.updateVal("hashExchangeMoney", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/getHashMoney.js', false]">Exchange hashes for money</button>`);
 	hudHelper.updateVal("hashExchangeCorp", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/getHashCorp.js', false]">Exchange hashes for Corp funds.</button>`);
 
-	//sleeve end & hom
-	for (let i = 0; i < ns.sleeve.getNumSleeves(); i++) {
-		hudHelper.updateVal(`sleeve${i}End`, "────────────────────────────────────────────");
-	}
+	//sleeve homicide & mug
+	hudHelper.updateVal("slvMug", `<span class="gngRun" style="${buttonCSS}" onclick="sleeveDo.action = 'crime'; sleeveDo.task = 'Mug';">Set every Sleeve to Mug</button>`);
 	hudHelper.updateVal("slvHom", `<span class="gngRun" style="${buttonCSS}" onclick="sleeveDo.action = 'crime'; sleeveDo.task = 'Homicide';">Set every Sleeve to Homicide</button>`);
 
 	// script runners
 	hudHelper.updateVal("runBreach", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/breach.js', false]">Root every server you can.</button>`);
 	hudHelper.updateVal("runMatrix", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/ui/matrix.js', false]">Create a Matrix background.</button>`);
-	hudHelper.updateVal("runMap", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/mapt.js', true]">Show a map of all servers.</button>`);
+	hudHelper.updateVal("runMap", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/mapt.gns.js', true]">Show a map of all servers.</button>`);
+	hudHelper.updateVal("runPrograms", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/buyPrograms.js', false]">Purchase TOR/all programs.</button>`);
 
 	//actual HUD
 	while (true) {
@@ -459,10 +461,10 @@ export async function main(ns) {
 			// Sleeve
 			for (let i = 0; i < ns.sleeve.getNumSleeves(); i++) {
 				let action = ns.sleeve.getTask(i);
-				let stat = ns.sleeve.getSleeveStats(i)
-				let hp = {cur: ns.sleeve.getInformation(i).hp.current, max: ns.sleeve.getInformation(i).hp.max}
+				let stat = ns.sleeve.getSleeve(i).skills;
+				let hp = {cur: ns.sleeve.getSleeve(i).hp.current, max: ns.sleeve.getSleeve(i).hp.max}
 				// Shock & Sync
-				hudHelper.updateVal(`sleeve${i}`, `Shock: ${ns.nFormat(ns.sleeve.getSleeveStats(i).shock, '0.000%')} | Sync: ${ns.nFormat(ns.sleeve.getSleeveStats(i).sync / 100, '0.00%')}`);
+				hudHelper.updateVal(`sleeve${i}`, `Shock: ${ns.nFormat(ns.sleeve.getSleeve(i).shock / 100, '0.000%')} | Sync: ${ns.nFormat(ns.sleeve.getSleeve(i).sync / 100, '0.00%')}`);
 				if (action != null) {
 					switch (action.type) {
 						case "CRIME": hudHelper.updateVal(`sleeve${i}Act`, `Crime, ${action.crimeType}`); break;
@@ -634,7 +636,7 @@ export async function main(ns) {
 			hudHelper.updateVal("worldDaemonRq", `You need ${ns.nFormat(formulaHelper.getExpReq(ns, 'hacking', wdl, sf5), '0,0')} exp.`);
 
 			// check minimize buttons
-			const els = [[bvsMin, 'bitverse'], [bldMin, 'blade'], [gngMin, 'gang'], [crpMin, 'corp'], [lvlMin, 'levels'], [crmMin, 'crime'], [monMin, 'money'], [sklMin, 'skill'], [slvMin, 'sleeve'], [srvMin, 'server'], [pltMin, 'playt'], [runMin, 'srcr'], [mscMin, 'misc']];
+			const els = [[bvsMin, 'bitverseDSP'], [bldMin, 'blade'], [gngMin, 'gang'], [crpMin, 'corp'], [lvlMin, 'levels'], [crmMin, 'crime'], [monMin, 'money'], [sklMin, 'skill'], [slvMin, 'sleeve'], [srvMin, 'server'], [pltMin, 'playt'], [runMin, 'srcr'], [mscMin, 'misc']];
 			for (let i = 0; i < els.length; i++) {
 				const el = els[i];
 				if (el[0]) {

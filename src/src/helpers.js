@@ -286,8 +286,8 @@ export const hudHelper = {
 		bvr.innerHTML = rs;
 		bvl.id = "bitverseL";
 		bvr.id = "bitverseR";
-		bvl.className = "bitverse";
-		bvr.className = "bitverse";
+		bvl.className = "bitverse bitverseDSP";
+		bvr.className = "bitverse bitverseDSP";
 		//append the bitverse to the end of the hud.
 		hook0.parentNode.insertBefore(bvl, hook0.nextSibling);
 		hook1.parentNode.insertBefore(bvr, hook1.nextSibling);
