@@ -164,6 +164,7 @@ export async function main(ns) {
 	hudHelper.startHud(hed, val);
 	hudHelper.pushCont(hed, val, "Location: ", col.def, "loc")
 	hudHelper.pushCont(hed, val, "Health: ", col.hp, "hp")
+	hudHelper.pushCont(hed, val, "Augments:", col.int, "augs")
 	/* --------------------------------
 	 ____  _    _ _ _
 	/ ___|| | _(_) | |___
@@ -369,6 +370,7 @@ export async function main(ns) {
 	hook1.innerHTML = val.join("\n");
 
 	// Set buttons or things that don't need to be constantly updated
+	hudHelper.updateVal("augs", ns.singularity.getOwnedAugmentations().length);
 	// hash buttons
 	hudHelper.updateVal("hashExchangeMoney", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/getHashMoney.js', false]">Exchange hashes for money</button>`);
 	hudHelper.updateVal("hashExchangeCorp", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/getHashCorp.js', false]">Exchange hashes for Corp funds.</button>`);
