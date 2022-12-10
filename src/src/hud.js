@@ -87,7 +87,7 @@ export async function main(ns) {
 	}
 
 	//create global styles and variables
-	let gVars = `let bna = 0; let x = 0; let y = 0; let lvlMin = false;let crmMin = false;let monMin = false;let sklMin = false;let slvMin = true;let gngMin = false;let crpMin = false;let bldMin = false;let srvMin = false;let pltMin = false;let runMin = false;let mscMin = false;let bvsMin = false;let cusMin = false;let nsgRun = null;let toRun;let scriptContent = false;let scriptContentV0, scriptContentV1;let sleeveDo = {action: undefined, task: undefined};`
+	let gVars = `let bna = 0; let x = 0; let y = 0; let scpMin = false;let lvlMin = false;let crmMin = false;let monMin = false;let sklMin = false;let slvMin = true;let gngMin = false;let crpMin = false;let bldMin = false;let srvMin = false;let pltMin = false;let runMin = false;let mscMin = false;let bvsMin = false;let cusMin = false;let nsgRun = null;let toRun;let scriptContent = false;let scriptContentV0, scriptContentV1;let sleeveDo = {action: undefined, task: undefined};`
 	let sty = `.scrRun:hover {background-color: ${col.hak}; color: ${col.def}} .ovvMin:hover {color: ${col.hak}} ${hudHelper.tooltip.style}`
 	globalHelper.createGlobalStyle("hudSty", sty)
 	globalHelper.createGlobalScript("hudMins", gVars);
@@ -312,6 +312,11 @@ export async function main(ns) {
 		const dspSrv = srvs[i].replace('hacknet-node', 'HKN');
 		hudHelper.pushCont(hed, val, `${dspSrv}:`, col.hak, `srv${i}`);
 	}
+	hudHelper.endSec(hed, val);
+	hudHelper.pushBreak(hed, val, ' ACTIVE SCRIPTS (HOME SERVER) ', '───', scpMin, "scpMin", 'scripts');
+	hudHelper.startSec(hed, val, 'scripts', "inline");
+	hed.push(`<span style="cursor: default;" id="lAScripts"></span>`)
+	val.push(`<span style="cursor: default;" id="rAScripts"></span>`)
 	hudHelper.endSec(hed, val);
 	/* --------------------------------
 	 __  __ ___ ____   ____
