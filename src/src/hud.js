@@ -518,7 +518,7 @@ export async function main(ns) {
 			}
 
 			// Bladeburners
-			if (ply.inBladeburner) {
+			if (ns.bladeburner.inBladeburner()) {
 				let stm = ns.bladeburner.getStamina();
 				hudHelper.updateVal("bladeBonus", `${ns.tFormat(ns.bladeburner.getBonusTime())}`)
 				hudHelper.updateVal("bladeRank", ns.nFormat(ns.bladeburner.getRank(), '0,0'))
