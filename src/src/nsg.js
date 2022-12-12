@@ -11,6 +11,13 @@ export async function main(ns) {
 			toRun = undefined;
 		}
 	}
+
+	function kill() {
+		if (toKill !== undefined) {
+			ns.kill(toKill);
+			toKill = undefined;
+		}
+	}
 	async function sleeve() {
 		if (sleeveDo.action !== undefined) {
 			sleeveHelper.setTask(ns, true, undefined, sleeveDo.action, sleeveDo.task)
@@ -41,6 +48,7 @@ export async function main(ns) {
 		run();
 		sleeve();
 		bnalert();
+		kill();
 		await ns.sleep(100);
   }
 }

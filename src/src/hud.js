@@ -7,6 +7,7 @@
 
 import {hudHelper, globalHelper, formulaHelper, hashnetHelper, gangHelper} from "./helpers.js"
 import { ProgressBar, FiraBar } from "./glyph.js"
+import {run} from "node:test";
 
 //Boolean indicating whether or not you have SF5
 const sf5 = true
@@ -87,7 +88,7 @@ export async function main(ns) {
 	}
 
 	//create global styles and variables
-	let gVars = `let bna = 0; let x = 0; let y = 0; let scpMin = false;let lvlMin = false;let crmMin = false;let monMin = false;let sklMin = false;let slvMin = true;let gngMin = false;let crpMin = false;let bldMin = false;let srvMin = false;let pltMin = false;let runMin = false;let mscMin = false;let bvsMin = false;let cusMin = false;let nsgRun = null;let toRun;let scriptContent = false;let scriptContentV0, scriptContentV1;let sleeveDo = {action: undefined, task: undefined};`
+	let gVars = `let toKill = undefined;let bna = 0; let x = 0; let y = 0; let scpMin = false;let lvlMin = false;let crmMin = false;let monMin = false;let sklMin = false;let slvMin = true;let gngMin = false;let crpMin = false;let bldMin = false;let srvMin = false;let pltMin = false;let runMin = false;let mscMin = false;let bvsMin = false;let cusMin = false;let nsgRun = null;let toRun;let scriptContent = false;let scriptContentV0, scriptContentV1;let sleeveDo = {action: undefined, task: undefined};`
 	let sty = `.scrRun:hover {background-color: ${col.hak}; color: ${col.def}} .ovvMin:hover {color: ${col.hak}} ${hudHelper.tooltip.style}`
 	globalHelper.createGlobalStyle("hudSty", sty)
 	globalHelper.createGlobalScript("hudMins", gVars);
@@ -390,6 +391,35 @@ export async function main(ns) {
 	hudHelper.updateVal("runMap", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/mapt.gns.js', true]">Show a map of all servers.</button>`);
 	hudHelper.updateVal("runPrograms", `<span class="scrRun" style="${buttonCSS}" onclick="toRun = ['/src/buyPrograms.js', false]">Purchase TOR/all programs.</button>`);
 
+	//init running scripts display
+	let runningScripts = ns.ps()
+	let shownPIDs = [];
+	for (let i = 0; i < runningScripts.length; i++) {
+		if (runningScripts[i].filename !== "weaken-once.js" || runningScripts[i].filename !== "grow-once.js" || runningScripts[i].filename !== "hack-once.js") {
+			let dRunningScriptsHed = [];
+			let dRunningScriptsVal = [];
+			dRunningScriptsHed.push(`<div class="scr${runningScripts[i].pid}">`);
+			dRunningScriptsHed.push(`<span style="cursor: default; color: #ffffff">│╭──────────────</span><br>`)
+			dRunningScriptsHed.push(`<span style="cursor: default; color: #ffffff">││</span><span style="cursor: default; color: ${col.hak};">RAM / Threads:</span><br>`)
+			dRunningScriptsHed.push(`<span style="cursor: default; color: #ffffff">││</span><span style="cursor: default; color: ${col.hak};">PID: </span><br>`)
+			dRunningScriptsHed.push(`<span style="cursor: default; color: #ffffff">││</span><span style="cursor: default; color: ${col.hp};">Kill: </span><br>`)
+
+			let ramUse = ns.getScriptRam(runningScripts[i].filename) * runningScripts[i].threads;
+			dRunningScriptsHed.push(`<div class="scr${runningScripts[i].pid}">`);
+			dRunningScriptsVal.push(`<span style="cursor: default; color: ${col.hak};">${runningScripts[i].filename}</span><span style="cursor: default; color: #ffffff"> ╮│</span><br>`)
+			dRunningScriptsVal.push(`<span style="cursor: default; color: ${col.hak};">${ramUse} / ${runningScripts[i].threads}</span><span style="cursor: default; color: #ffffff">││</span><br>`)
+			dRunningScriptsVal.push(`<span style="cursor: default; color: ${col.hp};"><span class="scrRun" style="${buttonCSS}" onclick="toKill = ${runningScripts[i].pid}">Stop Running Script</button></span><span style="cursor: default; color: #ffffff">││</span><br>`)
+
+			hudHelper.endSubsec(dRunningScriptsHed, dRunningScriptsVal);
+			dRunningScriptsHed.push(`</div>`)
+			dRunningScriptsVal.push(`</div>`)
+			shownPIDs.push(runningScripts[i].pid);
+
+			doc.getElementById("lAScripts").innerHTML = dRunningScriptsHed.join("");
+			doc.getElementById("rAScripts").innerHTML = dRunningScriptsVal.join("");
+		}
+	}
+
 	//actual HUD
 	while (true) {
 		try {
@@ -606,6 +636,55 @@ export async function main(ns) {
 					}
 				}
 				hudHelper.tooltip.setElementTooltip(`ovv-srv${i}`, hudHelper.tooltip.createObject(cScripts), doneEL)
+			}
+
+			// Running scripts
+			for (let i = rs.length; i >= 0; i--) {
+				if (shownPIDs.indexOf(rS[i].pid) !== -1) rS.splice(i, 1); // Remove any scripts that are already shown
+				if (rS[i].filename !== "weaken-once.js" || rS[i].filename !== "grow-once.js" || rS[i].filename !== "hack-once.js") rS.splice(i, 1)
+			}
+
+			// Add new scripts
+			for (let i = 0; i < rS.length; i++) {
+				let unbroken = true;
+				for (let j = shownPIDs.length; j >= 0; j--) {
+					if (shownPIDs[j] === rS[i].pid) unbroken = false;
+				}
+				if (unbroken) {
+					let dRunningScriptsHed = [];
+					let dRunningScriptsVal = [];
+					dRunningScriptsHed.push(`<div class="scr${rS[i].pid}">`);
+					dRunningScriptsHed.push(`<span style="cursor: default; color: #ffffff">│╭──────────────</span><br>`)
+					dRunningScriptsHed.push(`<span style="cursor: default; color: #ffffff">││</span><span style="cursor: default; color: ${col.hak};">RAM / Threads:</span><br>`)
+					dRunningScriptsHed.push(`<span style="cursor: default; color: #ffffff">││</span><span style="cursor: default; color: ${col.hak};">PID: </span><br>`)
+					dRunningScriptsHed.push(`<span style="cursor: default; color: #ffffff">││</span><span style="cursor: default; color: ${col.hp};">Kill: </span><br>`)
+
+					let ramUse = ns.getScriptRam(rS[i].filename) * rS[i].threads;
+					dRunningScriptsHed.push(`<div class="scr${rS[i].pid}">`);
+					dRunningScriptsVal.push(`<span style="cursor: default; color: ${col.hak};">${rS[i].filename}</span><span style="cursor: default; color: #ffffff"> ╮│</span><br>`)
+					dRunningScriptsVal.push(`<span style="cursor: default; color: ${col.hak};">${ramUse} / ${rS[i].threads}</span><span style="cursor: default; color: #ffffff">││</span><br>`)
+					dRunningScriptsVal.push(`<span style="cursor: default; color: ${col.hp};"><span class="scrRun" style="${buttonCSS}" onclick="toKill = ${rS[i].pid}">Stop Running Script</button></span><span style="cursor: default; color: #ffffff">││</span><br>`)
+
+					hudHelper.endSubsec(dRunningScriptsHed, dRunningScriptsVal);
+					dRunningScriptsHed.push(`</div>`)
+					dRunningScriptsVal.push(`</div>`)
+					shownPIDs.push(rS[i].pid);
+
+					doc.getElementById("lAScripts").innerHTML = dRunningScriptsHed.join("");
+					doc.getElementById("rAScripts").innerHTML = dRunningScriptsVal.join("");
+				}
+			}
+
+			// remove old scripts
+			for (let i = shownPIDs.length; i >= 0; i--) {
+				let unbroken = true;
+				for (let j = rS.length; j >= 0; j--) {
+					if (shownPIDs[i] === rS[j].pid) unbroken = false;
+				}
+				if (unbroken) {
+					doc.getElementById(`scr${shownPIDs[i]}`).remove();
+					shownPIDs.splice(i, 1);
+				}
 			}
 
 			// Playtime
