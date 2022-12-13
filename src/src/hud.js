@@ -7,7 +7,6 @@
 
 import {hudHelper, globalHelper, formulaHelper, hashnetHelper, gangHelper} from "./helpers.js"
 import { ProgressBar, FiraBar } from "./glyph.js"
-import {run} from "node:test";
 
 //Boolean indicating whether or not you have SF5
 const sf5 = true
@@ -408,6 +407,7 @@ export async function main(ns) {
 			dRunningScriptsHed.push(`<div class="scr${runningScripts[i].pid}">`);
 			dRunningScriptsVal.push(`<span style="cursor: default; color: ${col.hak};">${runningScripts[i].filename}</span><span style="cursor: default; color: #ffffff"> ╮│</span><br>`)
 			dRunningScriptsVal.push(`<span style="cursor: default; color: ${col.hak};">${ramUse} / ${runningScripts[i].threads}</span><span style="cursor: default; color: #ffffff">││</span><br>`)
+            dRunningScriptsVal.push(`<span style="cursor: default; color: ${col.hak};">${runningScripts[i].pid}</span><span style="cursor: default; color: #ffffff">││</span><br>`)
 			dRunningScriptsVal.push(`<span style="cursor: default; color: ${col.hp};"><span class="scrRun" style="${buttonCSS}" onclick="toKill = ${runningScripts[i].pid}">Stop Running Script</button></span><span style="cursor: default; color: #ffffff">││</span><br>`)
 
 			hudHelper.endSubsec(dRunningScriptsHed, dRunningScriptsVal);
@@ -639,7 +639,7 @@ export async function main(ns) {
 			}
 
 			// Running scripts
-			for (let i = rs.length; i >= 0; i--) {
+			for (let i = rS.length; i >= 0; i--) {
 				if (shownPIDs.indexOf(rS[i].pid) !== -1) rS.splice(i, 1); // Remove any scripts that are already shown
 				if (rS[i].filename !== "weaken-once.js" || rS[i].filename !== "grow-once.js" || rS[i].filename !== "hack-once.js") rS.splice(i, 1)
 			}
@@ -663,6 +663,7 @@ export async function main(ns) {
 					dRunningScriptsHed.push(`<div class="scr${rS[i].pid}">`);
 					dRunningScriptsVal.push(`<span style="cursor: default; color: ${col.hak};">${rS[i].filename}</span><span style="cursor: default; color: #ffffff"> ╮│</span><br>`)
 					dRunningScriptsVal.push(`<span style="cursor: default; color: ${col.hak};">${ramUse} / ${rS[i].threads}</span><span style="cursor: default; color: #ffffff">││</span><br>`)
+                    dRunningScriptsVal.push(`<span style="cursor: default; color: ${col.hak};">${rS[i].pid}</span><span style="cursor: default; color: #ffffff">││</span><br>`)
 					dRunningScriptsVal.push(`<span style="cursor: default; color: ${col.hp};"><span class="scrRun" style="${buttonCSS}" onclick="toKill = ${rS[i].pid}">Stop Running Script</button></span><span style="cursor: default; color: #ffffff">││</span><br>`)
 
 					hudHelper.endSubsec(dRunningScriptsHed, dRunningScriptsVal);
