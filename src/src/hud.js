@@ -692,8 +692,14 @@ export async function main(ns) {
 			}*/
 
 			// Playtime
-			hudHelper.updateVal("playTimeBN", ns.tFormat(ply.playtimeSinceLastBitnode));
-			hudHelper.tooltip.setElementTooltip("ovv-playTimeBN", hudHelper.tooltip.createObject(`<b>In ms:</b><br>${ply.playtimeSinceLastBitnode}`), doneEL)
+			let lastNodeReset = ns.getResetInfo().lastNodeReset;
+			if (lastNodeReset === -1) {
+				hudHelper.updateVal("playTimeBN", "N/A");
+				hudHelper.tooltip.setElementTooltip("ovv-playTimeBN", hudHelper.tooltip.createObject(`<b>No Data.<br>You have not changed BitNodes yet this playthrough.</b>`), doneEL)
+			} else {
+				hudHelper.updateVal("playTimeBN", ns.tFormat(Date.now() - lastNodeReset));
+			hudHelper.tooltip.setElementTooltip("ovv-playTimeBN", hudHelper.tooltip.createObject(`<b>Last Node Reset:</b><br>${lastNodeReset}`), doneEL)
+			}
 			hudHelper.updateVal("playTimeTotal", ns.tFormat(ply.totalPlaytime));
 			hudHelper.tooltip.setElementTooltip("ovv-playTimeTotal", hudHelper.tooltip.createObject(`<b>In ms:</b><br>${ply.totalPlaytime}`), doneEL)
 
