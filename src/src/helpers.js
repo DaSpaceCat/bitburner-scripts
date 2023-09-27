@@ -293,8 +293,8 @@ export const hudHelper = {
 		hook1.parentNode.insertBefore(bvr, hook1.nextSibling);
 		const end = eval('document.createElement("div")');
 		const endr = eval('document.createElement("div")');
-		end.innerHTML = `<span class="ovvCont" style="cursor: default; color: #FFFFFF;">╰───────────────</span>`;
-		endr.innerHTML = `<span class="ovvCont" style="cursor: default; color: #FFFFFF;">────────────────────────────────────────────╯</span>`;
+		end.innerHTML = `<span class="ovvCont" style="font-family: 'Fira Code'; cursor: default; color: #FFFFFF;">╰───────────────</span>`;
+		endr.innerHTML = `<span class="ovvCont" style="font-family: 'Fira Code'; cursor: default; color: #FFFFFF;">────────────────────────────────────────────╯</span>`;
 		end.className = "bitverse";
 		endr.className = "bitverse";
 		hook0.parentNode.insertBefore(end, hook0.nextSibling.nextSibling);
@@ -684,8 +684,8 @@ export const gangHelper = {
 	getUpgradeDiscount: function (pwr, rep) {
 		const rlf = 5e6;
 		const plf = 1e6;
-		const d = Math.pow(rep, 0.01) + rep / rlf + Math.pow(pwr, 0.01) + pwr / plf - 1;
-		return 1 / Math.max(1, d);
+		const disc = Math.pow(rep, 0.01) + rep / rlf + Math.pow(pwr, 0.01) + pwr / plf - 1;
+		return 1 / Math.max(1, disc);
 	}
 	/*
 	this = gang object
