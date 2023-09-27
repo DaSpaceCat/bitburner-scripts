@@ -61,9 +61,9 @@ export const hudHelper = {
 	createMin: function(dv, isMin, cVar, id) {
 		dv.slice(0, -4);
 		if (isMin) {
-			dv += ` <a class="ovvMin" id="${id}" style="cursor: pointer; transition: all .2s;" onclick="${cVar} = !${cVar};"></a> ─`;
+			dv += ` <a class="ovvMin" id="${id}" style="cursor: pointer; transition: all .2s;" onclick="${cVar} = !${cVar};">▶</a> ─`;
 		} else {
-			dv += ` <a class="ovvMin" id="${id}" style="cursor: pointer; transition: all .2s;" onclick="${cVar} = !${cVar};"></a> ─`;
+			dv += ` <a class="ovvMin" id="${id}" style="cursor: pointer; transition: all .2s;" onclick="${cVar} = !${cVar};">▼</a> ─`;
 		}
 		return dv;
 	},

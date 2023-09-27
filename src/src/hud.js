@@ -733,12 +733,12 @@ export async function main(ns) {
 					const es = doc.getElementsByClassName(el[1])
 					es[0].style.display = 'none';
 					es[1].style.display = 'none';
-					doc.getElementById(el[1]).innerHTML = ""
+					doc.getElementById(el[1]).innerHTML = "▶"
 				} else {
 					const es = doc.getElementsByClassName(el[1])
 					es[0].style.display = 'inline';
 					es[1].style.display = 'inline';
-					doc.getElementById(el[1]).innerHTML = ""
+					doc.getElementById(el[1]).innerHTML = "▼"
 				}
 			}
 		}
