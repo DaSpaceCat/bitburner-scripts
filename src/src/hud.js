@@ -95,7 +95,7 @@ export async function main(ns) {
 	let buttonCSS = `transition: all 0.2s; display: inline; width: 90%; background-color: rgba(0,0,0,0); cursor: pointer;`
 
 	//make bitverse
-	hudHelper.bitverse(hook0, hook1, col.hak, sfs);
+	hudHelper.bitverse(hook0, hook1, col.hak, sfs, ns);
 	hudHelper.tooltip.setElementTooltip("bn1" , hudHelper.tooltip.createBNObject(sfs[0] , "Source Genesis", "The original BitNode"), doneEL);
 	hudHelper.tooltip.setElementTooltip("bn2" , hudHelper.tooltip.createBNObject(sfs[1] , "Rise of the Underworld", "From the shadows, they rose"), doneEL);
 	hudHelper.tooltip.setElementTooltip("bn3" , hudHelper.tooltip.createBNObject(sfs[2] , "Corporatocracy", "The Price of Civilization"), doneEL);
